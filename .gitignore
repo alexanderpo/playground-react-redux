@@ -4,6 +4,9 @@ public/bundle.js
 # dependencies
 /node_modules
 
+#Package-lock
+/package-lock.json
+
 # testing
 /coverage
 
