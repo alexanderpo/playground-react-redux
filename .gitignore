@@ -5,7 +5,7 @@ public/bundle.js
 /node_modules
 
 #Package-lock
-/package-lock.json
+package-lock.json
 
 # testing
 /coverage
