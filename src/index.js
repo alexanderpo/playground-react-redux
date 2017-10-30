@@ -19,12 +19,16 @@ const muiTheme = getMuiTheme({
 
 const store = createStore(reducers, window.devToolsExtension ? window.devToolsExtension() : f => f);
 
-ReactDOM.render(
+const Entry = () => (
   <Provider store={store}>
     <MuiThemeProvider muiTheme={muiTheme}>
       <AppRouter />
     </MuiThemeProvider>
-  </Provider>,
+  </Provider>
+);
+
+ReactDOM.render(
+  <Entry />,
   document.getElementById('root'),
 );
 injectTapEventPlugin();
