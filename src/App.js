@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { RaisedButton } from 'material-ui';
 import logo from './logo.svg';
 import './App.css';
 
@@ -13,6 +14,11 @@ class App extends Component {
         <p className="App-intro">
           To get started and save to reload.
         </p>
+        <RaisedButton
+          className="sign-in-button"
+          label="Sign In"
+          primary={true}
+        />
       </div>
     );
   }

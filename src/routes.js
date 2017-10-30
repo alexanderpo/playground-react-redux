@@ -1,14 +1,14 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import App from './App';
 
 const AppRouter = () => (
-  <BrowserRouter>
+  <Router>
     <Switch>
       <Route exact path="/" component={App} />
       <Route path="*" component={() => (<Redirect to="/" />)} />
     </Switch>
-  </BrowserRouter>
+  </Router>
 );
 
 export default AppRouter;
