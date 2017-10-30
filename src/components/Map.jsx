@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import playgroundIcon from '../styles/images/playground.png';
 
 const propTypes = {
@@ -50,8 +51,7 @@ class Map extends Component {
     this.map = new google.maps.Map(document.getElementById('map'), {
       zoom: 7,
       center: {
-        lat: defaultPosition.lat,
-        lng: defaultPosition.lng,
+        ...defaultPosition,
         mapTypeId: 'roadmap',
       },
     });
@@ -65,6 +65,7 @@ class Map extends Component {
         this.map.setCenter(currentPosition);
       });
     } else {
+      // TODO: show message for user
       console.log('Browser doesn\'t support geolocation'); // eslint-disable-line
     }
   }
@@ -80,23 +81,28 @@ class Map extends Component {
   }
 
   initializeEventPoints(events) {
-    events.map((event) => { // eslint-disable-line
-      const marker = new google.maps.Marker({
-        position: {
-          lat: event.lat,
-          lng: event.lng,
-        },
-        icon: playgroundIcon,
-        title: event.title,
-        map: this.map,
+    if (!_.isEmpty(events)) {
+      events.map((event) => { // eslint-disable-line
+        const marker = new google.maps.Marker({
+          position: {
+            lat: event.lat,
+            lng: event.lng,
+          },
+          icon: playgroundIcon,
+          title: event.title,
+          map: this.map,
+        });
+        const infoWindow = new google.maps.InfoWindow({
+          content: this.infoWindow(event.title, event.description, event.creator, event.dateTime),
+        });
+        marker.addListener('click', () => {
+          infoWindow.open(this.map, marker);
+        });
       });
-      const infoWindow = new google.maps.InfoWindow({
-        content: this.infoWindow(event.title, event.description, event.creator, event.dateTime),
-      });
-      marker.addListener('click', () => {
-        infoWindow.open(this.map, marker);
-      });
-    });
+    } else {
+      // TODO: meassage for user
+      console.log('dont have points'); // eslint-disable-line
+    }
   }
 
   render() {
