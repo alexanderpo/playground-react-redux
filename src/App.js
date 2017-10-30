@@ -1,29 +1,28 @@
 import React, { Component } from 'react';
-import { RaisedButton } from 'material-ui';
 import logo from './logo.svg';
 import './App.css';
 import Map from './components/Map';
 
-const eventsData = [ // TODO: build event data from playground with event
-  {
-    lat: -23.363,
-    lng: 123.044,
+const eventsData = [
+  { // TODO: build event data from playground with event
+    lat: 52.6704471,
+    lng: 24.8366419,
     title: 'Первый ивент',
     description: 'blablablablbalbalba',
     creator: 'alexpo',
     dateTime: '25.02.2017 8:35',
   },
   {
-    lat: -26.363,
-    lng: 133.044,
+    lat: 51.6704471,
+    lng: 22.8366419,
     title: 'Второй ивент',
     description: 'blablablablbalbalba',
     creator: 'Darya',
     dateTime: '25.02.2017 8:35',
   },
   {
-    lat: -28.363,
-    lng: 101.044,
+    lat: 51.4471,
+    lng: 22.86419,
     title: 'Третий ивент',
     description: 'blablablablbalbalba',
     creator: 'Helen',
@@ -39,15 +38,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started and save to reload.
-        </p>
         <Map events={eventsData} />
-        <RaisedButton
-          className="sign-in-button"
-          label="Sign In"
-          primary={true}
-        />
       </div>
     );
   }
