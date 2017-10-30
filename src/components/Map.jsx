@@ -49,7 +49,7 @@ class Map extends Component {
 
   initializeMap(defaultPosition) {
     this.map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 7,
+      zoom: 16,
       center: {
         ...defaultPosition,
         mapTypeId: 'roadmap',

@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import AppRouter from './routes';
 import reducers from './reducers';
 import './index.css';
+import './styles/styles.scss';
 import registerServiceWorker from './registerServiceWorker';
 
 const muiTheme = getMuiTheme({
