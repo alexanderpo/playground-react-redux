@@ -8,7 +8,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:8080",
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.19.4",
     "material-ui-password-field": "^1.4.0",
@@ -25,6 +27,7 @@
     "redux-actions": "^2.2.1",
     "redux-effects": "^0.4.3",
     "redux-effects-fetch": "^0.5.5",
+    "redux-pack": "^0.1.5",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {

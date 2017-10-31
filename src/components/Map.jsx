@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import playgroundIcon from '../styles/images/playground.png';
+import userMarkerIcon from '../styles/images/user-marker-icon.png';
 
 const propTypes = {
   events: PropTypes.arrayOf(PropTypes.shape({
@@ -76,6 +77,7 @@ class Map extends Component {
         lat: position.lat,
         lng: position.lng,
       },
+      icon: userMarkerIcon,
       map: this.map,
     });
   }
