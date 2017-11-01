@@ -55,3 +55,43 @@ body {
 .back-sign-up-button {
   margin: 5px;
 }
+
+/* User profile */
+
+.user-profile-wrapper {
+  margin: 10px 50px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 300;
+}
+
+.user-profile-image {
+  cursor: pointer;
+}
+
+#image-loader {
+  display: none;
+}
+
+.save-button {
+  margin: 10px;
+}
+
+.user-right-menu-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin: 10px 50px 10px 10px;
+}
+
+.user-right-menu-avatar {
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.change-password-toggle {
+  margin: 20px 0px 5px 0px;
+}

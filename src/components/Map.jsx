@@ -19,7 +19,7 @@ const propTypes = {
 
 const styles = {
   map: {
-    height: '400px',
+    height: '100%',
     width: '100%',
   },
 };
@@ -55,6 +55,9 @@ class Map extends Component {
         ...defaultPosition,
         mapTypeId: 'roadmap',
       },
+      mapTypeControl: false,
+      streetViewControl: false,
+      rotateControl: false,
     });
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -109,10 +112,7 @@ class Map extends Component {
 
   render() {
     return (
-      <div className="map-container">
-        <h3>Google map</h3>
-        <div style={styles.map} id="map" />
-      </div>
+      <div style={styles.map} id="map" />
     );
   }
 }

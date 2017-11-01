@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import AppRouter from './routes';
 import reducers from './reducers';
 import './index.css';
+import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 const muiTheme = getMuiTheme({
@@ -32,7 +33,9 @@ const store = createStore(
 const Entry = () => (
   <Provider store={store}>
     <MuiThemeProvider muiTheme={muiTheme}>
-      <AppRouter />
+      <App>
+        <AppRouter />
+      </App>
     </MuiThemeProvider>
   </Provider>
 );

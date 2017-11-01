@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Map from './components/Map';
+import PropTypes from 'prop-types';
+import { Drawer, MenuItem, RaisedButton, AppBar } from 'material-ui';
+import NavigationMenuIcon from 'material-ui/svg-icons/navigation/menu';
 
 const eventsData = [
   { // TODO: build event data from playground with event
@@ -30,18 +30,49 @@ const eventsData = [
   },
 ];
 
+const propTypes = {
+  children: PropTypes.object.isRequired,
+};
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+    };
+  }
+
+  handleToggle = () => this.setState({ open: !this.state.open });
+
+  handleClose = () => this.setState({ open: false });
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <Map events={eventsData} />
+        <div>
+          <AppBar
+            onLeftIconButtonTouchTap={this.handleToggle}
+          />
+          <Drawer
+            docked={false}
+            width={200}
+            open={this.state.open}
+            onRequestChange={open => this.setState({ open })}
+          >
+            <AppBar
+              onLeftIconButtonTouchTap={this.handleToggle}
+            />
+            <MenuItem>Menu Item</MenuItem>
+            <MenuItem>Menu Item 2</MenuItem>
+          </Drawer>
+        </div>
+        <div>
+          { this.props.children }
+        </div>
       </div>
     );
   }
 }
 
+App.propTypes = propTypes;
 export default App;

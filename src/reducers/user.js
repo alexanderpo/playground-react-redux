@@ -6,16 +6,15 @@ const initialState = {};
 export default function userReducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case `${SIGN_IN}_LOADING`:
+    case SIGN_IN:
       return handle(state, action, {
         start: prevState => ({
           ...prevState,
           isLoading: true,
           error: null,
         }),
-        finish: prevState => ({ ...prevState, isLoading: false }),
-        failure: prevState => ({ ...prevState, error: payload }),
-        success: prevState => ({ ...prevState, user: payload }),
+        failure: prevState => ({ ...prevState, error: payload, isLoading: false }),
+        success: prevState => ({ ...prevState, user: payload, isLoading: false }),
       });
     default:
       return state;
