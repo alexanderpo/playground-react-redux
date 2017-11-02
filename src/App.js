@@ -1,34 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Drawer, MenuItem, RaisedButton, AppBar } from 'material-ui';
-import NavigationMenuIcon from 'material-ui/svg-icons/navigation/menu';
+import { Drawer, MenuItem, AppBar } from 'material-ui';
+// import NavigationMenuIcon from 'material-ui/svg-icons/navigation/menu';
 
-const eventsData = [
-  { // TODO: build event data from playground with event
-    lat: 52.6704471,
-    lng: 24.8366419,
-    title: 'Первый ивент',
-    description: 'blablablablbalbalba',
-    creator: 'alexpo',
-    dateTime: '25.02.2017 8:35',
-  },
-  {
-    lat: 51.6704471,
-    lng: 22.8366419,
-    title: 'Второй ивент',
-    description: 'blablablablbalbalba',
-    creator: 'Darya',
-    dateTime: '25.02.2017 8:35',
-  },
-  {
-    lat: 51.4471,
-    lng: 22.86419,
-    title: 'Третий ивент',
-    description: 'blablablablbalbalba',
-    creator: 'Helen',
-    dateTime: '25.02.2017 8:35',
-  },
-];
+// const eventsData = [
+//   { // TODO: build event data from playground with event
+//     lat: 52.6704471,
+//     lng: 24.8366419,
+//     title: 'Первый ивент',
+//     description: 'blablablablbalbalba',
+//     creator: 'alexpo',
+//     dateTime: '25.02.2017 8:35',
+//   },
+//   {
+//     lat: 51.6704471,
+//     lng: 22.8366419,
+//     title: 'Второй ивент',
+//     description: 'blablablablbalbalba',
+//     creator: 'Darya',
+//     dateTime: '25.02.2017 8:35',
+//   },
+//   {
+//     lat: 51.4471,
+//     lng: 22.86419,
+//     title: 'Третий ивент',
+//     description: 'blablablablbalbalba',
+//     creator: 'Helen',
+//     dateTime: '25.02.2017 8:35',
+//   },
+// ];
 
 const propTypes = {
   children: PropTypes.object.isRequired,
@@ -48,7 +48,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="header-container">
         <div>
           <AppBar
             onLeftIconButtonTouchTap={this.handleToggle}

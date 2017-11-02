@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { TextField, RaisedButton } from 'material-ui';
 import PasswordField from 'material-ui-password-field';
 import Logo from '../components/Logo';
+import { signUp } from '../actions/user';
 
 const propTypes = {
   history: PropTypes.object.isRequired,
+  actions: PropTypes.shape({
+    signUp: PropTypes.func,
+  }),
 };
 
 class SignUp extends Component {
@@ -40,7 +46,17 @@ class SignUp extends Component {
   }
 
   handleSignUp() {
-    console.log(this.state);
+    const {
+      name,
+      email,
+      password,
+      rePassword,
+    } = this.state;
+
+    this.props.actions.signUp(name, email, password, rePassword)
+      .then((res) => {
+        console.log(res.payload);
+      });
   }
 
   render() {
@@ -102,5 +118,15 @@ class SignUp extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    signUp,
+  }, dispatch),
+});
+
 SignUp.propTypes = propTypes;
-export default withRouter(SignUp);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignUp));

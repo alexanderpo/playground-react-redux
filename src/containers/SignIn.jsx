@@ -46,7 +46,8 @@ class SignIn extends Component {
   handleSignIn() {
     this.props.actions.signIn(this.state.email, this.state.password)
       .then((res) => {
-        console.log(res.payload);
+        // console.log(res.payload);
+        // console.log(localStorage.getItem('user'));
       });
   }
 

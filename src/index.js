@@ -6,10 +6,9 @@ import { applyMiddleware, createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { middleware as reduxPackMiddleware } from 'redux-pack';
 import thunk from 'redux-thunk';
-import AppRouter from './routes';
+import Routes from './routes';
 import reducers from './reducers';
-import './index.css';
-import App from './App';
+import './styles/index.css';
 import registerServiceWorker from './registerServiceWorker';
 
 const muiTheme = getMuiTheme({
@@ -19,8 +18,11 @@ const muiTheme = getMuiTheme({
   },
 });
 
+const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
+
 const store = createStore(
   reducers,
+  { user },
   compose(
     applyMiddleware(
       thunk,
@@ -30,12 +32,17 @@ const store = createStore(
   ),
 );
 
+store.subscribe(() => {
+  localStorage.setItem('user', JSON.stringify(store.getState().user));
+});
+
+const { isLoggedIn } = store.getState().user;
+export default isLoggedIn;
+
 const Entry = () => (
   <Provider store={store}>
     <MuiThemeProvider muiTheme={muiTheme}>
-      <App>
-        <AppRouter />
-      </App>
+      <Routes />
     </MuiThemeProvider>
   </Provider>
 );
