@@ -1,37 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Drawer, MenuItem, AppBar } from 'material-ui';
-// import NavigationMenuIcon from 'material-ui/svg-icons/navigation/menu';
-
-// const eventsData = [
-//   { // TODO: build event data from playground with event
-//     lat: 52.6704471,
-//     lng: 24.8366419,
-//     title: 'Первый ивент',
-//     description: 'blablablablbalbalba',
-//     creator: 'alexpo',
-//     dateTime: '25.02.2017 8:35',
-//   },
-//   {
-//     lat: 51.6704471,
-//     lng: 22.8366419,
-//     title: 'Второй ивент',
-//     description: 'blablablablbalbalba',
-//     creator: 'Darya',
-//     dateTime: '25.02.2017 8:35',
-//   },
-//   {
-//     lat: 51.4471,
-//     lng: 22.86419,
-//     title: 'Третий ивент',
-//     description: 'blablablablbalbalba',
-//     creator: 'Helen',
-//     dateTime: '25.02.2017 8:35',
-//   },
-// ];
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { logout } from './actions/user';
+import LeftSlideMenu from './components/Menu/LeftSlideMenu';
 
 const propTypes = {
   children: PropTypes.object.isRequired,
+  user: PropTypes.object,
+  actions: PropTypes.shape({
+    logout: PropTypes.func,
+  }),
 };
 
 class App extends Component {
@@ -47,25 +26,10 @@ class App extends Component {
   handleClose = () => this.setState({ open: false });
 
   render() {
+    const { user, actions } = this.props;
     return (
       <div className="header-container">
-        <div>
-          <AppBar
-            onLeftIconButtonTouchTap={this.handleToggle}
-          />
-          <Drawer
-            docked={false}
-            width={200}
-            open={this.state.open}
-            onRequestChange={open => this.setState({ open })}
-          >
-            <AppBar
-              onLeftIconButtonTouchTap={this.handleToggle}
-            />
-            <MenuItem>Menu Item</MenuItem>
-            <MenuItem>Menu Item 2</MenuItem>
-          </Drawer>
-        </div>
+        <LeftSlideMenu user={user} logout={actions.logout} />
         <div>
           { this.props.children }
         </div>
@@ -74,5 +38,15 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  user: state.user.details,
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    logout,
+  }, dispatch),
+});
+
 App.propTypes = propTypes;
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

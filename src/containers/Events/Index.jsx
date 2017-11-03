@@ -19,6 +19,33 @@ const styles = {
   },
 };
 
+const eventsData = [
+  { // TODO: build event data from playground with event
+    lat: 52.6704471,
+    lng: 24.8366419,
+    title: 'Первый ивент',
+    description: 'blablablablbalbalba',
+    creator: 'alexpo',
+    dateTime: '25.02.2017 8:35',
+  },
+  {
+    lat: 51.6704471,
+    lng: 22.8366419,
+    title: 'Второй ивент',
+    description: 'blablablablbalbalba',
+    creator: 'Darya',
+    dateTime: '25.02.2017 8:35',
+  },
+  {
+    lat: 51.4471,
+    lng: 22.86419,
+    title: 'Третий ивент',
+    description: 'blablablablbalbalba',
+    creator: 'Helen',
+    dateTime: '25.02.2017 8:35',
+  },
+];
+
 class EventsWrapper extends Component {
   render() {
     return (
@@ -29,7 +56,7 @@ class EventsWrapper extends Component {
           </div>
         </div>
         <div style={styles.mapContainer} className="map-container">
-          <Map />
+          <Map events={eventsData} />
         </div>
       </div>
     );
