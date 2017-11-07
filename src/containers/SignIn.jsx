@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { TextField, RaisedButton } from 'material-ui';
+import _ from 'lodash';
+import { TextField, RaisedButton, Snackbar } from 'material-ui';
 import PasswordField from 'material-ui-password-field';
+import { signInSchema } from '../utils/validationSchema';
+import validate from '../utils/validation';
 import Logo from '../components/Logo';
 import { signIn } from '../actions/user';
 
 const propTypes = {
-  history: PropTypes.object.isRequired,
+  history: PropTypes.object,
   actions: PropTypes.shape({
     signIn: PropTypes.func,
   }),
@@ -22,11 +25,17 @@ class SignIn extends Component {
     this.state = {
       email: '',
       password: '',
+      errorEmailText: '',
+      errorPassText: '',
+      dialogBoxIsOpen: false,
+      dialogBoxText: '',
     };
 
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handleKeyPressEnter = this.handleKeyPressEnter.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
+    this.clearInputFields = this.clearInputFields.bind(this);
+    this.clearErrorFields = this.clearErrorFields.bind(this);
   }
 
   handleInputValue(key) {
@@ -43,16 +52,58 @@ class SignIn extends Component {
     }
   }
 
+  clearInputFields() {
+    this.setState({
+      email: '',
+      password: '',
+    });
+  }
+
+  clearErrorFields() {
+    this.setState({
+      errorEmailText: '',
+      errorPassText: '',
+    });
+  }
+
   handleSignIn() {
-    this.props.actions.signIn(this.state.email, this.state.password)
-      .then((res) => {
-        // console.log(res.payload);
-        // console.log(localStorage.getItem('user'));
+    const { email, password } = this.state;
+    const { actions, history } = this.props;
+    const values = { email, password };
+    const error = validate(signInSchema, values);
+
+    if (!_.isEmpty(error)) {
+      this.setState({
+        errorEmailText: error.email,
+        errorPassText: error.password,
       });
+    } else {
+      this.clearErrorFields();
+      actions.signIn(email, password)
+        .then((action) => {
+          if (action.payload.error) {
+            this.setState({
+              dialogBoxIsOpen: true,
+              dialogBoxText: action.payload.error,
+            });
+          } else {
+            this.clearInputFields();
+            history.push('/');
+          }
+        });
+    }
   }
 
   render() {
-    const { email, password } = this.state;
+    const {
+      email,
+      password,
+      errorEmailText,
+      errorPassText,
+      dialogBoxIsOpen,
+      dialogBoxText,
+    } = this.state;
+
     return (
       <div>
         <div className="sign-wrapper">
@@ -61,6 +112,7 @@ class SignIn extends Component {
             hintText="Email"
             floatingLabelText="Email"
             value={email}
+            errorText={errorEmailText}
             onChange={this.handleInputValue('email')}
             onKeyPress={this.handleKeyPressEnter}
           />
@@ -69,6 +121,7 @@ class SignIn extends Component {
             className="sign-password-field"
             type="password"
             value={password}
+            errorText={errorPassText}
             onChange={this.handleInputValue('password')}
             onKeyPress={this.handleKeyPressEnter}
           />
@@ -84,14 +137,21 @@ class SignIn extends Component {
             onClick={() => this.props.history.push('/signup')}
           />
         </div>
+        <Snackbar
+          className="dialog-box"
+          open={dialogBoxIsOpen}
+          message={dialogBoxText}
+          autoHideDuration={4000}
+          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-
-});
+// const mapStateToProps = state => ({
+//
+// });
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
@@ -100,4 +160,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 SignIn.propTypes = propTypes;
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));
+export default withRouter(connect(null, mapDispatchToProps)(SignIn));

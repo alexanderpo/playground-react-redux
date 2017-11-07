@@ -1,13 +1,20 @@
 import { combineReducers } from 'redux';
 import user from './user';
 
+const initialState = {
+  user: {
+    isLoggedIn: false,
+  },
+};
+
 const appReducer = combineReducers({
   user,
 });
 
-const rootReducer = (state, action) => {
+const rootReducer = (state = initialState, action) => {
   if (action.type === 'LOGOUT') {
-    return undefined;
+    localStorage.removeItem('user');
+    return initialState;
   }
   return appReducer(state, action);
 };

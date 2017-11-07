@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import isLoggedIn from './index';
+import isLoggedIn from '../index';
 
 const propTypes = {
   path: PropTypes.string,
@@ -9,17 +9,17 @@ const propTypes = {
   component: PropTypes.object,
 };
 
-const RouteCreator = ({ path, isExact, component }) => (
+const PrivateRouteCreator = ({ path, isExact, component }) => (
   <Route
     exact={isExact}
     path={path}
     render={() => (
-      !isLoggedIn ? (
-        <Redirect to="/signin" />
+      isLoggedIn ? (
+        <Redirect to="/" />
       ) : component
     )}
   />
 );
 
-RouteCreator.propTypes = propTypes;
-export default RouteCreator;
+PrivateRouteCreator.propTypes = propTypes;
+export default PrivateRouteCreator;

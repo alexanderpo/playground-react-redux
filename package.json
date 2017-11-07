@@ -11,6 +11,7 @@
   "proxy": "http://localhost:8080",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
+    "joi": "^13.0.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.19.4",
     "material-ui-password-field": "^1.4.0",
