@@ -1,47 +1,52 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Map from './components/Map';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { logout } from './actions/user';
+import LeftSlideMenu from './components/Menu/LeftSlideMenu';
 
-const eventsData = [
-  { // TODO: build event data from playground with event
-    lat: 52.6704471,
-    lng: 24.8366419,
-    title: 'Первый ивент',
-    description: 'blablablablbalbalba',
-    creator: 'alexpo',
-    dateTime: '25.02.2017 8:35',
-  },
-  {
-    lat: 51.6704471,
-    lng: 22.8366419,
-    title: 'Второй ивент',
-    description: 'blablablablbalbalba',
-    creator: 'Darya',
-    dateTime: '25.02.2017 8:35',
-  },
-  {
-    lat: 51.4471,
-    lng: 22.86419,
-    title: 'Третий ивент',
-    description: 'blablablablbalbalba',
-    creator: 'Helen',
-    dateTime: '25.02.2017 8:35',
-  },
-];
+const propTypes = {
+  children: PropTypes.object.isRequired,
+  user: PropTypes.object,
+  actions: PropTypes.shape({
+    logout: PropTypes.func,
+  }),
+};
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+    };
+  }
+
+  handleToggle = () => this.setState({ open: !this.state.open });
+
+  handleClose = () => this.setState({ open: false });
+
   render() {
+    const { user, actions } = this.props;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <Map events={eventsData} />
+      <div className="header-container">
+        <LeftSlideMenu user={user} logout={actions.logout} />
+        <div>
+          { this.props.children }
+        </div>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  user: state.user.details ? state.user.details : {},
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    logout,
+  }, dispatch),
+});
+
+App.propTypes = propTypes;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

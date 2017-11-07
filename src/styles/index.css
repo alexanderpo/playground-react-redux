@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, sans-serif;
+}
+
+.logo-text {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-weight: 200;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.slogan-text {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-weight: 200;
+  font-size: 14;
+  text-transform: lowercase;
+}
+
+.sign-wrapper {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: space-around;
+  flex-flow: column wrap;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid rgba(219, 219, 219, 1);
+  font-weight: 300;
+}
+
+.sign-password-field {
+  margin-bottom: 25px;
+}
+
+.sign-in-button {
+  margin: 5px;
+}
+
+.sign-up-button {
+  margin: 5px;
+}
+
+.back-sign-up-button {
+  margin: 5px;
+}
+
+/* Sign Dialog Box */
+
+.sign-dialog-box {
+  text-align: center;
+  font-weight: 400;
+  color: #ffcc00;
+}
+
+/* User profile */
+
+.user-profile-wrapper {
+  margin: 10px 50px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 300;
+}
+
+.user-profile-image {
+  cursor: pointer;
+}
+
+#image-loader {
+  display: none;
+}
+
+.save-button {
+  margin: 10px;
+}
+
+.user-right-menu-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin: 10px 50px 10px 10px;
+}
+
+.user-right-menu-avatar {
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.change-password-toggle {
+  margin: 20px 0px 5px 0px;
+}

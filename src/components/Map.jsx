@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import playgroundIcon from '../styles/images/playground.png';
+import userMarkerIcon from '../styles/images/user-marker-icon.png';
 
 const propTypes = {
   events: PropTypes.arrayOf(PropTypes.shape({
@@ -18,7 +19,7 @@ const propTypes = {
 
 const styles = {
   map: {
-    height: '400px',
+    height: '100%',
     width: '100%',
   },
 };
@@ -49,11 +50,14 @@ class Map extends Component {
 
   initializeMap(defaultPosition) {
     this.map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 7,
+      zoom: 16,
       center: {
         ...defaultPosition,
         mapTypeId: 'roadmap',
       },
+      mapTypeControl: false,
+      streetViewControl: false,
+      rotateControl: false,
     });
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -76,6 +80,7 @@ class Map extends Component {
         lat: position.lat,
         lng: position.lng,
       },
+      icon: userMarkerIcon,
       map: this.map,
     });
   }
@@ -107,10 +112,7 @@ class Map extends Component {
 
   render() {
     return (
-      <div className="map-container">
-        <h3>Google map</h3>
-        <div style={styles.map} id="map" />
-      </div>
+      <div style={styles.map} id="map" />
     );
   }
 }

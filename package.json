@@ -8,7 +8,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:8080",
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "joi": "^13.0.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.19.4",
     "material-ui-password-field": "^1.4.0",
@@ -19,13 +22,13 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^4.0.8",
     "react-scripts": "1.0.14",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
     "redux-effects": "^0.4.3",
     "redux-effects-fetch": "^0.5.5",
+    "redux-pack": "^0.1.5",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {

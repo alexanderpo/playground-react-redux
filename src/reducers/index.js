@@ -1,12 +1,22 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import user from './user';
+
+const initialState = {
+  user: {
+    isLoggedIn: false,
+  },
+};
 
 const appReducer = combineReducers({
-  routing: routerReducer,
+  user,
 });
 
-const rootReducer = (state, action) => (
-  appReducer(state, action)
-);
+const rootReducer = (state = initialState, action) => {
+  if (action.type === 'LOGOUT') {
+    localStorage.removeItem('user');
+    return initialState;
+  }
+  return appReducer(state, action);
+};
 
 export default rootReducer;
