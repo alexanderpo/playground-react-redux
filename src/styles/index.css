@@ -56,6 +56,14 @@ body {
   margin: 5px;
 }
 
+/* Sign Dialog Box */
+
+.sign-dialog-box {
+  text-align: center;
+  font-weight: 400;
+  color: #ffcc00;
+}
+
 /* User profile */
 
 .user-profile-wrapper {

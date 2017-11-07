@@ -14,6 +14,8 @@ const styles = {
     fontWeight: '500',
     display: 'flex',
     flexWrap: 'wrap',
+    flexFlow: 'column',
+    alignItems: 'flex-end',
     justifyContent: 'flex-end',
     margin: '3px 5px 0px 0px',
     color: 'rgb(255, 255, 255)',

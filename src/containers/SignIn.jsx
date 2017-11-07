@@ -25,8 +25,10 @@ class SignIn extends Component {
     this.state = {
       email: '',
       password: '',
-      errorEmailText: '',
-      errorPassText: '',
+      error: {
+        email: '',
+        password: '',
+      },
       dialogBoxIsOpen: false,
       dialogBoxText: '',
     };
@@ -61,8 +63,10 @@ class SignIn extends Component {
 
   clearErrorFields() {
     this.setState({
-      errorEmailText: '',
-      errorPassText: '',
+      error: {
+        email: '',
+        password: '',
+      },
     });
   }
 
@@ -74,8 +78,10 @@ class SignIn extends Component {
 
     if (!_.isEmpty(error)) {
       this.setState({
-        errorEmailText: error.email,
-        errorPassText: error.password,
+        error: {
+          email: error.email,
+          password: error.password,
+        },
       });
     } else {
       this.clearErrorFields();
@@ -98,8 +104,7 @@ class SignIn extends Component {
     const {
       email,
       password,
-      errorEmailText,
-      errorPassText,
+      error,
       dialogBoxIsOpen,
       dialogBoxText,
     } = this.state;
@@ -112,7 +117,7 @@ class SignIn extends Component {
             hintText="Email"
             floatingLabelText="Email"
             value={email}
-            errorText={errorEmailText}
+            errorText={error.email}
             onChange={this.handleInputValue('email')}
             onKeyPress={this.handleKeyPressEnter}
           />
@@ -121,7 +126,7 @@ class SignIn extends Component {
             className="sign-password-field"
             type="password"
             value={password}
-            errorText={errorPassText}
+            errorText={error.password}
             onChange={this.handleInputValue('password')}
             onKeyPress={this.handleKeyPressEnter}
           />
@@ -138,7 +143,7 @@ class SignIn extends Component {
           />
         </div>
         <Snackbar
-          className="dialog-box"
+          className="sign-dialog-box"
           open={dialogBoxIsOpen}
           message={dialogBoxText}
           autoHideDuration={4000}

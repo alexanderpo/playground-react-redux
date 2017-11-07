@@ -1,19 +1,19 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import UserProfile from './containers/UserProfile';
 import Events from './containers/Events/Index';
 import SignUp from './containers/SignUp';
 import SignIn from './containers/SignIn';
 import App from './App';
-import PrivateRouteCreator from './routes/privateRouteCreator';
+// import PrivateRouteCreator from './routes/privateRouteCreator';
 import PublicRouteCreator from './routes/publicRouteCreator';
 
 // BrowserRouter work with forceRefresh={true}
 const Routes = () => (
   <Router>
     <Switch>
-      <PrivateRouteCreator isExact={false} path="/signin" component={<SignIn />} />
-      <PrivateRouteCreator isExact={false} path="/signup" component={<SignUp />} />
+      <Route path="/signin" component={SignIn} />
+      <Route path="/signup" component={SignUp} />
       <App>
         <div>
           <PublicRouteCreator isExact={true} path="/" component={<Events />} />
