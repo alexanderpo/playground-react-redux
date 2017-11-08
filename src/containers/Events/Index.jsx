@@ -3,26 +3,11 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { getEvents } from '../../actions/events';
+import EventsFilter from '../../components/Events/Filter';
 import Map from '../../components/Map';
 import Event from '../../components/Events/Event';
-
-const styles = {
-  wrap: {
-    width: '100%',
-    overflow: 'auto',
-  },
-  events: {
-    width: '60%',
-    float: 'left',
-    height: '100vh',
-  },
-  mapContainer: {
-    width: '40%',
-    float: 'right',
-    height: '100vh',
-  },
-};
 
 const propTypes = {
   events: PropTypes.array,
@@ -38,15 +23,41 @@ class EventsWrapper extends Component {
   }
 
   render() {
-    const { eventsCoords } = this.props;
+    const { events, eventsCoords } = this.props;
     return (
-      <div style={styles.wrap} className="events-container">
-        <div style={styles.events} className="events">
-          <div>
-            <Event />
+      <div className="events-container">
+        <div className="events-box">
+          <EventsFilter />
+          <div className="events-grid-container">
+            {
+              events.map(event => (
+                <Event
+                  key={event.event_id}
+                  event={{
+                    title: event.event_title,
+                    datetime: moment(event.event_datetime).format('lll'),
+                  }}
+                  playground={{
+                    name: event.playground_name,
+                    description: event.playground_description,
+                    images: event.playground_images,
+                    address: event.playground_address,
+                    creator: event.playground_creator,
+                    lat: event.playground_latitude,
+                    lng: event.playground_longitude,
+                  }}
+                  creator={{
+                    name: event.creator_name,
+                    image: event.creator_image,
+                    email: event.creator_email,
+                    phone: event.creator_phone,
+                  }}
+                />
+              ))
+            }
           </div>
         </div>
-        <div style={styles.mapContainer} className="map-container">
+        <div className="map-container">
           <Map events={eventsCoords} />
         </div>
       </div>
@@ -62,7 +73,7 @@ const mapStateToProps = state => ({
     title: event.event_title,
     description: event.playground_description,
     creator: event.creator_name,
-    dateTime: event.event_datetime,
+    dateTime: moment(event.event_datetime).format('lll'),
   })),
 });
 

@@ -17,13 +17,6 @@ const propTypes = {
   })),
 };
 
-const styles = {
-  map: {
-    height: '100%',
-    width: '100%',
-  },
-};
-
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -119,7 +112,7 @@ class Map extends Component {
 
   render() {
     return (
-      <div style={styles.map} id="map" />
+      <div id="map" />
     );
   }
 }

@@ -74,7 +74,7 @@ class UserProfile extends Component {
     } = this.state;
 
     return (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className="user-profile-box">
         <div className="user-profile-wrapper">
           <Avatar
             size={250}

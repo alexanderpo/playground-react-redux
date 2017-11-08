@@ -66,6 +66,12 @@ body {
 
 /* User profile */
 
+.user-profile-box {
+  display: flex;
+  height: 90vh;
+  justify-content: center;
+}
+
 .user-profile-wrapper {
   margin: 10px 50px;
   padding: 5px;
@@ -102,4 +108,70 @@ body {
 
 .change-password-toggle {
   margin: 20px 0px 5px 0px;
+}
+
+/* Events component with map */
+
+.event-no-picture {
+  height: 25%;
+  width: 25%!important;
+  min-width: 25%!important;
+  margin-left: 35%;
+  opacity: 0.8;
+  transform: translate(0%,-15%);
+}
+
+/* Filter box */
+.event-filter-box {
+  margin: 5px 0px 0px 0px;
+}
+
+.event-filter-buttons {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0px 5px 0px 0px;
+}
+
+.event-filter-divider {
+  margin-bottom: 5px;
+}
+
+
+/* END Filter box */
+.events-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  overflow: auto;
+}
+
+.map-container {
+  width: 40vw;
+}
+
+.events-grid-container {
+  width: 100%;
+  height: 100%;
+  margin-left: 2px!important;
+  overflow-y: auto;
+}
+
+.event-card-box {
+  margin: 2px!important;
+}
+
+.card-event-header div {
+  padding-right: 0px!important;
+}
+
+.events-box {
+  width: 60vw;
+  max-height: 83vh;
+}
+
+#map {
+  height: 90vh;
+  width: 100%;
 }
