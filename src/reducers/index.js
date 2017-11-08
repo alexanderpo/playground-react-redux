@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import user from './user';
+import events from './events';
 
 const initialState = {
   user: {
@@ -9,11 +10,12 @@ const initialState = {
 
 const appReducer = combineReducers({
   user,
+  events,
 });
 
 const rootReducer = (state = initialState, action) => {
   if (action.type === 'LOGOUT') {
-    localStorage.removeItem('user');
+    localStorage.clear();
     return initialState;
   }
   return appReducer(state, action);

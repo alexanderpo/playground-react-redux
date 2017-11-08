@@ -35,8 +35,15 @@ class Map extends Component {
     };
     google.maps.event.addDomListenerOnce(window, 'load', () => {
       this.initializeMap(this.state.defaultUserPosition);
-      this.initializeEventPoints(props.events);
+      this.initializeEventPoints(this.props.events);
     });
+  }
+
+  componentDidUpdate() {
+    if (!this.map) {
+      this.initializeMap(this.state.defaultUserPosition);
+      this.initializeEventPoints(this.props.events);
+    }
   }
 
   infoWindow = (title, description, creator, dateTime) => (
@@ -50,7 +57,7 @@ class Map extends Component {
 
   initializeMap(defaultPosition) {
     this.map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 16,
+      zoom: 14,
       center: {
         ...defaultPosition,
         mapTypeId: 'roadmap',

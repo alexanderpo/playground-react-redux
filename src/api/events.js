@@ -5,7 +5,16 @@ const responseChecker = (response) => {
   return response.json();
 };
 
-export const signIn = data => fetch('/api/v1/signin', {
+export const getEvents = () => fetch('/api/v1/events', {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));
+
+export const createEvent = data => fetch('/api/v1/events', {
   method: 'post',
   headers: {
     Accept: 'application/json',
@@ -14,15 +23,3 @@ export const signIn = data => fetch('/api/v1/signin', {
   },
   body: JSON.stringify(data),
 }).then(response => responseChecker(response));
-
-export const signUp = data => fetch('/api/v1/signup', {
-  method: 'post',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
-  },
-  body: JSON.stringify(data),
-}).then(response => responseChecker(response));
-
-// TODO: wrapper for fetch
