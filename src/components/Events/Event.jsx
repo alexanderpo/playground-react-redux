@@ -32,7 +32,7 @@ class Event extends Component {
     const { event, playground, creator } = this.props;
     return (
       <div>
-        <Card zDepth={2} className="event-card-box">
+        <Card zDepth={3} className="event-card-box">
           <CardHeader
             className="card-event-header"
             title={creator.name}

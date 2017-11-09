@@ -8,6 +8,7 @@ import userMarkerIcon from '../styles/images/user-marker-icon.png';
 
 const propTypes = {
   events: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
     lat: PropTypes.number,
     lng: PropTypes.number,
     title: PropTypes.string,

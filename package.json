@@ -10,6 +10,7 @@
   },
   "proxy": "http://localhost:8080",
   "dependencies": {
+    "classnames": "^2.2.5",
     "isomorphic-fetch": "^2.2.1",
     "joi": "^13.0.1",
     "lodash": "^4.17.4",

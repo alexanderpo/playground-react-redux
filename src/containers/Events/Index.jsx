@@ -22,40 +22,41 @@ class EventsWrapper extends Component {
     this.props.actions.getEvents();
   }
 
+  renderEvents = events => (
+    events.map(event => (
+      <Event
+        key={event.event_id}
+        event={{
+          title: event.event_title,
+          datetime: moment(event.event_datetime).format('lll'),
+        }}
+        playground={{
+          name: event.playground_name,
+          description: event.playground_description,
+          images: event.playground_images,
+          address: event.playground_address,
+          creator: event.playground_creator,
+          lat: event.playground_latitude,
+          lng: event.playground_longitude,
+        }}
+        creator={{
+          name: event.creator_name,
+          image: event.creator_image,
+          email: event.creator_email,
+          phone: event.creator_phone,
+        }}
+      />
+    ))
+  );
+
   render() {
     const { events, eventsCoords } = this.props;
     return (
-      <div className="events-container">
-        <div className="events-box">
-          <EventsFilter />
-          <div className="events-grid-container">
-            {
-              events.map(event => (
-                <Event
-                  key={event.event_id}
-                  event={{
-                    title: event.event_title,
-                    datetime: moment(event.event_datetime).format('lll'),
-                  }}
-                  playground={{
-                    name: event.playground_name,
-                    description: event.playground_description,
-                    images: event.playground_images,
-                    address: event.playground_address,
-                    creator: event.playground_creator,
-                    lat: event.playground_latitude,
-                    lng: event.playground_longitude,
-                  }}
-                  creator={{
-                    name: event.creator_name,
-                    image: event.creator_image,
-                    email: event.creator_email,
-                    phone: event.creator_phone,
-                  }}
-                />
-              ))
-            }
-          </div>
+      <div className="content-container">
+        <div className="left-content-box">
+          <EventsFilter>
+            <div> { this.renderEvents(events) } </div>
+          </EventsFilter>
         </div>
         <div className="map-container">
           <Map events={eventsCoords} />
@@ -68,6 +69,7 @@ class EventsWrapper extends Component {
 const mapStateToProps = state => ({
   events: state.events.details ? state.events.details : [],
   eventsCoords: !state.events.details ? [] : state.events.details.map(event => ({
+    id: event.event_id,
     lat: event.playground_latitude,
     lng: event.playground_longitude,
     title: event.event_title,
@@ -85,3 +87,32 @@ const mapDispatchToProps = dispatch => ({
 
 EventsWrapper.propTypes = propTypes;
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EventsWrapper));
+
+/*
+{
+  events.map(event => (
+    <Event
+      key={event.event_id}
+      event={{
+        title: event.event_title,
+        datetime: moment(event.event_datetime).format('lll'),
+      }}
+      playground={{
+        name: event.playground_name,
+        description: event.playground_description,
+        images: event.playground_images,
+        address: event.playground_address,
+        creator: event.playground_creator,
+        lat: event.playground_latitude,
+        lng: event.playground_longitude,
+      }}
+      creator={{
+        name: event.creator_name,
+        image: event.creator_image,
+        email: event.creator_email,
+        phone: event.creator_phone,
+      }}
+    />
+  ))
+}
+*/
