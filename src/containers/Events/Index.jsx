@@ -55,7 +55,7 @@ class EventsWrapper extends Component {
       <div className="content-container">
         <div className="left-content-box">
           <EventsFilter>
-            <div> { this.renderEvents(events) } </div>
+            { this.renderEvents(events) }
           </EventsFilter>
         </div>
         <div className="map-container">

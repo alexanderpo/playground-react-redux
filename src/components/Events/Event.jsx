@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Card, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Divider, IconButton } from 'material-ui';
+import NotFavoriteIcon from 'material-ui/svg-icons/toggle/star-border';
+import FavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star';
+import SubscribeToEventIcon from 'material-ui/svg-icons/maps/directions-run';
+import { Card, CardHeader, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import UserProfilePhoto from '../../styles/images/user.png';
 import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 
@@ -28,7 +32,17 @@ const propTypes = {
 };
 
 class Event extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isFavoritePlayground: false,
+      isSubscribeEvent: false,
+    };
+  }
+
   render() {
+    const { isFavoritePlayground, isSubscribeEvent } = this.state;
     const { event, playground, creator } = this.props;
     return (
       <div>
@@ -39,20 +53,39 @@ class Event extends Component {
             subtitle={creator.phone}
             avatar={creator.image ? creator.image : UserProfilePhoto}
           />
-          <CardMedia overlay={<CardTitle title={event.title} />}>
+          <Divider />
+          <CardMedia>
             {
               !_.isEmpty(playground.images) ? (
                 // TODO: implement image carusel
-                <img src={playground.images} alt="" />
+                <img className="card-event-picture" src={playground.images} alt="" />
               ) : (
-                <img className="event-no-picture" src={PromoEventPhoto} alt="" />
+                <img className="card-event-no-picture" src={PromoEventPhoto} alt="" />
               )
             }
           </CardMedia>
-          <CardText>
+          <CardTitle className="card-event-title" title={event.title} />
+          <CardText className="card-event-description-text">
             { playground.description }
           </CardText>
-          <CardTitle subtitle={`Event start at ${event.datetime}`} />
+          <CardActions className="card-event-actions-box">
+            <IconButton
+              iconStyle={isSubscribeEvent ? { color: 'rgba(81, 115, 153, 1)' } : {}}
+              onClick={() => { this.setState({ isSubscribeEvent: !isSubscribeEvent }); }}
+            >
+              <SubscribeToEventIcon />
+            </IconButton>
+            <IconButton
+              iconStyle={isFavoritePlayground ? { color: 'rgba(239, 200, 75, 1)' } : {}}
+              onClick={() => { this.setState({ isFavoritePlayground: !isFavoritePlayground }); }}
+            >
+              {
+                isFavoritePlayground ? <FavoritePlaygroundIcon /> : <NotFavoriteIcon />
+              }
+            </IconButton>
+          </CardActions>
+          <Divider className="card-event-picture-text-divider" />
+          <CardTitle subtitle={`Start: ${event.datetime}`} />
         </Card>
       </div>
     );

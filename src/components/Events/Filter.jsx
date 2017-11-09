@@ -6,7 +6,7 @@ import ListIcon from 'material-ui/svg-icons/action/view-list';
 import GridIcon from 'material-ui/svg-icons/action/view-module';
 
 const propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.array,
 };
 
 class EventsFilter extends Component {
