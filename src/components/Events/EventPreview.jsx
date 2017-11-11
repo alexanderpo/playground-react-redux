@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter, Link } from 'react-router-dom';
 import _ from 'lodash';
 import { Divider, IconButton } from 'material-ui';
 import NotFavoriteIcon from 'material-ui/svg-icons/toggle/star-border';
 import FavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star';
 import SubscribeToEventIcon from 'material-ui/svg-icons/maps/directions-run';
+import EventDetailsIcon from 'material-ui/svg-icons/action/event';
 import { Card, CardHeader, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import UserProfilePhoto from '../../styles/images/user.png';
 import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 
 const propTypes = {
+  history: PropTypes.object,
   event: PropTypes.shape({
+    id: PropTypes.number,
     title: PropTypes.string,
     datetime: PropTypes.string,
   }),
@@ -31,7 +35,7 @@ const propTypes = {
   }),
 };
 
-class Event extends Component {
+class EventPreview extends Component {
   constructor(props) {
     super(props);
 
@@ -70,6 +74,11 @@ class Event extends Component {
           </CardText>
           <CardActions className="card-event-actions-box">
             <IconButton
+              onClick={() => { this.props.history.push(`/events/${event.id}`); }}
+            >
+              <EventDetailsIcon />
+            </IconButton>
+            <IconButton
               iconStyle={isSubscribeEvent ? { color: 'rgba(81, 115, 153, 1)' } : {}}
               onClick={() => { this.setState({ isSubscribeEvent: !isSubscribeEvent }); }}
             >
@@ -92,5 +101,5 @@ class Event extends Component {
   }
 }
 
-Event.propTypes = propTypes;
-export default Event;
+EventPreview.propTypes = propTypes;
+export default withRouter(EventPreview);

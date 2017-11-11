@@ -2,20 +2,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import playgroundIcon from '../styles/images/playground.png';
 import userMarkerIcon from '../styles/images/user-marker-icon.png';
 
 const propTypes = {
-  events: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    lat: PropTypes.number,
-    lng: PropTypes.number,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    creator: PropTypes.string,
-    dateTime: PropTypes.string,
-  })),
+  events: PropTypes.array,
 };
 
 class Map extends Component {
@@ -27,16 +18,19 @@ class Map extends Component {
         lng: 131.044,
       },
     };
-    google.maps.event.addDomListenerOnce(window, 'load', () => {
-      this.initializeMap(this.state.defaultUserPosition);
-      this.initializeEventPoints(this.props.events);
-    });
+  }
+
+  componentDidMount() {
+    this.initializeMap(this.state.defaultUserPosition);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.initializeEventPoints(nextProps.events);
   }
 
   componentDidUpdate() {
     if (!this.map) {
       this.initializeMap(this.state.defaultUserPosition);
-      this.initializeEventPoints(this.props.events);
     }
   }
 
@@ -70,12 +64,24 @@ class Map extends Component {
         this.map.setCenter(currentPosition);
       });
     } else {
-      // TODO: show message for user
       console.log('Browser doesn\'t support geolocation'); // eslint-disable-line
     }
   }
 
+  initializeEventPoints(events) {
+    const markers = events.map(event => new google.maps.Marker({
+      position: {
+        lat: event.playground_latitude,
+        lng: event.playground_longitude,
+      },
+      icon: playgroundIcon,
+      title: event.event_title,
+      map: this.map,
+    }));
+  }
+
   initializeUserLocation(position) {
+    console.log('INIT USER LOCATION');
     const point = new google.maps.Marker({ // eslint-disable-line
       position: {
         lat: position.lat,
@@ -84,31 +90,6 @@ class Map extends Component {
       icon: userMarkerIcon,
       map: this.map,
     });
-  }
-
-  initializeEventPoints(events) {
-    if (!_.isEmpty(events)) {
-      events.map((event) => { // eslint-disable-line
-        const marker = new google.maps.Marker({
-          position: {
-            lat: event.lat,
-            lng: event.lng,
-          },
-          icon: playgroundIcon,
-          title: event.title,
-          map: this.map,
-        });
-        const infoWindow = new google.maps.InfoWindow({
-          content: this.infoWindow(event.title, event.description, event.creator, event.dateTime),
-        });
-        marker.addListener('click', () => {
-          infoWindow.open(this.map, marker);
-        });
-      });
-    } else {
-      // TODO: meassage for user
-      console.log('dont have points'); // eslint-disable-line
-    }
   }
 
   render() {
@@ -120,3 +101,37 @@ class Map extends Component {
 
 Map.propTypes = propTypes;
 export default Map;
+
+/*
+initializeEventPoints(events) {
+  console.log('INIT POINTS ???');
+  if (!_.isEmpty(events)) {
+    console.log('INIT POINTS !!!');
+    events.map((event) => {
+      const marker = new google.maps.Marker({
+        position: {
+          lat: event.playground_latitude,
+          lng: event.playground_longitude,
+        },
+        icon: playgroundIcon,
+        title: event.event_title,
+      });
+      const infoWindow = new google.maps.InfoWindow({
+        content: this.infoWindow(
+          event.event_title,
+          event.playground_description,
+          event.creator_name,
+          event.event_datetime,
+        ),
+      });
+      marker.addListener('click', () => {
+        infoWindow.open(this.map, marker);
+      });
+      marker.setMap(this.map);
+    });
+  } else {
+    // TODO: meassage for user
+    console.log('dont have points'); // eslint-disable-line
+  }
+}
+*/

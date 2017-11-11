@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+/*@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');*/
 
 body {
   margin: 0;
@@ -198,7 +198,7 @@ body {
 
 .card-event-title {
   padding: 5px 5px 0px 16px;
-  height: 10vh;
+  height: 12vh;
 }
 
 .card-event-title span {

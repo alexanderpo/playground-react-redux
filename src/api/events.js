@@ -14,6 +14,15 @@ export const getEvents = () => fetch('/api/v1/events', {
   },
 }).then(response => responseChecker(response));
 
+export const getEvent = id => fetch(`/api/v1/events/${id}`, {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));
+
 export const createEvent = data => fetch('/api/v1/events', {
   method: 'post',
   headers: {
