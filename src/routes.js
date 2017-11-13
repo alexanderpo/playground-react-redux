@@ -7,7 +7,7 @@ import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 import UserProfile from './containers/UserProfile';
 import Events from './containers/Events/Index';
-import EventDetails from './containers/Events/Details';
+import EventDetailsWrapper from './containers/Events/Details';
 
 const Routes = () => (
   <Router>
@@ -19,7 +19,7 @@ const Routes = () => (
           <PublicRouteCreator isExact={true} path="/" component={<Events />} />
           <PublicRouteCreator isExact={false} path="/profile" component={<UserProfile />} />
           <PublicRouteCreator isExact={true} path="/events" component={<Events />} />
-          <PublicRouteCreator isExact={false} path="/events/:eventId" component={<EventDetails />} />
+          <PublicRouteCreator isExact={false} path="/events/:eventId" component={<EventDetailsWrapper />} />
         </div>
       </App>
     </Switch>

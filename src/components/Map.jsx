@@ -69,19 +69,31 @@ class Map extends Component {
   }
 
   initializeEventPoints(events) {
-    const markers = events.map(event => new google.maps.Marker({
-      position: {
-        lat: event.playground_latitude,
-        lng: event.playground_longitude,
-      },
-      icon: playgroundIcon,
-      title: event.event_title,
-      map: this.map,
-    }));
+    events.map((event) => { // eslint-disable-line
+      const marker = new google.maps.Marker({
+        position: {
+          lat: event.playground_latitude,
+          lng: event.playground_longitude,
+        },
+        icon: playgroundIcon,
+        title: event.event_title,
+        map: this.map,
+      });
+      const infoWindow = new google.maps.InfoWindow({
+        content: this.infoWindow(
+          event.event_title,
+          event.playground_description,
+          event.creator_name,
+          event.event_datetime,
+        ),
+      });
+      marker.addListener('click', () => {
+        infoWindow.open(this.map, marker);
+      });
+    });
   }
 
   initializeUserLocation(position) {
-    console.log('INIT USER LOCATION');
     const point = new google.maps.Marker({ // eslint-disable-line
       position: {
         lat: position.lat,
@@ -101,37 +113,3 @@ class Map extends Component {
 
 Map.propTypes = propTypes;
 export default Map;
-
-/*
-initializeEventPoints(events) {
-  console.log('INIT POINTS ???');
-  if (!_.isEmpty(events)) {
-    console.log('INIT POINTS !!!');
-    events.map((event) => {
-      const marker = new google.maps.Marker({
-        position: {
-          lat: event.playground_latitude,
-          lng: event.playground_longitude,
-        },
-        icon: playgroundIcon,
-        title: event.event_title,
-      });
-      const infoWindow = new google.maps.InfoWindow({
-        content: this.infoWindow(
-          event.event_title,
-          event.playground_description,
-          event.creator_name,
-          event.event_datetime,
-        ),
-      });
-      marker.addListener('click', () => {
-        infoWindow.open(this.map, marker);
-      });
-      marker.setMap(this.map);
-    });
-  } else {
-    // TODO: meassage for user
-    console.log('dont have points'); // eslint-disable-line
-  }
-}
-*/

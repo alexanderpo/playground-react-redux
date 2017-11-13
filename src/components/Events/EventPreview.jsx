@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import { Divider, IconButton } from 'material-ui';
 import NotFavoriteIcon from 'material-ui/svg-icons/toggle/star-border';

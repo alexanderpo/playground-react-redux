@@ -163,7 +163,7 @@ body {
   width: 40vw;
 }
 
-/* EVENT CARD */
+/* EVENT CARD PREVIEW */
 .event-card-box {
   margin: 5px!important;
 }
@@ -223,6 +223,63 @@ body {
   flex-wrap: wrap;
   justify-content: flex-end;
 }
+
+/*END EVENT CARD PREVIEW */
+
+
+/*START EVENT CARD DETAILS */
+
+.event-card-details-box {
+  margin: 5px;
+}
+
+.event-card-details-image {
+  height: 35vh;
+  min-height: 15vh;
+  width: 48%!important;
+  min-width: 25%!important;
+}
+
+.event-card-details-no-image {
+  height: 35vh;
+  min-height: 15vh;
+  /*width: 51%!important;*/
+  width: 29%!important;
+  max-width: 51%!important;
+  min-width: 29%!important;
+  margin: 0% 0% 1% 35%;
+  opacity: 0.8;
+}
+
+.event-card-details-description {
+  height: auto;
+  min-height: 9vh;
+  padding: 5px 0px 0px 16px!important;
+  overflow-y: auto;
+}
+
+.event-card-details-playground-title {
+  padding: 5px 0px 0px 16px;
+}
+
+.event-card-details-more-info-text {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.event-card-details-actions-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.event-card-details-actions-button {
+  margin: 0px;
+}
+
+/*END EVENT CARD DETAILS*/
 
 .left-content-box {
   width: 60vw;

@@ -66,12 +66,9 @@ class EventsWrapper extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state.events.details);
-  return {
-    events: state.events.details ? state.events.details : [],
-  };
-};
+const mapStateToProps = state => ({
+  events: state.events.details ? state.events.details : [],
+});
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
