@@ -185,20 +185,27 @@ body {
 
 .card-event-no-picture {
   height: 25%;
-  width: 25%!important;
-  min-width: 25%!important;
-  margin: 2% 0% 2% 38%;
+  width: 20%!important;
+  max-width: 25%!important;
+  min-width: 20%!important;
+  margin: 2% 0% 2% 42%;
   opacity: 0.8;
   transform: translate(0%, 8%);
 }
-
+/*height: 25%;
+    width: 20%!important;
+    max-width: 25%!important;
+    min-width: 20%!important;
+    margin: 2% 0% 2% 42%;
+    opacity: 0.8;*/
 .card-event-picture {
 
 }
 
 .card-event-title {
-  padding: 5px 5px 0px 16px;
-  height: 12vh;
+  padding: 5px 5px 0px 16px!important;
+  height: auto;
+  min-height: 12vh;
 }
 
 .card-event-title span {
@@ -208,7 +215,8 @@ body {
 }
 
 .card-event-description-text {
-  height: 15vh;
+  height: auto;
+  min-height: 10vh;
   overflow-y: auto;
 }
 

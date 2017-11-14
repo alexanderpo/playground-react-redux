@@ -14,8 +14,8 @@ class EventsFilter extends Component {
     super(props);
 
     this.state = {
-      isList: true,
-      isGrid: false,
+      isList: false,
+      isGrid: true,
     };
   }
 

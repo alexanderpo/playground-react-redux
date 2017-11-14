@@ -1,7 +1,9 @@
 import { handle } from 'redux-pack';
 import { GET_EVENTS } from '../actions/events';
 
-const initialState = {};
+const initialState = {
+  // TODO: normal init state
+};
 
 export default function userReducer(state = initialState, action) {
   const { type, payload } = action;
@@ -20,7 +22,7 @@ export default function userReducer(state = initialState, action) {
         }),
         success: prevState => ({
           ...prevState,
-          details: payload,
+          details: payload, // TODO: add isSubscribed
           isLoading: false,
         }),
       });

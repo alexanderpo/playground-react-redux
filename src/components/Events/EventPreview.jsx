@@ -12,6 +12,10 @@ import UserProfilePhoto from '../../styles/images/user.png';
 import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 
 const propTypes = {
+  userId: PropTypes.number,
+  subscribeEventControl: PropTypes.func,
+  updateSubscribedEvents: PropTypes.func,
+  isSubscribed: PropTypes.bool,
   history: PropTypes.object,
   event: PropTypes.shape({
     id: PropTypes.number,
@@ -41,13 +45,27 @@ class EventPreview extends Component {
 
     this.state = {
       isFavoritePlayground: false,
-      isSubscribeEvent: false,
+      isSubscribeEvent: this.props.isSubscribed,
     };
+
+    this.subscribeEventHandler = this.subscribeEventHandler.bind(this);
+  }
+
+  subscribeEventHandler() {
+    const { userId, event, subscribeEventControl } = this.props;
+    subscribeEventControl(userId, event.id).then((action) => {
+      this.setState({ isSubscribeEvent: action.payload.isSubscribe });
+      this.props.updateSubscribedEvents(action.payload.id);
+    });
   }
 
   render() {
     const { isFavoritePlayground, isSubscribeEvent } = this.state;
-    const { event, playground, creator } = this.props;
+    const {
+      event,
+      playground,
+      creator,
+    } = this.props;
     return (
       <div>
         <Card zDepth={3} className="event-card-box">
@@ -80,7 +98,7 @@ class EventPreview extends Component {
             </IconButton>
             <IconButton
               iconStyle={isSubscribeEvent ? { color: 'rgba(81, 115, 153, 1)' } : {}}
-              onClick={() => { this.setState({ isSubscribeEvent: !isSubscribeEvent }); }}
+              onClick={this.subscribeEventHandler}
             >
               <SubscribeToEventIcon />
             </IconButton>
