@@ -8,10 +8,35 @@ import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 import UserProfilePhoto from '../../styles/images/user.png';
 
 const propTypes = {
+  userId: PropTypes.number,
   event: PropTypes.object,
+  subscribeControl: PropTypes.func,
+  updateSubscribers: PropTypes.func,
 };
 
 class EventDetails extends Component {
+  constructor(props) {
+    super(props);
+
+    this.subscribeEventHandler = this.subscribeEventHandler.bind(this);
+  }
+
+  subscribeEventHandler() {
+    const {
+      userId,
+      event,
+      subscribeControl,
+      updateSubscribers,
+    } = this.props;
+    subscribeControl(userId, event.event_id).then((action) => {
+      const { subscribedEvents } = action.payload;
+      const subscribe = _.includes(subscribedEvents, event.event_id);
+      const subscribers = subscribe ?
+        Number(event.subscribed_users) + 1 : Number(event.subscribed_users) - 1;
+      updateSubscribers({ isSubscribe: subscribe, subscribed_users: subscribers });
+    });
+  }
+
   render() {
     const { event } = this.props;
     return (
@@ -44,8 +69,20 @@ class EventDetails extends Component {
             <CardTitle subtitle={`Players: ${event.subscribed_users}`} />
           </div>
           <CardActions className="event-card-details-actions-box">
-            <RaisedButton className="event-card-details-actions-button" label="Unsubscribe" disabled={true} />
-            <RaisedButton className="event-card-details-actions-button" label="Subscribe" primary={true} />
+            <RaisedButton
+              className="event-card-details-actions-button"
+              label="Unsubscribe"
+              disabled={!event.isSubscribe}
+              primary={true}
+              onClick={this.subscribeEventHandler}
+            />
+            <RaisedButton
+              className="event-card-details-actions-button"
+              label="Subscribe"
+              disabled={event.isSubscribe}
+              primary={true}
+              onClick={this.subscribeEventHandler}
+            />
           </CardActions>
         </Card>
       </div>

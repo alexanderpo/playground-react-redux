@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getEvent } from '../../actions/events';
+import _ from 'lodash';
+import { getEvent, subscribeEventControl, updateSubscribers } from '../../actions/events';
 import Map from '../../components/Map';
 import EventDetails from '../../components/Events/EventDetails';
 
 const propTypes = {
   match: PropTypes.object,
+  userId: PropTypes.number,
   currentEvent: PropTypes.array,
   singleEvent: PropTypes.object,
   actions: PropTypes.shape({
     getEvent: PropTypes.func,
+    subscribeEventControl: PropTypes.func,
+    updateSubscribers: PropTypes.func,
   }),
 };
 
@@ -23,11 +27,21 @@ class EventDetailsWrapper extends Component {
   }
 
   render() {
-    const { currentEvent, singleEvent } = this.props;
+    const {
+      currentEvent,
+      singleEvent,
+      userId,
+      actions,
+    } = this.props;
     return (
       <div className="content-container">
         <div className="left-content-box">
-          <EventDetails event={singleEvent} />
+          <EventDetails
+            userId={userId}
+            subscribeControl={actions.subscribeEventControl}
+            updateSubscribers={actions.updateSubscribers}
+            event={singleEvent}
+          />
         </div>
         <div className="map-container">
           <Map events={currentEvent} />
@@ -37,15 +51,29 @@ class EventDetailsWrapper extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  currentEvent: state.currentEventDetails.details ? state.currentEventDetails.details : [],
-  singleEvent: state.currentEventDetails.details ? state.currentEventDetails.details[0] : {},
-});
+const mapStateToProps = (state) => {
+  const userId = state.user.details.id;
+  const { subscribedEvents } = state.user.details;
+  const currentEvent = state.currentEventDetails.details ? state.currentEventDetails.details : [];
+  const event = state.currentEventDetails.details ? state.currentEventDetails.details[0] : {};
+
+  const singleEvent = Object.assign({}, event, {
+    isSubscribe: _.includes(subscribedEvents, event.event_id),
+  });
+
+  return {
+    userId,
+    singleEvent,
+    currentEvent,
+  };
+};
 
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getEvent,
+    subscribeEventControl,
+    updateSubscribers,
   }, dispatch),
 });
 

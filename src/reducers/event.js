@@ -1,5 +1,5 @@
 import { handle } from 'redux-pack';
-import { GET_EVENT } from '../actions/events';
+import { GET_EVENT, UPDATE_SUBSCRIBERS } from '../actions/events';
 
 const initialState = {};
 
@@ -24,6 +24,19 @@ export default function (state = initialState, action) {
           isLoading: false,
         }),
       });
+    case UPDATE_SUBSCRIBERS: {
+      const { details } = state;
+      const newEventState = details.map(event => ({
+        ...event,
+        subscribed_users: payload.subscribed_users,
+        isSubscribe: payload.isSubscribe,
+      }));
+      return {
+        ...state,
+        details: newEventState,
+        isLoading: false,
+      };
+    }
     default:
       return state;
   }

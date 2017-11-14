@@ -12,7 +12,6 @@ import EventPreview from '../../components/Events/EventPreview';
 
 const propTypes = {
   events: PropTypes.array,
-  mapEvents: PropTypes.array,
   userId: PropTypes.number,
   actions: PropTypes.shape({
     getEvents: PropTypes.func,
@@ -58,7 +57,7 @@ class EventsWrapper extends Component {
   );
 
   render() {
-    const { events, mapEvents } = this.props;
+    const { events } = this.props;
     return (
       <div className="content-container">
         <div className="left-content-box">
@@ -67,7 +66,7 @@ class EventsWrapper extends Component {
           </EventsFilter>
         </div>
         <div className="map-container">
-          <Map events={mapEvents} />
+          <Map events={events} />
         </div>
       </div>
     );
@@ -77,7 +76,6 @@ class EventsWrapper extends Component {
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
   const { subscribedEvents } = state.user.details;
-  const mapEvents = state.events.details;
 
   const events = state.events.details.map(event => ({
     ...event,
@@ -86,7 +84,6 @@ const mapStateToProps = (state) => {
 
   return {
     events,
-    mapEvents,
     userId,
   };
 };

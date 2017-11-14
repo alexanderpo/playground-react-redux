@@ -17,6 +17,7 @@ class Map extends Component {
         lat: -25.363,
         lng: 131.044,
       },
+      markers: [],
     };
   }
 
@@ -25,8 +26,12 @@ class Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('newProps');
+    this.state.markers.map(marker => marker.setMap(null));
     this.initializeEventPoints(nextProps.events);
+  }
+
+  componentWillUnmount() {
+    this.state.markers.map(marker => marker.setMap(null));
   }
 
   componentDidUpdate() {
@@ -91,6 +96,7 @@ class Map extends Component {
       marker.addListener('click', () => {
         infoWindow.open(this.map, marker);
       });
+      this.state.markers.push(marker);
     });
   }
 
