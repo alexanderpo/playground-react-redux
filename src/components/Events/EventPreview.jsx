@@ -14,7 +14,6 @@ import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 const propTypes = {
   userId: PropTypes.number,
   subscribeEventControl: PropTypes.func,
-  updateSubscribedEvents: PropTypes.func,
   isSubscribed: PropTypes.bool,
   history: PropTypes.object,
   event: PropTypes.shape({
@@ -54,8 +53,10 @@ class EventPreview extends Component {
   subscribeEventHandler() {
     const { userId, event, subscribeEventControl } = this.props;
     subscribeEventControl(userId, event.id).then((action) => {
-      this.setState({ isSubscribeEvent: action.payload.isSubscribe });
-      this.props.updateSubscribedEvents(action.payload.id);
+      const { subscribedEvents } = action.payload;
+      this.setState({
+        isSubscribeEvent: _.includes(subscribedEvents, event.id),
+      });
     });
   }
 

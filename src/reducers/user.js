@@ -1,10 +1,13 @@
 import { handle } from 'redux-pack';
-import _ from 'lodash';
-import { SIGN_IN, UPDATE_SUBSCRIBED_EVENTS } from '../actions/user';
+// import _ from 'lodash';
+import { SIGN_IN } from '../actions/user';
+import { SUBSCRIBE_TO_EVENT } from '../actions/events';
 
-const initialState = {};
+const initialState = {
+  isLoggedIn: false,
+};
 
-export default function userReducer(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case SIGN_IN:
@@ -28,56 +31,25 @@ export default function userReducer(state = initialState, action) {
           isLoading: false,
         }),
       });
-    case UPDATE_SUBSCRIBED_EVENTS: {
-      const { details } = state;
-      const eventId = action.payload;
-      const { subscribedEvents } = state.details;
-
-      const removeItem = (array, element) => {
-        const index = array.indexOf(element);
-        array.splice(index, 1);
-      };
-
-      if (!_.includes(subscribedEvents, eventId)) {
-        subscribedEvents.push(eventId);
-      } else {
-        removeItem(subscribedEvents, eventId);
-      }
-
-      return {
-        ...state,
-        details: {
-          ...details,
-          subscribedEvents,
-        },
-      };
-    }
+    case SUBSCRIBE_TO_EVENT:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          isLoading: true,
+          error: null,
+        }),
+        failure: prevState => ({
+          ...prevState,
+          error: payload,
+          isLoading: false,
+        }),
+        success: prevState => ({
+          ...prevState,
+          details: { ...state.details, subscribedEvents: action.payload.subscribedEvents },
+          isLoading: false,
+        }),
+      });
     default:
       return state;
   }
 }
-
-// case UPDATE_SUBSCRIBED_EVENTS: {
-//   const { details } = state;
-//   const eventId = action.payload;
-//   const { subscribedEvents } = state.details;
-//
-//   const removeItem = (array, element) => {
-//     const index = array.indexOf(element);
-//     array.splice(index, 1);
-//   };
-//
-//   if (!_.includes(subscribedEvents, eventId)) {
-//     subscribedEvents.push(eventId);
-//   } else {
-//     removeItem(subscribedEvents, eventId);
-//   }
-//
-//   return {
-//     ...state,
-//     details: {
-//       ...details,
-//       subscribedEvents,
-//     },
-//   };
-// }

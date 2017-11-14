@@ -2,10 +2,10 @@ import { handle } from 'redux-pack';
 import { GET_EVENTS } from '../actions/events';
 
 const initialState = {
-  // TODO: normal init state
+  details: [],
 };
 
-export default function userReducer(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
     case GET_EVENTS:
@@ -22,7 +22,7 @@ export default function userReducer(state = initialState, action) {
         }),
         success: prevState => ({
           ...prevState,
-          details: payload, // TODO: add isSubscribed
+          details: payload,
           isLoading: false,
         }),
       });

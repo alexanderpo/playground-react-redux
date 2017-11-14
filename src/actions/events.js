@@ -2,7 +2,7 @@ import * as api from '../api/events';
 
 export const GET_EVENTS = 'GET_EVENTS';
 export const GET_EVENT = 'GET_EVENT';
-export const SUBSCRIBE_EVENT_CONTROL = 'SUBSCRIBE_EVENT_CONTROL';
+export const SUBSCRIBE_TO_EVENT = 'SUBSCRIBE_TO_EVENT';
 
 export const getEvents = () => { // eslint-disable-line
   return {
@@ -21,7 +21,7 @@ export const getEvent = (id) => { // eslint-disable-line
 export const subscribeEventControl = (userId, eventId) => {
   const data = { userId, eventId };
   return {
-    type: SUBSCRIBE_EVENT_CONTROL,
+    type: SUBSCRIBE_TO_EVENT,
     promise: api.subscribeEventControl(data),
   };
 };

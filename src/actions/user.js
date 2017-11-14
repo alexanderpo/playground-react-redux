@@ -4,9 +4,7 @@ import * as api from '../api/user';
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_UP = 'SIGN_UP';
 export const LOGOUT = 'LOGOUT';
-export const UPDATE_SUBSCRIBED_EVENTS = 'UPDATE_SUBSCRIBED_EVENTS';
 
-export const updateSubscribedEvents = createAction(UPDATE_SUBSCRIBED_EVENTS);
 export const logout = createAction(LOGOUT);
 
 export const signIn = (email, password) => {

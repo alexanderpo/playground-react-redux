@@ -25,6 +25,7 @@ class Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('newProps');
     this.initializeEventPoints(nextProps.events);
   }
 

@@ -3,11 +3,7 @@ import user from './user';
 import events from './events';
 import currentEventDetails from './event';
 
-const initialState = {
-  user: {
-    isLoggedIn: false,
-  },
-};
+const initialState = {};
 
 const appReducer = combineReducers({
   user,
