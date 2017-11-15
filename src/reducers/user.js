@@ -1,6 +1,6 @@
 import { handle } from 'redux-pack';
 // import _ from 'lodash';
-import { SIGN_IN, SUBSCRIBE_TO_EVENT } from '../actions/user';
+import { SIGN_IN, SUBSCRIBE_TO_EVENT, ADD_TO_FAVORITE_PLAYGROUND } from '../actions/user';
 
 const initialState = {
   isLoggedIn: false,
@@ -48,7 +48,24 @@ export default function (state = initialState, action) {
           isLoading: false,
         }),
       });
-      // TODO: add playground to favorite case
+    case ADD_TO_FAVORITE_PLAYGROUND:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          isLoading: true,
+          error: null,
+        }),
+        failure: prevState => ({
+          ...prevState,
+          error: payload,
+          isLoading: false,
+        }),
+        success: prevState => ({
+          ...prevState,
+          details: { ...state.details, favoritePlaygrounds: action.payload.favoritePlaygrounds },
+          isLoading: false,
+        }),
+      });
     default:
       return state;
   }

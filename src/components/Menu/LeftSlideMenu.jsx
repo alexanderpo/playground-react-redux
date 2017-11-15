@@ -68,7 +68,12 @@ class LeftSlideMenu extends Component {
           <Divider />
           <MenuItem disabled={true} style={{ textAlign: 'center' }}>Playgrounds</MenuItem>
           <Divider />
-          <MenuItem leftIcon={<PlaygroundIcon />}>Playgrounds</MenuItem>
+          <MenuItem
+            primaryText="Playgrounds"
+            leftIcon={<PlaygroundIcon />}
+            containerElement={<Link to="/playgrounds" />}
+            onClick={() => this.setState({ open: false })}
+          />
           <MenuItem leftIcon={<FavoriteIcon />}>Favorites</MenuItem>
           <Divider />
           <MenuItem disabled={true} style={{ textAlign: 'center' }}>Create</MenuItem>

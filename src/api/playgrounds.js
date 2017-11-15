@@ -5,12 +5,11 @@ const responseChecker = (response) => {
   return response.json();
 };
 
-export const subscribeEventControl = data => fetch('/api/v1/users/favorite/playground', {
-  method: 'post',
+export const getPlaygrounds = () => fetch('/api/v1/playgrounds', {
+  method: 'get',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
     'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
   },
-  body: JSON.stringify(data),
 }).then(response => responseChecker(response));

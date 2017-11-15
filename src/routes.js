@@ -8,6 +8,7 @@ import SignUp from './containers/SignUp';
 import UserProfile from './containers/UserProfile';
 import Events from './containers/Events/Index';
 import EventDetailsWrapper from './containers/Events/Details';
+import PlaygroundsWrapper from './containers/Playgrounds/Index';
 
 const Routes = () => (
   <Router>
@@ -18,6 +19,9 @@ const Routes = () => (
         <div>
           <PublicRouteCreator isExact={true} path="/" component={<Events />} />
           <PublicRouteCreator isExact={false} path="/profile" component={<UserProfile />} />
+
+          <PublicRouteCreator isExact={true} path="/playgrounds" component={<PlaygroundsWrapper />} />
+
           <PublicRouteCreator isExact={true} path="/events" component={<Events />} />
           <PublicRouteCreator isExact={false} path="/events/:eventId" component={<EventDetailsWrapper />} />
         </div>

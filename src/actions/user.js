@@ -5,6 +5,7 @@ export const SIGN_IN = 'SIGN_IN';
 export const SIGN_UP = 'SIGN_UP';
 export const LOGOUT = 'LOGOUT';
 export const SUBSCRIBE_TO_EVENT = 'SUBSCRIBE_TO_EVENT';
+export const ADD_TO_FAVORITE_PLAYGROUND = 'ADD_TO_FAVORITE_PLAYGROUND';
 
 export const logout = createAction(LOGOUT);
 
@@ -34,5 +35,13 @@ export const subscribeEventControl = (userId, eventId) => {
   return {
     type: SUBSCRIBE_TO_EVENT,
     promise: api.subscribeEventControl(data),
+  };
+};
+
+export const favoritePlaygroundControl = (userId, playgroundId) => {
+  const data = { userId, playgroundId };
+  return {
+    type: ADD_TO_FAVORITE_PLAYGROUND,
+    promise: api.favoritePlaygroundControl(data),
   };
 };

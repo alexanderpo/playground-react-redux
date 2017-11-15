@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import user from './user';
-import events from './events';
-import currentEventDetails from './event';
+import events from './Events/events';
+import currentEventDetails from './Events/event';
+import playgrounds from './Playgrounds/index';
 
 const initialState = {};
 
@@ -9,12 +10,13 @@ const appReducer = combineReducers({
   user,
   events,
   currentEventDetails,
+  playgrounds,
 });
 
 const rootReducer = (state = initialState, action) => {
   if (action.type === 'LOGOUT') {
     localStorage.clear();
-    return initialState;
+    return undefined;
   }
   return appReducer(state, action);
 };

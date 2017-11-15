@@ -18,7 +18,7 @@ class EventsFilter extends Component {
       isGrid: true,
     };
   }
-
+  // TODO: change this filter for all items in project
   render() {
     const { isList, isGrid } = this.state;
     return (

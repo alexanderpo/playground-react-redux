@@ -204,7 +204,7 @@ body {
 
 .card-event-title {
   padding: 5px 5px 0px 16px!important;
-  height: auto;
+  height: 15vh;
   min-height: 12vh;
 }
 

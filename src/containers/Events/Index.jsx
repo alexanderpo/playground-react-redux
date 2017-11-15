@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
 import { getEvents } from '../../actions/events';
-import { subscribeEventControl } from '../../actions/user';
+import { subscribeEventControl, favoritePlaygroundControl } from '../../actions/user';
 import EventsFilter from '../../components/Events/Filter';
 import Map from '../../components/Map';
-import EventPreview from '../../components/Events/EventPreview';
+import EventPreview from '../../components/Events/Preview';
 
 const propTypes = {
   events: PropTypes.array,
@@ -17,6 +17,7 @@ const propTypes = {
   actions: PropTypes.shape({
     getEvents: PropTypes.func,
     subscribeEventControl: PropTypes.func,
+    favoritePlaygroundControl: PropTypes.func,
     updateSubscribedEvents: PropTypes.func,
   }),
 };
@@ -32,13 +33,16 @@ class EventsWrapper extends Component {
         key={event.event_id}
         userId={this.props.userId}
         isSubscribed={event.isSubscribed}
+        isFavorite={event.isFavorite}
         subscribeEventControl={this.props.actions.subscribeEventControl}
+        favoritePlaygroundControl={this.props.actions.favoritePlaygroundControl}
         event={{
           id: event.event_id,
           title: event.event_title,
           datetime: moment(event.event_datetime).format('lll'),
         }}
         playground={{
+          id: event.playground_id,
           name: event.playground_name,
           description: event.playground_description,
           images: event.playground_images,
@@ -77,10 +81,12 @@ class EventsWrapper extends Component {
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
   const { subscribedEvents } = state.user.details;
+  const { favoritePlaygrounds } = state.user.details;
 
   const events = state.events.details.map(event => ({
     ...event,
     isSubscribed: _.includes(subscribedEvents, event.event_id),
+    isFavorite: _.includes(favoritePlaygrounds, event.playground_id),
   }));
 
   return {
@@ -93,6 +99,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getEvents,
     subscribeEventControl,
+    favoritePlaygroundControl,
   }, dispatch),
 });
 

@@ -14,7 +14,9 @@ import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 const propTypes = {
   userId: PropTypes.number,
   subscribeEventControl: PropTypes.func,
+  favoritePlaygroundControl: PropTypes.func,
   isSubscribed: PropTypes.bool,
+  isFavorite: PropTypes.bool,
   history: PropTypes.object,
   event: PropTypes.shape({
     id: PropTypes.number,
@@ -22,6 +24,7 @@ const propTypes = {
     datetime: PropTypes.string,
   }),
   playground: PropTypes.shape({
+    id: PropTypes.number,
     name: PropTypes.string,
     description: PropTypes.string,
     images: PropTypes.array,
@@ -43,13 +46,14 @@ class EventPreview extends Component {
     super(props);
 
     this.state = {
-      isFavoritePlayground: false,
+      isFavoritePlayground: this.props.isFavorite,
       isSubscribeEvent: this.props.isSubscribed,
       dialogBoxIsOpen: false,
       dialogBoxText: '',
     };
 
     this.subscribeEventHandler = this.subscribeEventHandler.bind(this);
+    this.favoritePlaygroundHandler = this.favoritePlaygroundHandler.bind(this);
   }
 
   subscribeEventHandler() {
@@ -62,6 +66,21 @@ class EventPreview extends Component {
         dialogBoxIsOpen: true,
         dialogBoxText: subscribe ?
           `Subscribed! Event start ${event.datetime}.` : 'Unsubscribed!',
+      });
+    });
+  }
+
+  favoritePlaygroundHandler() {
+    const { userId, playground, favoritePlaygroundControl } = this.props;
+
+    favoritePlaygroundControl(userId, playground.id).then((action) => {
+      const { favoritePlaygrounds } = action.payload;
+      const favorite = _.includes(favoritePlaygrounds, playground.id);
+      this.setState({
+        isFavoritePlayground: favorite,
+        dialogBoxIsOpen: true,
+        dialogBoxText: favorite ?
+          'Added to favorite playgrounds.' : 'Remove from favorite playgrounds.',
       });
     });
   }
@@ -116,7 +135,7 @@ class EventPreview extends Component {
             </IconButton>
             <IconButton
               iconStyle={isFavoritePlayground ? { color: 'rgba(239, 200, 75, 1)' } : {}}
-              onClick={() => { this.setState({ isFavoritePlayground: !isFavoritePlayground }); }}
+              onClick={this.favoritePlaygroundHandler}
             >
               {
                 isFavoritePlayground ? <FavoritePlaygroundIcon /> : <NotFavoriteIcon />

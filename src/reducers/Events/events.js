@@ -1,5 +1,5 @@
 import { handle } from 'redux-pack';
-import { GET_EVENTS } from '../actions/events';
+import { GET_EVENTS } from '../../actions/events';
 
 const initialState = {
   details: [],

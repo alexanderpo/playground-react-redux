@@ -7,7 +7,7 @@ import _ from 'lodash';
 import { getEvent, updateSubscribers } from '../../actions/events';
 import { subscribeEventControl } from '../../actions/user';
 import Map from '../../components/Map';
-import EventDetails from '../../components/Events/EventDetails';
+import EventDetails from '../../components/Events/Details';
 
 const propTypes = {
   match: PropTypes.object,
