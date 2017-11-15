@@ -25,4 +25,12 @@ export const signUp = data => fetch('/api/v1/signup', {
   body: JSON.stringify(data),
 }).then(response => responseChecker(response));
 
-// TODO: wrapper for fetch
+export const subscribeEventControl = data => fetch('/api/v1/users/events/subscribe', {
+  method: 'post',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+  body: JSON.stringify(data),
+}).then(response => responseChecker(response));

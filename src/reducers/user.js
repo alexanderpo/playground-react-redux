@@ -1,7 +1,6 @@
 import { handle } from 'redux-pack';
 // import _ from 'lodash';
-import { SIGN_IN } from '../actions/user';
-import { SUBSCRIBE_TO_EVENT } from '../actions/events';
+import { SIGN_IN, SUBSCRIBE_TO_EVENT } from '../actions/user';
 
 const initialState = {
   isLoggedIn: false,
@@ -49,6 +48,7 @@ export default function (state = initialState, action) {
           isLoading: false,
         }),
       });
+      // TODO: add playground to favorite case
     default:
       return state;
   }

@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { getEvent, subscribeEventControl, updateSubscribers } from '../../actions/events';
+import { getEvent, updateSubscribers } from '../../actions/events';
+import { subscribeEventControl } from '../../actions/user';
 import Map from '../../components/Map';
 import EventDetails from '../../components/Events/EventDetails';
 
