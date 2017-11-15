@@ -9,8 +9,8 @@ const initialState = {};
 const appReducer = combineReducers({
   user,
   events,
-  currentEventDetails,
   playgrounds,
+  currentEventDetails,
 });
 
 const rootReducer = (state = initialState, action) => {
