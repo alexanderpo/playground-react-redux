@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+/*@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');*/
 
 body {
   margin: 0;
@@ -66,6 +66,12 @@ body {
 
 /* User profile */
 
+.user-profile-box {
+  display: flex;
+  height: 90vh;
+  justify-content: center;
+}
+
 .user-profile-wrapper {
   margin: 10px 50px;
   padding: 5px;
@@ -102,4 +108,199 @@ body {
 
 .change-password-toggle {
   margin: 20px 0px 5px 0px;
+}
+
+/* END USER SIGH */
+
+/* Filter box */
+.filter-box {
+  margin: 5px 0px 0px 0px;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0px 5px 0px 0px;
+}
+
+.filter-divider {
+  margin-bottom: 5px;
+}
+
+.filtered-list-content {
+  width: 100%;
+  height: 100%;
+  margin-left: 2px!important;
+  overflow-y: auto;
+}
+
+.filtered-grid-content {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  overflow-y: auto;
+}
+
+.filter-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* END Filter box */
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  overflow: auto;
+}
+
+.map-container {
+  width: 40vw;
+}
+
+/* EVENT CARD PREVIEW */
+.event-card-box {
+  margin: 5px!important;
+}
+
+.card-event-header div {
+  padding-right: 0px!important;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card-event-header {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card-event-no-picture {
+  height: 25%;
+  width: 20%!important;
+  max-width: 25%!important;
+  min-width: 20%!important;
+  margin: 2% 0% 2% 42%;
+  opacity: 0.8;
+  transform: translate(0%, 8%);
+}
+/*height: 25%;
+    width: 20%!important;
+    max-width: 25%!important;
+    min-width: 20%!important;
+    margin: 2% 0% 2% 42%;
+    opacity: 0.8;*/
+.card-event-picture {
+
+}
+
+.card-event-title {
+  padding: 5px 5px 0px 16px!important;
+  height: 15vh;
+  min-height: 12vh;
+}
+
+.card-event-title span {
+  font-size: 26px!important;
+  font-weight: 300!important;
+  height: auto;
+}
+
+.card-event-description-text {
+  height: auto;
+  min-height: 10vh;
+  overflow-y: auto;
+}
+
+.card-event-picture-text-divider {
+  margin: 0px 0px 0px 0px;
+}
+
+.card-event-actions-box {
+  padding-bottom: 0px!important;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/*END EVENT CARD PREVIEW */
+
+
+/*START EVENT CARD DETAILS */
+
+.event-card-details-box {
+  margin: 5px;
+}
+
+.event-card-details-image {
+  height: 35vh;
+  min-height: 15vh;
+  width: 48%!important;
+  min-width: 25%!important;
+}
+
+.event-card-details-no-image {
+  height: 35vh;
+  min-height: 15vh;
+  /*width: 51%!important;*/
+  width: 29%!important;
+  max-width: 51%!important;
+  min-width: 29%!important;
+  margin: 0% 0% 1% 35%;
+  opacity: 0.8;
+}
+
+.event-card-details-description {
+  height: auto;
+  min-height: 9vh;
+  padding: 5px 0px 0px 16px!important;
+  overflow-y: auto;
+}
+
+.event-card-details-playground-title {
+  padding: 5px 0px 0px 16px;
+}
+
+.event-card-details-more-info-text {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.event-card-details-actions-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.event-card-details-actions-button {
+  margin: 0px;
+}
+
+.event-details-dialog-box {
+  text-align: center;
+  font-weight: 400;
+  color: #ffcc00;
+}
+
+/*END EVENT CARD DETAILS*/
+
+.left-content-box {
+  width: 60vw;
+  max-height: 83vh;
+}
+
+#map {
+  height: 90vh;
+  width: 100%;
 }

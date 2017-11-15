@@ -2,26 +2,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import playgroundIcon from '../styles/images/playground.png';
 import userMarkerIcon from '../styles/images/user-marker-icon.png';
 
 const propTypes = {
-  events: PropTypes.arrayOf(PropTypes.shape({
-    lat: PropTypes.number,
-    lng: PropTypes.number,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    creator: PropTypes.string,
-    dateTime: PropTypes.string,
-  })),
-};
-
-const styles = {
-  map: {
-    height: '100%',
-    width: '100%',
-  },
+  events: PropTypes.array,
 };
 
 class Map extends Component {
@@ -32,11 +17,27 @@ class Map extends Component {
         lat: -25.363,
         lng: 131.044,
       },
+      markers: [],
     };
-    google.maps.event.addDomListenerOnce(window, 'load', () => {
+  }
+
+  componentDidMount() {
+    this.initializeMap(this.state.defaultUserPosition);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.state.markers.map(marker => marker.setMap(null));
+    this.initializeEventPoints(nextProps.events);
+  }
+
+  componentWillUnmount() {
+    this.state.markers.map(marker => marker.setMap(null));
+  }
+
+  componentDidUpdate() {
+    if (!this.map) {
       this.initializeMap(this.state.defaultUserPosition);
-      this.initializeEventPoints(props.events);
-    });
+    }
   }
 
   infoWindow = (title, description, creator, dateTime) => (
@@ -50,7 +51,7 @@ class Map extends Component {
 
   initializeMap(defaultPosition) {
     this.map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 16,
+      zoom: 14,
       center: {
         ...defaultPosition,
         mapTypeId: 'roadmap',
@@ -69,9 +70,34 @@ class Map extends Component {
         this.map.setCenter(currentPosition);
       });
     } else {
-      // TODO: show message for user
       console.log('Browser doesn\'t support geolocation'); // eslint-disable-line
     }
+  }
+
+  initializeEventPoints(events) {
+    events.map((event) => { // eslint-disable-line
+      const marker = new google.maps.Marker({
+        position: {
+          lat: event.playground_latitude,
+          lng: event.playground_longitude,
+        },
+        icon: playgroundIcon,
+        title: event.event_title,
+        map: this.map,
+      });
+      const infoWindow = new google.maps.InfoWindow({
+        content: this.infoWindow(
+          event.event_title,
+          event.playground_description,
+          event.creator_name,
+          event.event_datetime,
+        ),
+      });
+      marker.addListener('click', () => {
+        infoWindow.open(this.map, marker);
+      });
+      this.state.markers.push(marker);
+    });
   }
 
   initializeUserLocation(position) {
@@ -85,34 +111,9 @@ class Map extends Component {
     });
   }
 
-  initializeEventPoints(events) {
-    if (!_.isEmpty(events)) {
-      events.map((event) => { // eslint-disable-line
-        const marker = new google.maps.Marker({
-          position: {
-            lat: event.lat,
-            lng: event.lng,
-          },
-          icon: playgroundIcon,
-          title: event.title,
-          map: this.map,
-        });
-        const infoWindow = new google.maps.InfoWindow({
-          content: this.infoWindow(event.title, event.description, event.creator, event.dateTime),
-        });
-        marker.addListener('click', () => {
-          infoWindow.open(this.map, marker);
-        });
-      });
-    } else {
-      // TODO: meassage for user
-      console.log('dont have points'); // eslint-disable-line
-    }
-  }
-
   render() {
     return (
-      <div style={styles.map} id="map" />
+      <div id="map" />
     );
   }
 }

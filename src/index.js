@@ -33,7 +33,9 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-  localStorage.setItem('user', JSON.stringify(store.getState().user));
+  const state = store.getState();
+  localStorage.setItem('user', JSON.stringify(state.user));
+  localStorage.setItem('token', JSON.stringify(state.user.details ? state.user.details.token : ''));
 });
 
 const { isLoggedIn } = store.getState().user;

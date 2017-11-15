@@ -1,66 +1,107 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import _ from 'lodash';
+import { getEvents } from '../../actions/events';
+import { subscribeEventControl, favoritePlaygroundControl } from '../../actions/user';
+import EventsFilter from '../../components/Events/Filter';
 import Map from '../../components/Map';
-import Event from '../../components/Events/Event';
+import EventPreview from '../../components/Events/Preview';
 
-const styles = {
-  wrap: {
-    width: '100%',
-    overflow: 'auto',
-  },
-  events: {
-    width: '60%',
-    float: 'left',
-    height: '100vh',
-  },
-  mapContainer: {
-    width: '40%',
-    float: 'right',
-    height: '100vh',
-  },
+const propTypes = {
+  events: PropTypes.array,
+  userId: PropTypes.number,
+  actions: PropTypes.shape({
+    getEvents: PropTypes.func,
+    subscribeEventControl: PropTypes.func,
+    favoritePlaygroundControl: PropTypes.func,
+    updateSubscribedEvents: PropTypes.func,
+  }),
 };
 
-const eventsData = [
-  { // TODO: build event data from playground with event
-    lat: 52.6704471,
-    lng: 24.8366419,
-    title: 'Первый ивент',
-    description: 'blablablablbalbalba',
-    creator: 'alexpo',
-    dateTime: '25.02.2017 8:35',
-  },
-  {
-    lat: 51.6704471,
-    lng: 22.8366419,
-    title: 'Второй ивент',
-    description: 'blablablablbalbalba',
-    creator: 'Darya',
-    dateTime: '25.02.2017 8:35',
-  },
-  {
-    lat: 51.4471,
-    lng: 22.86419,
-    title: 'Третий ивент',
-    description: 'blablablablbalbalba',
-    creator: 'Helen',
-    dateTime: '25.02.2017 8:35',
-  },
-];
-
 class EventsWrapper extends Component {
+  componentDidMount() {
+    this.props.actions.getEvents();
+  }
+
+  renderEvents = events => (
+    events.map(event => (
+      <EventPreview
+        key={event.event_id}
+        userId={this.props.userId}
+        isSubscribed={event.isSubscribed}
+        isFavorite={event.isFavorite}
+        subscribeEventControl={this.props.actions.subscribeEventControl}
+        favoritePlaygroundControl={this.props.actions.favoritePlaygroundControl}
+        event={{
+          id: event.event_id,
+          title: event.event_title,
+          datetime: moment(event.event_datetime).format('lll'),
+        }}
+        playground={{
+          id: event.playground_id,
+          name: event.playground_name,
+          description: event.playground_description,
+          images: event.playground_images,
+          address: event.playground_address,
+          creator: event.playground_creator,
+          lat: event.playground_latitude,
+          lng: event.playground_longitude,
+        }}
+        creator={{
+          name: event.creator_name,
+          image: event.creator_image,
+          email: event.creator_email,
+          phone: event.creator_phone,
+        }}
+      />
+    ))
+  );
+
   render() {
+    const { events } = this.props;
     return (
-      <div style={styles.wrap} className="events-container">
-        <div style={styles.events} className="events">
-          <div>
-            <Event />
-          </div>
+      <div className="content-container">
+        <div className="left-content-box">
+          <EventsFilter>
+            { this.renderEvents(events) }
+          </EventsFilter>
         </div>
-        <div style={styles.mapContainer} className="map-container">
-          <Map events={eventsData} />
+        <div className="map-container">
+          <Map events={events} />
         </div>
       </div>
     );
   }
 }
 
-export default EventsWrapper;
+const mapStateToProps = (state) => {
+  const userId = state.user.details.id;
+  const { subscribedEvents } = state.user.details;
+  const { favoritePlaygrounds } = state.user.details;
+
+  const events = state.events.details.map(event => ({
+    ...event,
+    isSubscribed: _.includes(subscribedEvents, event.event_id),
+    isFavorite: _.includes(favoritePlaygrounds, event.playground_id),
+  }));
+
+  return {
+    events,
+    userId,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getEvents,
+    subscribeEventControl,
+    favoritePlaygroundControl,
+  }, dispatch),
+});
+
+EventsWrapper.propTypes = propTypes;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EventsWrapper));

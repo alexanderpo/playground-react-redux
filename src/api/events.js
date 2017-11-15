@@ -5,37 +5,25 @@ const responseChecker = (response) => {
   return response.json();
 };
 
-export const signIn = data => fetch('/api/v1/signin', {
-  method: 'post',
+export const getEvents = () => fetch('/api/v1/events', {
+  method: 'get',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
     'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
   },
-  body: JSON.stringify(data),
 }).then(response => responseChecker(response));
 
-export const signUp = data => fetch('/api/v1/signup', {
-  method: 'post',
+export const getEvent = id => fetch(`/api/v1/events/${id}`, {
+  method: 'get',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
     'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
   },
-  body: JSON.stringify(data),
 }).then(response => responseChecker(response));
 
-export const subscribeEventControl = data => fetch('/api/v1/users/events/subscribe', {
-  method: 'post',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
-  },
-  body: JSON.stringify(data),
-}).then(response => responseChecker(response));
-
-export const favoritePlaygroundControl = data => fetch('/api/v1/users/favorite/playground', {
+export const createEvent = data => fetch('/api/v1/events', {
   method: 'post',
   headers: {
     Accept: 'application/json',

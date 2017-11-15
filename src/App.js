@@ -28,7 +28,7 @@ class App extends Component {
   render() {
     const { user, actions } = this.props;
     return (
-      <div className="header-container">
+      <div>
         <LeftSlideMenu user={user} logout={actions.logout} />
         <div>
           { this.props.children }
