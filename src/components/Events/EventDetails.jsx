@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import moment from 'moment';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, Snackbar } from 'material-ui';
 import { Card, CardHeader, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 import UserProfilePhoto from '../../styles/images/user.png';
@@ -18,6 +18,10 @@ class EventDetails extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      dialogBoxIsOpen: false,
+      dialogBoxText: '',
+    };
     this.subscribeEventHandler = this.subscribeEventHandler.bind(this);
   }
 
@@ -34,11 +38,17 @@ class EventDetails extends Component {
       const subscribers = subscribe ?
         Number(event.subscribed_users) + 1 : Number(event.subscribed_users) - 1;
       updateSubscribers({ isSubscribe: subscribe, subscribed_users: subscribers });
+      this.setState({
+        dialogBoxIsOpen: true,
+        dialogBoxText: subscribe ?
+          `Subscribed! Event start ${moment(event.event_datetime).format('lll')}.` : 'Unsubscribed!',
+      });
     });
   }
 
   render() {
     const { event } = this.props;
+    const { dialogBoxIsOpen, dialogBoxText } = this.state;
     return (
       <div>
         <Card zDepth={3} className="event-card-details-box">
@@ -85,6 +95,13 @@ class EventDetails extends Component {
             />
           </CardActions>
         </Card>
+        <Snackbar
+          className="event-details-dialog-box"
+          open={dialogBoxIsOpen}
+          message={dialogBoxText}
+          autoHideDuration={4000}
+          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
+        />
       </div>
     );
   }

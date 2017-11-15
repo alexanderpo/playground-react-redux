@@ -287,6 +287,12 @@ body {
   margin: 0px;
 }
 
+.event-details-dialog-box {
+  text-align: center;
+  font-weight: 400;
+  color: #ffcc00;
+}
+
 /*END EVENT CARD DETAILS*/
 
 .left-content-box {

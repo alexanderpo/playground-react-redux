@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
-import { Divider, IconButton } from 'material-ui';
+import { Divider, IconButton, Snackbar } from 'material-ui';
 import NotFavoriteIcon from 'material-ui/svg-icons/toggle/star-border';
 import FavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star';
 import SubscribeToEventIcon from 'material-ui/svg-icons/maps/directions-run';
@@ -45,6 +45,8 @@ class EventPreview extends Component {
     this.state = {
       isFavoritePlayground: false,
       isSubscribeEvent: this.props.isSubscribed,
+      dialogBoxIsOpen: false,
+      dialogBoxText: '',
     };
 
     this.subscribeEventHandler = this.subscribeEventHandler.bind(this);
@@ -54,14 +56,23 @@ class EventPreview extends Component {
     const { userId, event, subscribeEventControl } = this.props;
     subscribeEventControl(userId, event.id).then((action) => {
       const { subscribedEvents } = action.payload;
+      const subscribe = _.includes(subscribedEvents, event.id);
       this.setState({
-        isSubscribeEvent: _.includes(subscribedEvents, event.id),
+        isSubscribeEvent: subscribe,
+        dialogBoxIsOpen: true,
+        dialogBoxText: subscribe ?
+          `Subscribed! Event start ${event.datetime}.` : 'Unsubscribed!',
       });
     });
   }
 
   render() {
-    const { isFavoritePlayground, isSubscribeEvent } = this.state;
+    const {
+      isFavoritePlayground,
+      isSubscribeEvent,
+      dialogBoxIsOpen,
+      dialogBoxText,
+    } = this.state;
     const {
       event,
       playground,
@@ -115,6 +126,13 @@ class EventPreview extends Component {
           <Divider className="card-event-picture-text-divider" />
           <CardTitle subtitle={`Start: ${event.datetime}`} />
         </Card>
+        <Snackbar
+          className="event-details-dialog-box"
+          open={dialogBoxIsOpen}
+          message={dialogBoxText}
+          autoHideDuration={4000}
+          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
+        />
       </div>
     );
   }
