@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
 import user from './user';
 import events from './Events/events';
-import currentEventDetails from './Events/event';
+import currentEvent from './Events/event';
 import playgrounds from './Playgrounds/index';
+import currentPlayground from './Playgrounds/playground';
 
 const initialState = {};
 
 const appReducer = combineReducers({
   user,
   events,
+  currentEvent,
   playgrounds,
-  currentEventDetails,
+  currentPlayground,
 });
 
 const rootReducer = (state = initialState, action) => {

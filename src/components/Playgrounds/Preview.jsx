@@ -10,6 +10,7 @@ import { Card, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/C
 import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 
 const propTypes = {
+  history: PropTypes.object,
   userId: PropTypes.number,
   favoritePlaygroundControl: PropTypes.func,
   playground: PropTypes.shape({
@@ -74,7 +75,9 @@ class PlaygroundPreview extends Component {
           </CardText>
           <CardTitle subtitle={playground.address} />
           <CardActions className="playground-card-actions-box">
-            <IconButton>
+            <IconButton
+              onClick={() => { this.props.history.push(`/playgrounds/${playground.id}`); }}
+            >
               <PlaygroundDetailsIcon />
             </IconButton>
             <IconButton

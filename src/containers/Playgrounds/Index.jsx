@@ -18,7 +18,7 @@ const propTypes = {
   }),
 };
 
-class PlaygroundsWrapper extends Component {
+class PlaygroundsPreview extends Component {
   componentDidMount() {
     this.props.actions.getPlaygrounds();
   }
@@ -77,5 +77,5 @@ const mapDispatchToProps = dispatch => ({
   }, dispatch),
 });
 
-PlaygroundsWrapper.propTypes = propTypes;
-export default connect(mapStateToProps, mapDispatchToProps)(PlaygroundsWrapper);
+PlaygroundsPreview.propTypes = propTypes;
+export default connect(mapStateToProps, mapDispatchToProps)(PlaygroundsPreview);

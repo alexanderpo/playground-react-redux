@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import moment from 'moment';
 import { getEvent, updateSubscribers } from '../../actions/events';
 import { subscribeEventControl } from '../../actions/user';
 import Map from '../../components/Map';
@@ -12,7 +13,7 @@ import EventDetails from '../../components/Events/Details';
 const propTypes = {
   match: PropTypes.object,
   userId: PropTypes.number,
-  currentEvent: PropTypes.array,
+  placemarks: PropTypes.array,
   singleEvent: PropTypes.object,
   actions: PropTypes.shape({
     getEvent: PropTypes.func,
@@ -29,7 +30,7 @@ class EventDetailsWrapper extends Component {
 
   render() {
     const {
-      currentEvent,
+      placemarks,
       singleEvent,
       userId,
       actions,
@@ -45,7 +46,7 @@ class EventDetailsWrapper extends Component {
           />
         </div>
         <div className="map-container">
-          <Map events={currentEvent} />
+          <Map placemarks={placemarks} />
         </div>
       </div>
     );
@@ -55,17 +56,25 @@ class EventDetailsWrapper extends Component {
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
   const { subscribedEvents } = state.user.details;
-  const currentEvent = state.currentEventDetails.details ? state.currentEventDetails.details : [];
-  const event = state.currentEventDetails.details ? state.currentEventDetails.details[0] : {};
+  const event = state.currentEvent.details ? state.currentEvent.details[0] : {};
 
   const singleEvent = Object.assign({}, event, {
     isSubscribe: _.includes(subscribedEvents, event.event_id),
   });
 
+  const placemarks = state.currentEvent.details ? state.currentEvent.details.map(item => ({
+    latitude: item.playground_latitude,
+    longitude: item.playground_longitude,
+    title: item.event_title,
+    description: item.playground_description,
+    datetime: moment(item.event_datetime).format('lll'),
+    creator: item.creator_name,
+  })) : [];
+
   return {
     userId,
     singleEvent,
-    currentEvent,
+    placemarks,
   };
 };
 

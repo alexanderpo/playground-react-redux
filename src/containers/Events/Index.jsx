@@ -13,6 +13,7 @@ import EventPreview from '../../components/Events/Preview';
 
 const propTypes = {
   events: PropTypes.array,
+  placemarks: PropTypes.array,
   userId: PropTypes.number,
   actions: PropTypes.shape({
     getEvents: PropTypes.func,
@@ -62,7 +63,7 @@ class EventsWrapper extends Component {
   );
 
   render() {
-    const { events } = this.props;
+    const { events, placemarks } = this.props;
     return (
       <div className="content-container">
         <div className="left-content-box">
@@ -71,7 +72,7 @@ class EventsWrapper extends Component {
           </EventsFilter>
         </div>
         <div className="map-container">
-          <Map events={events} />
+          <Map placemarks={placemarks} />
         </div>
       </div>
     );
@@ -89,8 +90,18 @@ const mapStateToProps = (state) => {
     isFavorite: _.includes(favoritePlaygrounds, event.playground_id),
   }));
 
+  const placemarks = state.events.details.map(event => ({
+    latitude: event.playground_latitude,
+    longitude: event.playground_longitude,
+    title: event.event_title,
+    description: event.playground_description,
+    datetime: moment(event.event_datetime).format('lll'),
+    creator: event.creator_name,
+  }));
+
   return {
     events,
+    placemarks,
     userId,
   };
 };
