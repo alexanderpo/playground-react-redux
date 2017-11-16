@@ -1,7 +1,9 @@
 import { handle } from 'redux-pack';
 import { GET_PLAYGROUNDS } from '../../actions/playgrounds';
 
-const initialState = {};
+const initialState = {
+  details: [],
+};
 
 export default function (state = initialState, action) {
   const { type, payload } = action;

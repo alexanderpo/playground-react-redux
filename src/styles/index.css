@@ -293,7 +293,19 @@ body {
   color: #ffcc00;
 }
 
-/*END EVENT CARD DETAILS*/
+/* END EVENT CARD DETAILS */
+
+/* START PLAYGROUND CARD PREVIEW */
+
+.playgrounds-preview-container {
+  
+}
+
+.playground-card-box {
+
+}
+
+/* END PLAYGROUND CARD PREVIEW */
 
 .left-content-box {
   width: 60vw;
