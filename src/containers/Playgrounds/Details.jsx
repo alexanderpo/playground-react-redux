@@ -6,16 +6,18 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 import { getPlayground } from '../../actions/playgrounds';
+import { favoritePlaygroundControl } from '../../actions/user';
 import Map from '../../components/Map';
 import PlaygroundDetails from '../../components/Playgrounds/Details';
 
 const propTypes = {
   placemarks: PropTypes.array,
   userId: PropTypes.number,
-  playground: PropTypes.array,
+  playgroundDetail: PropTypes.object,
   match: PropTypes.object,
   actions: PropTypes.shape({
     getPlayground: PropTypes.func,
+    favoritePlaygroundControl: PropTypes.func,
   }),
 };
 
@@ -26,11 +28,20 @@ class PlaygroundsDetails extends Component {
   }
 
   render() {
-    const { playground, placemarks } = this.props;
+    const {
+      playgroundDetail,
+      userId,
+      actions,
+      placemarks,
+    } = this.props;
     return (
       <div className="content-container">
         <div className="left-content-box">
-          <h2> asdadsa</h2>
+          <PlaygroundDetails
+            userId={userId}
+            playground={playgroundDetail}
+            favoriteControl={actions.favoritePlaygroundControl}
+          />
         </div>
         <div className="map-container">
           <Map placemarks={placemarks} />
@@ -43,10 +54,12 @@ class PlaygroundsDetails extends Component {
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
   const { favoritePlaygrounds } = state.user.details;
-  const playground = state.currentPlayground.details.map(ground => ({
-    ...ground,
-    isFavorite: _.includes(favoritePlaygrounds, ground.id),
-  }));
+
+  const playground = state.currentPlayground.details ? state.currentPlayground.details[0] : {};
+
+  const playgroundDetail = Object.assign({}, playground, {
+    isFavorite: _.includes(favoritePlaygrounds, playground.id),
+  });
 
   const placemarks = state.currentPlayground.details ?
     state.currentPlayground.details.map(point => ({
@@ -60,7 +73,7 @@ const mapStateToProps = (state) => {
 
   return {
     userId,
-    playground,
+    playgroundDetail,
     placemarks,
   };
 };
@@ -68,6 +81,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getPlayground,
+    favoritePlaygroundControl,
   }, dispatch),
 });
 

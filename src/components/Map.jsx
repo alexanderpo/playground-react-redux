@@ -82,7 +82,6 @@ class Map extends Component {
   }
 
   initializeEventPoints(placemarks) {
-    console.log(placemarks);
     placemarks.map((placemark) => { // eslint-disable-line
       const marker = new google.maps.Marker({
         position: {
