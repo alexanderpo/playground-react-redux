@@ -64,7 +64,7 @@ class LeftSlideMenu extends Component {
             onClick={() => this.setState({ open: false })}
           />
           <MenuItem leftIcon={<MyEventsIcon />}>My events</MenuItem>
-          <MenuItem leftIcon={<VisitedEventsIcon />}>Visited events</MenuItem>
+          <MenuItem leftIcon={<VisitedEventsIcon />}>Upcoming events</MenuItem>
           <Divider />
           <MenuItem disabled={true} style={{ textAlign: 'center' }}>Playgrounds</MenuItem>
           <Divider />
@@ -74,7 +74,12 @@ class LeftSlideMenu extends Component {
             containerElement={<Link to="/playgrounds" />}
             onClick={() => this.setState({ open: false })}
           />
-          <MenuItem leftIcon={<FavoriteIcon />}>Favorites</MenuItem>
+          <MenuItem
+            primaryText="Favorites"
+            leftIcon={<FavoriteIcon />}
+            containerElement={<Link to="/playgrounds/favorites" />}
+            onClick={() => this.setState({ open: false })}
+          />
           <Divider />
           <MenuItem disabled={true} style={{ textAlign: 'center' }}>Create</MenuItem>
           <Divider />

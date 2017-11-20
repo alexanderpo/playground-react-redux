@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import { withRouter } from 'react-router-dom';
 import moment from 'moment';
-import { getPlaygrounds } from '../../actions/playgrounds';
-import { favoritePlaygroundControl } from '../../actions/user';
+import _ from 'lodash';
+import { getFavoritePlaygrounds, favoritePlaygroundControl } from '../../actions/user';
 import EventsFilter from '../../components/Events/Filter';
 import PlaygroundPreview from '../../components/Playgrounds/Preview';
 
@@ -13,14 +13,15 @@ const propTypes = {
   userId: PropTypes.number,
   playgrounds: PropTypes.array,
   actions: PropTypes.shape({
-    getPlaygrounds: PropTypes.func,
+    getFavoritePlaygrounds: PropTypes.func,
     favoritePlaygroundControl: PropTypes.func,
   }),
 };
 
-class PlaygroundsPreview extends Component {
+class FavoritePlaygrounds extends Component {
   componentDidMount() {
-    this.props.actions.getPlaygrounds();
+    const { userId, actions } = this.props;
+    actions.getFavoritePlaygrounds(userId);
   }
 
   renderPlaygrounds = playgrounds => (
@@ -60,7 +61,7 @@ class PlaygroundsPreview extends Component {
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
   const { favoritePlaygrounds } = state.user.details;
-  const playgrounds = state.playgrounds.all.details.map(playground => ({
+  const playgrounds = state.playgrounds.favorites.details.map(playground => ({
     ...playground,
     isFavorite: _.includes(favoritePlaygrounds, playground.id),
   }));
@@ -70,12 +71,13 @@ const mapStateToProps = (state) => {
   };
 };
 
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPlaygrounds,
+    getFavoritePlaygrounds,
     favoritePlaygroundControl,
   }, dispatch),
 });
 
-PlaygroundsPreview.propTypes = propTypes;
-export default connect(mapStateToProps, mapDispatchToProps)(PlaygroundsPreview);
+FavoritePlaygrounds.propTypes = propTypes;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FavoritePlaygrounds));

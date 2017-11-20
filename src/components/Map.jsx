@@ -6,7 +6,14 @@ import playgroundIcon from '../styles/images/playground.png';
 import userMarkerIcon from '../styles/images/user-marker-icon.png';
 
 const propTypes = {
-  events: PropTypes.array,
+  placemarks: PropTypes.arrayOf(PropTypes.shape({
+    lat: PropTypes.float,
+    lng: PropTypes.float,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    datetime: PropTypes.string,
+    creator: PropTypes.string,
+  })),
 };
 
 class Map extends Component {
@@ -27,17 +34,17 @@ class Map extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.state.markers.map(marker => marker.setMap(null));
-    this.initializeEventPoints(nextProps.events);
-  }
-
-  componentWillUnmount() {
-    this.state.markers.map(marker => marker.setMap(null));
+    this.initializeEventPoints(nextProps.placemarks);
   }
 
   componentDidUpdate() {
     if (!this.map) {
       this.initializeMap(this.state.defaultUserPosition);
     }
+  }
+
+  componentWillUnmount() {
+    this.state.markers.map(marker => marker.setMap(null));
   }
 
   infoWindow = (title, description, creator, dateTime) => (
@@ -74,23 +81,23 @@ class Map extends Component {
     }
   }
 
-  initializeEventPoints(events) {
-    events.map((event) => { // eslint-disable-line
+  initializeEventPoints(placemarks) {
+    placemarks.map((placemark) => { // eslint-disable-line
       const marker = new google.maps.Marker({
         position: {
-          lat: event.playground_latitude,
-          lng: event.playground_longitude,
+          lat: placemark.latitude,
+          lng: placemark.longitude,
         },
         icon: playgroundIcon,
-        title: event.event_title,
+        title: placemark.title,
         map: this.map,
       });
       const infoWindow = new google.maps.InfoWindow({
         content: this.infoWindow(
-          event.event_title,
-          event.playground_description,
-          event.creator_name,
-          event.event_datetime,
+          placemark.title,
+          placemark.description,
+          placemark.creator,
+          placemark.datetime,
         ),
       });
       marker.addListener('click', () => {

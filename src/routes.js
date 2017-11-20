@@ -8,7 +8,9 @@ import SignUp from './containers/SignUp';
 import UserProfile from './containers/UserProfile';
 import Events from './containers/Events/Index';
 import EventDetailsWrapper from './containers/Events/Details';
-import PlaygroundsWrapper from './containers/Playgrounds/Index';
+import PlaygroundsPreview from './containers/Playgrounds/Index';
+import PlaygroundsDetails from './containers/Playgrounds/Details';
+import FavoritePlaygrounds from './containers/Playgrounds/Favorites';
 
 const Routes = () => (
   <Router>
@@ -19,9 +21,11 @@ const Routes = () => (
         <div>
           <PublicRouteCreator isExact={true} path="/" component={<Events />} />
           <PublicRouteCreator isExact={false} path="/profile" component={<UserProfile />} />
-
-          <PublicRouteCreator isExact={true} path="/playgrounds" component={<PlaygroundsWrapper />} />
-
+          <PublicRouteCreator isExact={true} path="/playgrounds" component={<PlaygroundsPreview />} />
+          <Switch>
+            <PublicRouteCreator isExact={true} path="/playgrounds/favorites" component={<FavoritePlaygrounds />} />
+            <PublicRouteCreator isExact={false} path="/playgrounds/:playgroundId" component={<PlaygroundsDetails />} />
+          </Switch>
           <PublicRouteCreator isExact={true} path="/events" component={<Events />} />
           <PublicRouteCreator isExact={false} path="/events/:eventId" component={<EventDetailsWrapper />} />
         </div>

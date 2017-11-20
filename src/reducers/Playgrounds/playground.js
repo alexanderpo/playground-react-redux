@@ -1,14 +1,12 @@
 import { handle } from 'redux-pack';
-import { GET_PLAYGROUNDS } from '../../actions/playgrounds';
+import { GET_PLAYGROUND } from '../../actions/playgrounds';
 
-const initialState = {
-  details: [],
-};
+const initialState = {};
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case GET_PLAYGROUNDS:
+    case GET_PLAYGROUND:
       return handle(state, action, {
         start: prevState => ({
           ...prevState,

@@ -1,36 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
-import { Divider, IconButton, Snackbar } from 'material-ui';
+import moment from 'moment';
+import { IconButton, Snackbar } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import NotFavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star-border';
 import FavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star';
-import PlaygroundDetailsIcon from 'material-ui/svg-icons/maps/layers';
-import { Card, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 
 const propTypes = {
-  history: PropTypes.object,
   userId: PropTypes.number,
-  favoritePlaygroundControl: PropTypes.func,
-  playground: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    images: PropTypes.array,
-    isFavorite: PropTypes.bool,
-    address: PropTypes.string,
-    created: PropTypes.string,
-    creator: PropTypes.string,
-    lat: PropTypes.float,
-    lng: PropTypes.float,
-  }),
+  playground: PropTypes.object,
+  favoriteControl: PropTypes.func,
 };
 
-class PlaygroundPreview extends Component {
+class PlaygroundDetails extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isFavorite: this.props.playground.isFavorite,
       dialogBoxIsOpen: false,
@@ -41,9 +27,9 @@ class PlaygroundPreview extends Component {
   }
 
   favoritePlaygroundHandler() {
-    const { userId, playground, favoritePlaygroundControl } = this.props;
+    const { userId, playground, favoriteControl } = this.props;
 
-    favoritePlaygroundControl(userId, playground.id).then((action) => {
+    favoriteControl(userId, playground.id).then((action) => {
       const { favoritePlaygrounds } = action.payload;
       const favorite = _.includes(favoritePlaygrounds, playground.id);
       this.setState({
@@ -60,26 +46,25 @@ class PlaygroundPreview extends Component {
     const { isFavorite, dialogBoxIsOpen, dialogBoxText } = this.state;
     return (
       <div>
-        <Card zDepth={3} className="playground-card-box">
-          <CardMedia overlay={<CardTitle title={playground.name} />}>
+        <Card zDepth={3}>
+          <CardMedia
+            overlay={<CardTitle title={playground.name} />}
+          >
             {
               !_.isEmpty(playground.images) ? (
-                <img className="playground-card-picture" src={playground.images} alt="" />
+                // TODO: implement map playgrounds images in img tag
+                <img src={playground.images} alt="" />
               ) : (
-                <img className="playground-card-no-picture" src={PromoEventPhoto} alt="" />
+                <img src={PromoEventPhoto} alt="" />
               )
             }
           </CardMedia>
-          <CardText className="playground-card-description-text">
-            { playground.description }
+          <CardText>
+            {playground.description}
           </CardText>
           <CardTitle subtitle={playground.address} />
-          <CardActions className="playground-card-actions-box">
-            <IconButton
-              onClick={() => { this.props.history.push(`/playgrounds/${playground.id}`); }}
-            >
-              <PlaygroundDetailsIcon />
-            </IconButton>
+          <CardTitle subtitle={`${moment(playground.created_at).format('lll')} by ${playground.creator}`} />
+          <CardActions>
             <IconButton
               iconStyle={isFavorite ? { color: 'rgba(239, 200, 75, 1)' } : {}}
               onClick={this.favoritePlaygroundHandler}
@@ -89,11 +74,8 @@ class PlaygroundPreview extends Component {
               }
             </IconButton>
           </CardActions>
-          <Divider className="playground-card-picture-text-divider" />
-          <CardTitle subtitle={`${playground.created} by ${playground.creator}`} />
         </Card>
         <Snackbar
-          className="playground-preview-dialog-box"
           open={dialogBoxIsOpen}
           message={dialogBoxText}
           autoHideDuration={4000}
@@ -104,5 +86,5 @@ class PlaygroundPreview extends Component {
   }
 }
 
-PlaygroundPreview.propTypes = propTypes;
-export default withRouter(PlaygroundPreview);
+PlaygroundDetails.propTypes = propTypes;
+export default PlaygroundDetails;

@@ -13,3 +13,12 @@ export const getPlaygrounds = () => fetch('/api/v1/playgrounds', {
     'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
   },
 }).then(response => responseChecker(response));
+
+export const getPlayground = id => fetch(`/api/v1/playgrounds/${id}`, {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));
