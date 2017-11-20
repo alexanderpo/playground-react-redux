@@ -55,14 +55,14 @@ const mapStateToProps = (state) => {
   const userId = state.user.details.id;
   const { favoritePlaygrounds } = state.user.details;
 
-  const playground = state.currentPlayground.details ? state.currentPlayground.details[0] : {};
+  const playground = state.playgrounds.current.details ? state.playgrounds.current.details[0] : {};
 
   const playgroundDetail = Object.assign({}, playground, {
     isFavorite: _.includes(favoritePlaygrounds, playground.id),
   });
 
-  const placemarks = state.currentPlayground.details ?
-    state.currentPlayground.details.map(point => ({
+  const placemarks = state.playgrounds.current.details ?
+    state.playgrounds.current.details.map(point => ({
       latitude: point.latitude,
       longitude: point.longitude,
       title: point.name,

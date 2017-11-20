@@ -56,13 +56,13 @@ class EventDetailsWrapper extends Component {
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
   const { subscribedEvents } = state.user.details;
-  const event = state.currentEvent.details ? state.currentEvent.details[0] : {};
+  const event = state.events.current.details ? state.events.current.details[0] : {};
 
   const singleEvent = Object.assign({}, event, {
     isSubscribe: _.includes(subscribedEvents, event.event_id),
   });
 
-  const placemarks = state.currentEvent.details ? state.currentEvent.details.map(item => ({
+  const placemarks = state.events.current.details ? state.events.current.details.map(item => ({
     latitude: item.playground_latitude,
     longitude: item.playground_longitude,
     title: item.event_title,

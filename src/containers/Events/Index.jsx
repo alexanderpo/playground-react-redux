@@ -84,13 +84,13 @@ const mapStateToProps = (state) => {
   const { subscribedEvents } = state.user.details;
   const { favoritePlaygrounds } = state.user.details;
 
-  const events = state.events.details.map(event => ({
+  const events = state.events.all.details.map(event => ({
     ...event,
     isSubscribed: _.includes(subscribedEvents, event.event_id),
     isFavorite: _.includes(favoritePlaygrounds, event.playground_id),
   }));
 
-  const placemarks = state.events.details.map(event => ({
+  const placemarks = state.events.all.details.map(event => ({
     latitude: event.playground_latitude,
     longitude: event.playground_longitude,
     title: event.event_title,

@@ -44,3 +44,12 @@ export const favoritePlaygroundControl = data => fetch('/api/v1/users/favorite/p
   },
   body: JSON.stringify(data),
 }).then(response => responseChecker(response));
+
+export const getFavoritePlaygrounds = id => fetch(`/api/v1/users/${id}/favorite/playgrounds`, {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));

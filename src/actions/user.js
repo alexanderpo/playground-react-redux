@@ -6,6 +6,7 @@ export const SIGN_UP = 'SIGN_UP';
 export const LOGOUT = 'LOGOUT';
 export const SUBSCRIBE_TO_EVENT = 'SUBSCRIBE_TO_EVENT';
 export const ADD_TO_FAVORITE_PLAYGROUND = 'ADD_TO_FAVORITE_PLAYGROUND';
+export const GET_FAVORITE_PLAYGROUNDS = 'GET_FAVORITE_PLAYGROUNDS';
 
 export const logout = createAction(LOGOUT);
 
@@ -45,3 +46,8 @@ export const favoritePlaygroundControl = (userId, playgroundId) => {
     promise: api.favoritePlaygroundControl(data),
   };
 };
+
+export const getFavoritePlaygrounds = id => ({
+  type: GET_FAVORITE_PLAYGROUNDS,
+  promise: api.getFavoritePlaygrounds(id),
+});
