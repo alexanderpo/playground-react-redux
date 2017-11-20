@@ -64,7 +64,12 @@ class LeftSlideMenu extends Component {
             onClick={() => this.setState({ open: false })}
           />
           <MenuItem leftIcon={<MyEventsIcon />}>My events</MenuItem>
-          <MenuItem leftIcon={<VisitedEventsIcon />}>Upcoming events</MenuItem>
+          <MenuItem
+            primaryText="Upcoming events"
+            leftIcon={<VisitedEventsIcon />}
+            containerElement={<Link to="/events/upcoming" />}
+            onClick={() => this.setState({ open: false })}
+          />
           <Divider />
           <MenuItem disabled={true} style={{ textAlign: 'center' }}>Playgrounds</MenuItem>
           <Divider />

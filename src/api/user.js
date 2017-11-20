@@ -53,3 +53,12 @@ export const getFavoritePlaygrounds = id => fetch(`/api/v1/users/${id}/favorite/
     'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
   },
 }).then(response => responseChecker(response));
+
+export const getUpcomingEvents = id => fetch(`/api/v1/users/${id}/events/upcoming`, {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));
