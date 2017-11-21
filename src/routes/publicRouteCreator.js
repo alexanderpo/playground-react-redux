@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import isLoggedIn from '../index';
 
 const propTypes = {
@@ -22,4 +22,4 @@ const PublicRouteCreator = ({ path, isExact, component }) => (
 );
 
 PublicRouteCreator.propTypes = propTypes;
-export default PublicRouteCreator;
+export default withRouter(PublicRouteCreator);
