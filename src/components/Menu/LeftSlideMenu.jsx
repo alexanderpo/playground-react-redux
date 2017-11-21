@@ -63,8 +63,18 @@ class LeftSlideMenu extends Component {
             containerElement={<Link to="/events" />}
             onClick={() => this.setState({ open: false })}
           />
-          <MenuItem leftIcon={<MyEventsIcon />}>My events</MenuItem>
-          <MenuItem leftIcon={<VisitedEventsIcon />}>Upcoming events</MenuItem>
+          <MenuItem
+            primaryText="My events"
+            leftIcon={<MyEventsIcon />}
+            containerElement={<Link to={`/${user.id}/events`} />}
+            onClick={() => this.setState({ open: false })}
+          />
+          <MenuItem
+            primaryText="Upcoming events"
+            leftIcon={<VisitedEventsIcon />}
+            containerElement={<Link to="/events/upcoming" />}
+            onClick={() => this.setState({ open: false })}
+          />
           <Divider />
           <MenuItem disabled={true} style={{ textAlign: 'center' }}>Playgrounds</MenuItem>
           <Divider />
@@ -83,13 +93,23 @@ class LeftSlideMenu extends Component {
           <Divider />
           <MenuItem disabled={true} style={{ textAlign: 'center' }}>Create</MenuItem>
           <Divider />
-          <MenuItem leftIcon={<CreateEventIcon />}>Event</MenuItem>
-          <MenuItem leftIcon={<CreatePlaygroundIcon />}>Playground</MenuItem>
+          <MenuItem
+            primaryText="Event"
+            leftIcon={<CreateEventIcon />}
+            containerElement={<Link to="/events/create" />}
+            onClick={() => this.setState({ open: false })}
+          />
+          <MenuItem
+            primaryText="Playground"
+            leftIcon={<CreatePlaygroundIcon />}
+            containerElement={<Link to="/playgrounds/create" />}
+            onClick={() => this.setState({ open: false })}
+          />
           <Divider />
           <MenuItem
             primaryText="Settings"
             leftIcon={<SettingsIcon />}
-            containerElement={<Link to="/profile" />}
+            containerElement={<Link to={`/${user.id}/profile`} />}
             onClick={() => this.setState({ open: false })}
           />
           <MenuItem

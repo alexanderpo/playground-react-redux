@@ -8,9 +8,13 @@ import SignUp from './containers/SignUp';
 import UserProfile from './containers/UserProfile';
 import Events from './containers/Events/Index';
 import EventDetailsWrapper from './containers/Events/Details';
+import UpcomingEvents from './containers/Events/Upcoming';
+import CreateEvent from './containers/Events/Create';
 import PlaygroundsPreview from './containers/Playgrounds/Index';
 import PlaygroundsDetails from './containers/Playgrounds/Details';
 import FavoritePlaygrounds from './containers/Playgrounds/Favorites';
+import CreatePlayground from './containers/Playgrounds/Create';
+import UserEvents from './containers/Events/User';
 
 const Routes = () => (
   <Router>
@@ -20,14 +24,22 @@ const Routes = () => (
       <App>
         <div>
           <PublicRouteCreator isExact={true} path="/" component={<Events />} />
-          <PublicRouteCreator isExact={false} path="/profile" component={<UserProfile />} />
+          <PublicRouteCreator isExact={false} path="/:userId/profile" component={<UserProfile />} />
+          <PublicRouteCreator isExact={false} path="/:userId/events" component={<UserEvents />} />
+
           <PublicRouteCreator isExact={true} path="/playgrounds" component={<PlaygroundsPreview />} />
           <Switch>
             <PublicRouteCreator isExact={true} path="/playgrounds/favorites" component={<FavoritePlaygrounds />} />
+            <PublicRouteCreator isExact={false} path="/playgrounds/create" component={<CreatePlayground />} />
             <PublicRouteCreator isExact={false} path="/playgrounds/:playgroundId" component={<PlaygroundsDetails />} />
           </Switch>
+
           <PublicRouteCreator isExact={true} path="/events" component={<Events />} />
-          <PublicRouteCreator isExact={false} path="/events/:eventId" component={<EventDetailsWrapper />} />
+          <Switch>
+            <PublicRouteCreator isExact={true} path="/events/upcoming" component={<UpcomingEvents />} />
+            <PublicRouteCreator isExact={false} path="/events/create" component={<CreateEvent />} />
+            <PublicRouteCreator isExact={false} path="/events/:eventId" component={<EventDetailsWrapper />} />
+          </Switch>
         </div>
       </App>
     </Switch>
