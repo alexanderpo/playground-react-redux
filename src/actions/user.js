@@ -3,11 +3,13 @@ import * as api from '../api/user';
 
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_UP = 'SIGN_UP';
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const LOGOUT = 'LOGOUT';
 export const SUBSCRIBE_TO_EVENT = 'SUBSCRIBE_TO_EVENT';
 export const ADD_TO_FAVORITE_PLAYGROUND = 'ADD_TO_FAVORITE_PLAYGROUND';
 export const GET_FAVORITE_PLAYGROUNDS = 'GET_FAVORITE_PLAYGROUNDS';
 export const GET_UPCOMING_EVENTS = 'GET_UPCOMING_EVENTS';
+
 
 export const logout = createAction(LOGOUT);
 
@@ -29,6 +31,21 @@ export const signUp = (name, email, password, rePassword) => {
   return {
     type: SIGN_UP,
     promise: api.signUp(data),
+  };
+};
+
+export const updateProfile = (id, name, phone, image, password, isPasswordChange) => {
+  const data = {
+    id,
+    name,
+    phone,
+    image,
+    password,
+    isPasswordChange,
+  };
+  return {
+    type: UPDATE_PROFILE,
+    promise: api.updateProfile(data),
   };
 };
 
