@@ -84,7 +84,7 @@ class UserProfile extends Component {
       },
     });
   }
-  // TODO: delete email from joi validate and state
+
   handleSaveChanges() {
     const { updateProfile, data } = this.props;
     const {

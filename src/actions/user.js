@@ -9,7 +9,7 @@ export const SUBSCRIBE_TO_EVENT = 'SUBSCRIBE_TO_EVENT';
 export const ADD_TO_FAVORITE_PLAYGROUND = 'ADD_TO_FAVORITE_PLAYGROUND';
 export const GET_FAVORITE_PLAYGROUNDS = 'GET_FAVORITE_PLAYGROUNDS';
 export const GET_UPCOMING_EVENTS = 'GET_UPCOMING_EVENTS';
-
+export const GET_USER_EVENTS = 'GET_USER_EVENTS';
 
 export const logout = createAction(LOGOUT);
 
@@ -73,4 +73,9 @@ export const getFavoritePlaygrounds = id => ({
 export const getUpcomingEvents = id => ({
   type: GET_UPCOMING_EVENTS,
   promise: api.getUpcomingEvents(id),
+});
+
+export const getUserEvents = id => ({
+  type: GET_USER_EVENTS,
+  promise: api.getUserEvents(id),
 });

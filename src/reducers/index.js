@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import user from './user';
+import userEvents from './Events/user';
 import allEvents from './Events/events';
 import currentEvent from './Events/event';
 import upcomingEvents from './Events/upcoming';
@@ -13,8 +14,9 @@ const appReducer = combineReducers({
   user,
   events: combineReducers({
     all: allEvents,
-    current: currentEvent,
     upcoming: upcomingEvents,
+    current: currentEvent,
+    user: userEvents,
   }),
   playgrounds: combineReducers({
     all: allPlaygrounds,
