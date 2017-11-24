@@ -40,7 +40,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user.details ? state.user.details : {},
+  user: state.user.details,
 });
 
 const mapDispatchToProps = dispatch => ({
