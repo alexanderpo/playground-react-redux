@@ -321,7 +321,7 @@ body {
   justify-content: space-between;
   flex-direction: column;
   flex-wrap: wrap;
-  padding: 5px 20px 5px 20px;
+  padding: 5px 20px 20px 20px;
 }
 
 .create-playground-description {
@@ -364,6 +364,21 @@ body {
   height: 42px;
 }
 
+.create-playground-action-buttons-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+  padding: 16px;
+}
+
+.create-playground-action-button {
+  margin: 0px 5px 0px 5px;
+}
+
+#cloud-image {
+  fill: rgb(81, 115, 153)!important;
+}
 /*END DROPZONE*/
 
 /* END PLAYGROUND CARD PREVIEW */
