@@ -146,7 +146,7 @@ body {
 }
 
 .filter-container {
-  width: 100%;
+  width: 99%;
   height: 100%;
 }
 
@@ -298,18 +298,81 @@ body {
 /* START PLAYGROUND CARD PREVIEW */
 
 .playgrounds-preview-container {
-  
+
 }
 
 .playground-card-box {
 
 }
 
+
+/*START DROPZONE*/
+.create-playground-image-wrapper {
+  margin: 10px;
+}
+
+.create-playground-user-details-wrapper {
+  margin: 10px;
+}
+
+.create-playground-details-wrapper {
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 5px 20px 5px 20px;
+}
+
+.create-playground-description {
+  /*border: 1px solid #cccccc;*/
+}
+
+#create-playground-description-textarea {
+  border: 1px solid #cccccc;
+}
+
+.create-playground-dropzone-container {
+  position: relative;
+  margin: 5px;
+}
+
+.create-playground-dropzone {
+  position: absolute;
+  top: 0px!important;
+  left: 0px!important;
+  padding: 16px!important;
+  width: 100%;
+  height: 100%;
+}
+
+.playground-preview-delete-image {
+  margin: 0px 16px 0px 0px!important;
+}
+
+.create-playground-image-preview-container {
+  max-height: 32vh;
+  overflow-x: auto;
+}
+
+.playground-preview-image-wrapper {
+
+}
+
+.playground-preview-image {
+  width: 42px;
+  height: 42px;
+}
+
+/*END DROPZONE*/
+
 /* END PLAYGROUND CARD PREVIEW */
 
 .left-content-box {
   width: 60vw;
-  max-height: 83vh;
+  height: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 #map {
