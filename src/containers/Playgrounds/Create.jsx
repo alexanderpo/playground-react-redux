@@ -12,11 +12,16 @@ import ImageUpload from 'material-ui/svg-icons/file/cloud-upload';
 import UserProfilePhoto from '../../styles/images/user.png';
 import { createPlaygroundSchema } from '../../utils/validationSchema';
 import validate from '../../utils/validation';
+import { updatePlaygroundPosition, getPlaygroundAddress } from '../../actions/playgrounds';
 import Map from '../../components/Map';
 
 const propTypes = {
   user: PropTypes.object,
-  actions: PropTypes.shape({}),
+  playground: PropTypes.object,
+  actions: PropTypes.shape({
+    updatePlaygroundPosition: PropTypes.func,
+    getPlaygroundAddress: PropTypes.func,
+  }),
 };
 
 class CreatePlayground extends Component {
@@ -71,6 +76,10 @@ class CreatePlayground extends Component {
       });
     } else {
       this.clearErrorsFields();
+      this.setState({
+        dialogBoxIsOpen: true,
+        dialogBoxText: 'Playground created',
+      });
       console.log('__________OK____________');
     }
   }
@@ -114,7 +123,7 @@ class CreatePlayground extends Component {
   );
 
   render() {
-    const { user } = this.props;
+    const { user, actions, playground } = this.props;
     const {
       name,
       address,
@@ -167,7 +176,8 @@ class CreatePlayground extends Component {
               hintText="Address"
               floatingLabelText="Address"
               fullWidth={true}
-              value={address}
+              disabled={true}
+              value={playground.address}
               errorText={error.address}
               onChange={this.handleInputValue('address')}
             />
@@ -198,7 +208,12 @@ class CreatePlayground extends Component {
           </div>
         </div>
         <div className="map-container">
-          <Map placemarks={[]} />
+          <Map
+            placemarks={[]}
+            clickable={true}
+            updatePosition={actions.updatePlaygroundPosition}
+            getAddress={actions.getPlaygroundAddress}
+          />
         </div>
         <Snackbar
           open={dialogBoxIsOpen}
@@ -213,10 +228,19 @@ class CreatePlayground extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.details,
+  playground: {
+    latitude: state.playgrounds.create.position.latitude,
+    longitude: state.playgrounds.create.position.longitude,
+    address: !_.isEmpty(state.playgrounds.create.address.details.results) ?
+      state.playgrounds.create.address.details.results[0].formatted_address : '',
+  },
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({}, dispatch),
+  actions: bindActionCreators({
+    updatePlaygroundPosition,
+    getPlaygroundAddress,
+  }, dispatch),
 });
 
 CreatePlayground.propTypes = propTypes;

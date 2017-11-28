@@ -6,6 +6,9 @@ import playgroundIcon from '../styles/images/playground.png';
 import userMarkerIcon from '../styles/images/user-marker-icon.png';
 
 const propTypes = {
+  clickable: PropTypes.bool,
+  getAddress: PropTypes.func,
+  updatePosition: PropTypes.func,
   placemarks: PropTypes.arrayOf(PropTypes.shape({
     lat: PropTypes.float,
     lng: PropTypes.float,
@@ -30,6 +33,9 @@ class Map extends Component {
 
   componentDidMount() {
     this.initializeMap(this.state.defaultUserPosition);
+    if (this.props.clickable) {
+      this.handleMapClick();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,6 +87,20 @@ class Map extends Component {
     }
   }
 
+  handleMapClick() {
+    google.maps.event.addListener(this.map, 'click', (event) => {
+      this.state.markers.map(marker => marker.setMap(null));
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+      const position = [{
+        latitude: lat,
+        longitude: lng,
+      }];
+      this.props.updatePosition(position[0]);
+      this.props.getAddress(lat, lng).then(() => this.initializeEventPoints(position));
+    });
+  }
+
   initializeEventPoints(placemarks) {
     placemarks.map((placemark) => { // eslint-disable-line
       const marker = new google.maps.Marker({
@@ -92,17 +112,19 @@ class Map extends Component {
         title: placemark.title,
         map: this.map,
       });
-      const infoWindow = new google.maps.InfoWindow({
-        content: this.infoWindow(
-          placemark.title,
-          placemark.description,
-          placemark.creator,
-          placemark.datetime,
-        ),
-      });
-      marker.addListener('click', () => {
-        infoWindow.open(this.map, marker);
-      });
+      if (!this.props.clickable) {
+        const infoWindow = new google.maps.InfoWindow({
+          content: this.infoWindow(
+            placemark.title,
+            placemark.description,
+            placemark.creator,
+            placemark.datetime,
+          ),
+        });
+        marker.addListener('click', () => {
+          infoWindow.open(this.map, marker);
+        });
+      }
       this.state.markers.push(marker);
     });
   }
