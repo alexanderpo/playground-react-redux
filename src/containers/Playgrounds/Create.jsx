@@ -12,7 +12,7 @@ import ImageUpload from 'material-ui/svg-icons/file/cloud-upload';
 import UserProfilePhoto from '../../styles/images/user.png';
 import { createPlaygroundSchema } from '../../utils/validationSchema';
 import validate from '../../utils/validation';
-import { updatePlaygroundPosition, getPlaygroundAddress } from '../../actions/playgrounds';
+import { updatePlaygroundPosition, getPlaygroundAddress, createPlayground } from '../../actions/playgrounds';
 import Map from '../../components/Map';
 
 const propTypes = {
@@ -21,6 +21,7 @@ const propTypes = {
   actions: PropTypes.shape({
     updatePlaygroundPosition: PropTypes.func,
     getPlaygroundAddress: PropTypes.func,
+    createPlayground: PropTypes.func,
   }),
 };
 
@@ -32,7 +33,6 @@ class CreatePlayground extends Component {
       dialogBoxText: '',
       name: '',
       description: '',
-      address: '',
       files: [],
       error: {
         name: '',
@@ -44,6 +44,7 @@ class CreatePlayground extends Component {
     this.removeItem = this.removeItem.bind(this);
     this.handleInputValue = this.handleInputValue.bind(this);
     this.clearErrorsFields = this.clearErrorsFields.bind(this);
+    this.clearInputFields = this.clearInputFields.bind(this);
     this.handleCreatePlayground = this.handleCreatePlayground.bind(this);
   }
 
@@ -51,6 +52,19 @@ class CreatePlayground extends Component {
     this.setState({
       files,
     });
+  }
+
+  blobToBase64 = (files) => {
+    const images = [];
+    files.map((file) => { // eslint-disable-line
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64image = event.target.result;
+        images.push(base64image);
+      };
+      reader.readAsDataURL(file);
+    });
+    return images;
   }
 
   handleInputValue(key) {
@@ -62,7 +76,10 @@ class CreatePlayground extends Component {
   }
 
   handleCreatePlayground() {
-    const { name, address, description } = this.state;
+    const { name, description, files } = this.state;
+    const base64Images = this.blobToBase64(files);
+    const { user, actions } = this.props;
+    const { address, latitude, longitude } = this.props.playground;
     const values = { name, address, description };
     const error = validate(createPlaygroundSchema, values);
 
@@ -76,11 +93,22 @@ class CreatePlayground extends Component {
       });
     } else {
       this.clearErrorsFields();
-      this.setState({
-        dialogBoxIsOpen: true,
-        dialogBoxText: 'Playground created',
-      });
-      console.log('__________OK____________');
+      actions.createPlayground(name, description, address, base64Images, latitude, longitude, user.email)
+        .then((action) => {
+          console.log(action.payload);
+          if (_.isEmpty(action.payload.error)) {
+            this.clearInputFields();
+            this.setState({
+              dialogBoxIsOpen: true,
+              dialogBoxText: 'Playground created',
+            });
+          } else {
+            this.setState({
+              dialogBoxIsOpen: true,
+              dialogBoxText: action.payload.error,
+            });
+          }
+        });
     }
   }
 
@@ -91,6 +119,15 @@ class CreatePlayground extends Component {
         error: '',
         description: '',
       },
+    });
+  }
+
+  clearInputFields() {
+    this.setState({
+      dialogBoxText: '',
+      name: '',
+      description: '',
+      files: [],
     });
   }
 
@@ -126,7 +163,6 @@ class CreatePlayground extends Component {
     const { user, actions, playground } = this.props;
     const {
       name,
-      address,
       description,
       dialogBoxText,
       dialogBoxIsOpen,
@@ -240,6 +276,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updatePlaygroundPosition,
     getPlaygroundAddress,
+    createPlayground,
   }, dispatch),
 });
 

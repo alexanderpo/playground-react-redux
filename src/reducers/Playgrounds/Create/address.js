@@ -1,5 +1,4 @@
 import { handle } from 'redux-pack';
-import _ from 'lodash';
 import { GET_PLAYGROUND_ADDRESS } from '../../../actions/playgrounds';
 
 const initialState = {

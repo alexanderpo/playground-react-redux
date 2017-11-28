@@ -23,6 +23,17 @@ export const getPlayground = id => fetch(`/api/v1/playgrounds/${id}`, {
   },
 }).then(response => responseChecker(response));
 
+export const createPlayground = data => fetch('/api/v1/playgrounds', {
+  method: 'post',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+  body: JSON.stringify(data),
+}).then(response => responseChecker(response));
+
+
 export const getAddressByCoords = (lat, lng) => fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBYJGAFqDYFPxPyX39sGmdHMWhKpNoDcf4`, {
   method: 'get',
 }).then(response => responseChecker(response));
