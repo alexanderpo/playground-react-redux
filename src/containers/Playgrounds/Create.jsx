@@ -57,7 +57,7 @@ class CreatePlayground extends Component {
     this.setState({
       files,
     });
-    files.map((file) => {
+    files.map((file) => { // eslint-disable-line
       actions.createImage(file).then((action) => {
         const { uploadedImages } = this.state;
         this.setState({
@@ -96,8 +96,7 @@ class CreatePlayground extends Component {
   }
 
   handleCreatePlayground() {
-    const { name, description, files } = this.state;
-    const images = files.map(file => file.preview);
+    const { name, description, uploadedImages } = this.state;
     const { user, actions } = this.props;
     const { address, latitude, longitude } = this.props.playground;
     const values = { name, address, description };
@@ -113,7 +112,8 @@ class CreatePlayground extends Component {
       });
     } else {
       this.clearErrorsFields();
-      actions.createPlayground(name, description, address, images, latitude, longitude, user.email)
+      // eslint-disable-next-line
+      actions.createPlayground(name, description, address, uploadedImages, latitude, longitude, user.email)
         .then((action) => {
           if (_.isEmpty(action.payload.error)) {
             this.clearInputFields();
