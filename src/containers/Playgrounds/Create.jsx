@@ -12,6 +12,7 @@ import ImageUpload from 'material-ui/svg-icons/file/cloud-upload';
 import UserProfilePhoto from '../../styles/images/user.png';
 import { createPlaygroundSchema } from '../../utils/validationSchema';
 import validate from '../../utils/validation';
+import { createImage, removeImage } from '../../actions/images';
 import { updatePlaygroundPosition, getPlaygroundAddress, createPlayground } from '../../actions/playgrounds';
 import Map from '../../components/Map';
 
@@ -22,6 +23,8 @@ const propTypes = {
     updatePlaygroundPosition: PropTypes.func,
     getPlaygroundAddress: PropTypes.func,
     createPlayground: PropTypes.func,
+    createImage: PropTypes.func,
+    removeImage: PropTypes.func,
   }),
 };
 
@@ -34,6 +37,7 @@ class CreatePlayground extends Component {
       name: '',
       description: '',
       files: [],
+      uploadedImages: [],
       error: {
         name: '',
         address: '',
@@ -49,22 +53,38 @@ class CreatePlayground extends Component {
   }
 
   onDrop(files) {
+    const { actions } = this.props;
     this.setState({
       files,
     });
+    files.map((file) => {
+      actions.createImage(file).then((action) => {
+        const { uploadedImages } = this.state;
+        this.setState({
+          uploadedImages: [...uploadedImages, action.payload],
+        });
+      });
+    });
   }
 
-  blobToBase64 = (files) => {
-    const images = [];
-    files.map((file) => { // eslint-disable-line
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64image = event.target.result;
-        images.push(base64image);
-      };
-      reader.readAsDataURL(file);
+  removeItem = (item) => {
+    const { uploadedImages } = this.state;
+    const { actions } = this.props;
+
+    uploadedImages.map((image) => { // eslint-disable-line
+      if (image.originalName === item.name) {
+        const imageId = image.id;
+        actions.removeImage(imageId).then((action) => {
+          if (action.payload) {
+            const items = this.state.files;
+            _.remove(items, item);
+            this.setState({
+              files: items,
+            });
+          }
+        });
+      }
     });
-    return images;
   }
 
   handleInputValue(key) {
@@ -77,7 +97,7 @@ class CreatePlayground extends Component {
 
   handleCreatePlayground() {
     const { name, description, files } = this.state;
-    const base64Images = this.blobToBase64(files);
+    const images = files.map(file => file.preview);
     const { user, actions } = this.props;
     const { address, latitude, longitude } = this.props.playground;
     const values = { name, address, description };
@@ -93,9 +113,8 @@ class CreatePlayground extends Component {
       });
     } else {
       this.clearErrorsFields();
-      actions.createPlayground(name, description, address, base64Images, latitude, longitude, user.email)
+      actions.createPlayground(name, description, address, images, latitude, longitude, user.email)
         .then((action) => {
-          console.log(action.payload);
           if (_.isEmpty(action.payload.error)) {
             this.clearInputFields();
             this.setState({
@@ -128,14 +147,6 @@ class CreatePlayground extends Component {
       name: '',
       description: '',
       files: [],
-    });
-  }
-
-  removeItem = (item) => {
-    const items = this.state.files;
-    _.remove(items, item);
-    this.setState({
-      files: items,
     });
   }
 
@@ -277,6 +288,8 @@ const mapDispatchToProps = dispatch => ({
     updatePlaygroundPosition,
     getPlaygroundAddress,
     createPlayground,
+    createImage,
+    removeImage,
   }, dispatch),
 });
 
