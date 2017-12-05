@@ -10,6 +10,9 @@ import UserProfilePhoto from '../../styles/images/user.png';
 const propTypes = {
   data: PropTypes.object,
   updateProfile: PropTypes.func,
+  updateProfileImage: PropTypes.func,
+  createImage: PropTypes.func,
+  removeImage: PropTypes.func,
 };
 
 class UserProfile extends Component {
@@ -20,7 +23,8 @@ class UserProfile extends Component {
       name: this.props.data.name,
       phone: this.props.data.phone === null ? '+375(29)000-00-00' : this.props.data.phone,
       password: '',
-      image: this.props.data.image,
+      previewImage: this.props.data.image,
+      selectedImage: [],
       passwordToggleIsOpen: false,
       error: {
         name: '',
@@ -62,17 +66,31 @@ class UserProfile extends Component {
   }
 
   handleProfileImage(event) {
-    const reader = new FileReader();
+    const {
+      createImage,
+      removeImage,
+      updateProfileImage,
+      data,
+    } = this.props;
+    const { selectedImage } = this.state;
     const file = event.target.files[0];
-
-    reader.onload = (upload) => {
-      this.setState({
-        image: upload.target.result,
-      });
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+    if (!_.isEmpty(selectedImage)) {
+      removeImage(selectedImage.id);
     }
+    createImage(file).then((action) => {
+      if (!action.payload.error) {
+        const newImage = {
+          minio_id: action.payload.id,
+          original_name: action.payload.originalName,
+        };
+        updateProfileImage(data.id, newImage.minio_id, newImage.original_name).then(() => {
+          this.setState({
+            selectedImage: newImage,
+            previewImage: action.payload.id,
+          });
+        });
+      }
+    });
   }
 
   clearErrorFields() {
@@ -91,7 +109,6 @@ class UserProfile extends Component {
       name,
       phone,
       password,
-      image,
       passwordToggleIsOpen,
     } = this.state;
     const values = {
@@ -112,7 +129,7 @@ class UserProfile extends Component {
       });
     } else {
       this.clearErrorFields();
-      updateProfile(data.id, name, phone, image, password, passwordToggleIsOpen)
+      updateProfile(data.id, name, phone, password, passwordToggleIsOpen)
         .then((action) => {
           if (action.payload.error) {
             this.setState({
@@ -135,7 +152,7 @@ class UserProfile extends Component {
       name,
       phone,
       password,
-      image,
+      previewImage,
       passwordToggleIsOpen,
       error,
       dialogBoxIsOpen,
@@ -148,7 +165,7 @@ class UserProfile extends Component {
           <Avatar
             size={250}
             className="user-profile-image"
-            src={!image ? UserProfilePhoto : image}
+            src={(previewImage === null) ? UserProfilePhoto : `/api/v1/images/${previewImage}`}
             onClick={() => { document.getElementById('image-loader').click(); }}
           />
           <input

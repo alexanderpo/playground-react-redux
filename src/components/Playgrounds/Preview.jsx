@@ -55,6 +55,19 @@ class PlaygroundPreview extends Component {
     });
   }
 
+  renderImages = (images) => {
+    if (images[0] === null || images.lenght === 0) {
+      return (
+        <img className="playground-card-no-picture" src={PromoEventPhoto} alt="" />
+      );
+    }
+    return (
+      images.map(image => (
+        <img key={image} src={`/api/v1/images/${image}`} alt="" />
+      ))
+    );
+  };
+
   render() {
     const { playground } = this.props;
     const { isFavorite, dialogBoxIsOpen, dialogBoxText } = this.state;
@@ -62,13 +75,7 @@ class PlaygroundPreview extends Component {
       <div>
         <Card zDepth={3} className="playground-card-box">
           <CardMedia overlay={<CardTitle title={playground.name} />}>
-            {
-              !_.isEmpty(playground.images) ? (
-                <img className="playground-card-picture" src={playground.images} alt="" />
-              ) : (
-                <img className="playground-card-no-picture" src={PromoEventPhoto} alt="" />
-              )
-            }
+            {this.renderImages(playground.images)}
           </CardMedia>
           <CardText className="playground-card-description-text">
             { playground.description }

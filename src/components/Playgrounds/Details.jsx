@@ -41,6 +41,14 @@ class PlaygroundDetails extends Component {
     });
   }
 
+  renderImages = images => (
+    !_.isEmpty(images) ? images.map(image => (
+      <img key={image} src={`/api/v1/images/${image}`} alt="" />
+    )) : (
+      <img src={PromoEventPhoto} alt="" />
+    )
+  );
+
   render() {
     const { playground } = this.props;
     const { isFavorite, dialogBoxIsOpen, dialogBoxText } = this.state;
@@ -50,14 +58,7 @@ class PlaygroundDetails extends Component {
           <CardMedia
             overlay={<CardTitle title={playground.name} />}
           >
-            {
-              !_.isEmpty(playground.images) ? (
-                // TODO: implement map playgrounds images in img tag
-                <img src={playground.images} alt="" />
-              ) : (
-                <img src={PromoEventPhoto} alt="" />
-              )
-            }
+            {this.renderImages(playground.images)}
           </CardMedia>
           <CardText>
             {playground.description}

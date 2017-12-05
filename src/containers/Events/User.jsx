@@ -46,7 +46,7 @@ class UserEvents extends Component {
           id: event.playground_id,
           name: event.playground_name,
           description: event.playground_description,
-          images: event.playground_images,
+          images: event.images,
           address: event.playground_address,
           creator: event.playground_creator,
           lat: event.playground_latitude,

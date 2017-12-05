@@ -39,7 +39,7 @@ class UserMenuInfo extends Component {
         </div>
         <UserPhoto
           size={40}
-          src={!image ? UserProfilePhoto : image}
+          src={(image === null) ? UserProfilePhoto : `/api/v1/images/${image}`}
         />
       </div>
     );

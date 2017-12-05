@@ -10,6 +10,7 @@ export const ADD_TO_FAVORITE_PLAYGROUND = 'ADD_TO_FAVORITE_PLAYGROUND';
 export const GET_FAVORITE_PLAYGROUNDS = 'GET_FAVORITE_PLAYGROUNDS';
 export const GET_UPCOMING_EVENTS = 'GET_UPCOMING_EVENTS';
 export const GET_USER_EVENTS = 'GET_USER_EVENTS';
+export const UPDATE_PROFILE_IMAGE = 'UPDATE_PROFILE_IMAGE';
 
 export const logout = createAction(LOGOUT);
 
@@ -34,18 +35,29 @@ export const signUp = (name, email, password, rePassword) => {
   };
 };
 
-export const updateProfile = (id, name, phone, image, password, isPasswordChange) => {
+export const updateProfile = (id, name, phone, password, isPasswordChange) => {
   const data = {
     id,
     name,
     phone,
-    image,
     password,
     isPasswordChange,
   };
   return {
     type: UPDATE_PROFILE,
     promise: api.updateProfile(data),
+  };
+};
+
+export const updateProfileImage = (userId, minioId, originalName) => {
+  const data = {
+    userId,
+    minioId,
+    originalName,
+  };
+  return {
+    type: UPDATE_PROFILE_IMAGE,
+    promise: api.updateProfileImage(data),
   };
 };
 

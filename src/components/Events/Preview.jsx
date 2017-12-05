@@ -85,6 +85,19 @@ class EventPreview extends Component {
     });
   }
 
+  renderImages = (images) => {
+    if (images[0] === null || images.lenght === 0) {
+      return (
+        <img className="playground-card-no-picture" src={PromoEventPhoto} alt="" />
+      );
+    }
+    return (
+      images.map(image => (
+        <img key={image} src={`/api/v1/images/${image}`} alt="" />
+      ))
+    );
+  };
+
   render() {
     const {
       isFavoritePlayground,
@@ -104,18 +117,11 @@ class EventPreview extends Component {
             className="card-event-header"
             title={creator.name}
             subtitle={creator.phone}
-            avatar={creator.image ? creator.image : UserProfilePhoto}
+            avatar={(creator.image !== null) ? `/api/v1/images/${creator.image}` : UserProfilePhoto}
           />
           <Divider />
           <CardMedia>
-            {
-              !_.isEmpty(playground.images) ? (
-                // TODO: implement image carusel
-                <img className="card-event-picture" src={playground.images} alt="" />
-              ) : (
-                <img className="card-event-no-picture" src={PromoEventPhoto} alt="" />
-              )
-            }
+            {this.renderImages(playground.images)}
           </CardMedia>
           <CardTitle className="card-event-title" title={event.title} />
           <CardText className="card-event-description-text">

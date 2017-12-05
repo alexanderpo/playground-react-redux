@@ -147,6 +147,7 @@ class CreatePlayground extends Component {
       name: '',
       description: '',
       files: [],
+      uploadedImages: [],
     });
   }
 
@@ -186,7 +187,7 @@ class CreatePlayground extends Component {
             <CardHeader
               title={user.name}
               subtitle={user.phone}
-              avatar={user.image ? user.image : UserProfilePhoto}
+              avatar={(user.image !== null) ? `/api/v1/images/${user.image}` : UserProfilePhoto}
             />
           </Paper>
           <Paper zDepth={2} className="create-playground-image-wrapper">

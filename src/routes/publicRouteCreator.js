@@ -9,10 +9,9 @@ const propTypes = {
   component: PropTypes.object,
 };
 
-const PublicRouteCreator = ({ path, isExact, component }) => (
+const PublicRouteCreator = ({ component, ...props }) => (
   <Route
-    exact={isExact}
-    path={path}
+    {...props}
     render={() => (
       !isLoggedIn ? (
         <Redirect to="/signin" />

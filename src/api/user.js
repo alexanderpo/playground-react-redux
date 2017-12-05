@@ -25,6 +25,16 @@ export const signUp = data => fetch('/api/v1/signup', {
   body: JSON.stringify(data),
 }).then(response => responseChecker(response));
 
+export const updateProfileImage = data => fetch(`/api/v1/users/${data.userId}/image`, {
+  method: 'put',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+  body: JSON.stringify(data),
+}).then(response => responseChecker(response));
+
 export const updateProfile = data => fetch(`/api/v1/users/${data.id}`, {
   method: 'put',
   headers: {
