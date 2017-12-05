@@ -23,22 +23,22 @@ const Routes = () => (
       <Route path="/signup" component={SignUp} />
       <App>
         <div>
-          <PublicRouteCreator isExact={true} path="/" component={<Events />} />
-          <PublicRouteCreator isExact={false} path="/:userId/profile" component={<UserProfile />} />
-          <PublicRouteCreator isExact={false} path="/:userId/events" component={<UserEvents />} />
+          <PublicRouteCreator exact={true} path="/" component={<Events />} />
+          <PublicRouteCreator exact={false} path="/:userId/profile" component={<UserProfile />} />
+          <PublicRouteCreator exact={false} path="/:userId/events" component={<UserEvents />} />
 
-          <PublicRouteCreator isExact={true} path="/playgrounds" component={<PlaygroundsPreview />} />
+          <PublicRouteCreator exact={true} path="/playgrounds" component={<PlaygroundsPreview />} />
           <Switch>
-            <PublicRouteCreator isExact={true} path="/playgrounds/favorites" component={<FavoritePlaygrounds />} />
-            <PublicRouteCreator isExact={false} path="/playgrounds/create" component={<CreatePlayground />} />
-            <PublicRouteCreator isExact={false} path="/playgrounds/:playgroundId" component={<PlaygroundsDetails />} />
+            <PublicRouteCreator exact={true} path="/playgrounds/favorites" component={<FavoritePlaygrounds />} />
+            <PublicRouteCreator exact={false} path="/playgrounds/create" component={<CreatePlayground />} />
+            <PublicRouteCreator exact={false} path="/playgrounds/:playgroundId" component={<PlaygroundsDetails />} />
           </Switch>
 
-          <PublicRouteCreator isExact={true} path="/events" component={<Events />} />
+          <PublicRouteCreator exact={true} path="/events" component={<Events />} />
           <Switch>
-            <PublicRouteCreator isExact={true} path="/events/upcoming" component={<UpcomingEvents />} />
-            <PublicRouteCreator isExact={false} path="/events/create" component={<CreateEvent />} />
-            <PublicRouteCreator isExact={false} path="/events/:eventId" component={<EventDetailsWrapper />} />
+            <PublicRouteCreator exact={true} path="/events/upcoming" component={<UpcomingEvents />} />
+            <PublicRouteCreator exact={false} path="/events/create" component={<CreateEvent />} />
+            <PublicRouteCreator exact={false} path="/events/:eventId" component={<EventDetailsWrapper />} />
           </Switch>
         </div>
       </App>

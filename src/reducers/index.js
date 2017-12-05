@@ -7,6 +7,8 @@ import upcomingEvents from './Events/upcoming';
 import allPlaygrounds from './Playgrounds/index';
 import currentPlayground from './Playgrounds/playground';
 import favoritePlaygrounds from './Playgrounds/favorites';
+import playgroundPosition from './Playgrounds/Create/position';
+import playgroundAddress from './Playgrounds/Create/address';
 
 const initialState = {};
 
@@ -22,6 +24,10 @@ const appReducer = combineReducers({
     all: allPlaygrounds,
     current: currentPlayground,
     favorites: favoritePlaygrounds,
+    create: combineReducers({
+      position: playgroundPosition,
+      address: playgroundAddress,
+    }),
   }),
 });
 

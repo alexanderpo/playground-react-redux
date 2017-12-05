@@ -46,6 +46,19 @@ class EventDetails extends Component {
     });
   }
 
+  renderImages = (images) => {
+    if (images === undefined || images[0] === null) {
+      return (
+        <img className="playground-card-no-picture" src={PromoEventPhoto} alt="" />
+      );
+    }
+    return (
+      images.map(image => (
+        <img key={image} src={`/api/v1/images/${image}`} alt="" />
+      ))
+    );
+  };
+
   render() {
     const { event } = this.props;
     const { dialogBoxIsOpen, dialogBoxText } = this.state;
@@ -56,19 +69,12 @@ class EventDetails extends Component {
             className="card-event-header"
             title={event.creator_name}
             subtitle={event.creator_phone}
-            avatar={event.creator_image ? event.creator_image : UserProfilePhoto}
+            avatar={(event.creator_image === null) ? UserProfilePhoto : `/api/v1/images/${event.creator_image}`}
           />
           <CardMedia
             overlay={<CardTitle title={event.event_title} />}
           >
-            {
-              !_.isEmpty(event.playground_images) ? (
-                // TODO: implement image carusel
-                <img className="event-card-details-image" src={event.playground_images} alt="" />
-              ) : (
-                <img className="event-card-details-no-image" src={PromoEventPhoto} alt="" />
-              )
-            }
+            {this.renderImages(event.images)}
           </CardMedia>
           <CardTitle title={event.playground_name} className="event-card-details-playground-title" />
           <CardText className="event-card-details-description">

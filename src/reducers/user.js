@@ -5,6 +5,7 @@ import {
   SUBSCRIBE_TO_EVENT,
   ADD_TO_FAVORITE_PLAYGROUND,
   UPDATE_PROFILE,
+  UPDATE_PROFILE_IMAGE,
 } from '../actions/user';
 
 const initialState = {
@@ -91,6 +92,26 @@ export default function (state = initialState, action) {
             email: action.payload.email,
             phone: action.payload.phone,
             hash: action.payload.hash,
+          },
+          isLoading: false,
+        }),
+      });
+    case UPDATE_PROFILE_IMAGE:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          isLoading: true,
+          error: null,
+        }),
+        failure: prevState => ({
+          ...prevState,
+          error: payload,
+          isLoading: false,
+        }),
+        success: prevState => ({
+          ...prevState,
+          details: {
+            ...state.details,
             image: action.payload.image,
           },
           isLoading: false,

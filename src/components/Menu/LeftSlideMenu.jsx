@@ -12,7 +12,6 @@ import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import CreatePlaygroundIcon from 'material-ui/svg-icons/av/playlist-add';
 import CreateEventIcon from 'material-ui/svg-icons/maps/add-location';
 import LogoutIcon from 'material-ui/svg-icons/action/exit-to-app';
-
 import UserMenuInfo from '../User/UserMenuInfo';
 
 const propTypes = {
