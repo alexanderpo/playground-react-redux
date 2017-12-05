@@ -6,6 +6,23 @@ body {
   font-family: Roboto, sans-serif;
 }
 
+* {
+  min-height: 0;
+  min-width: 0;
+}
+
+/*START SLICK CAROUSEL*/
+.slick-prev {
+  z-index: 1;
+  left: 10px;
+}
+
+.slick-next {
+  z-index: 1;
+  right: 10px;
+}
+
+/*END SLICK CAROUSEL*/
 .logo-text {
   display: flex;
   justify-content: space-around;
