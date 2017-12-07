@@ -18,6 +18,10 @@ class EventsFilter extends Component {
       isGrid: true,
     };
   }
+
+  componentDidUpdate() {
+    window.dispatchEvent(new Event('resize'));
+  }
   // TODO: change this filter for all items in project
   render() {
     const { isList, isGrid } = this.state;

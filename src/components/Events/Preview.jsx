@@ -8,8 +8,8 @@ import FavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star';
 import SubscribeToEventIcon from 'material-ui/svg-icons/maps/directions-run';
 import EventDetailsIcon from 'material-ui/svg-icons/action/event';
 import { Card, CardHeader, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
+import ImageCarousel from '../ImageCarousel';
 import UserProfilePhoto from '../../styles/images/user.png';
-import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 
 const propTypes = {
   userId: PropTypes.number,
@@ -85,19 +85,6 @@ class EventPreview extends Component {
     });
   }
 
-  renderImages = (images) => {
-    if (images[0] === null || images.lenght === 0) {
-      return (
-        <img className="playground-card-no-picture" src={PromoEventPhoto} alt="" />
-      );
-    }
-    return (
-      images.map(image => (
-        <img key={image} src={`/api/v1/images/${image}`} alt="" />
-      ))
-    );
-  };
-
   render() {
     const {
       isFavoritePlayground,
@@ -121,7 +108,7 @@ class EventPreview extends Component {
           />
           <Divider />
           <CardMedia>
-            {this.renderImages(playground.images)}
+            <ImageCarousel images={playground.images} />
           </CardMedia>
           <CardTitle className="card-event-title" title={event.title} />
           <CardText className="card-event-description-text">

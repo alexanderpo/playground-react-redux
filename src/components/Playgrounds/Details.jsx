@@ -6,7 +6,7 @@ import { IconButton, Snackbar } from 'material-ui';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import NotFavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star-border';
 import FavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star';
-import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
+import ImageCarousel from '../ImageCarousel';
 
 const propTypes = {
   userId: PropTypes.number,
@@ -41,14 +41,6 @@ class PlaygroundDetails extends Component {
     });
   }
 
-  renderImages = images => (
-    !_.isEmpty(images) ? images.map(image => (
-      <img key={image} src={`/api/v1/images/${image}`} alt="" />
-    )) : (
-      <img src={PromoEventPhoto} alt="" />
-    )
-  );
-
   render() {
     const { playground } = this.props;
     const { isFavorite, dialogBoxIsOpen, dialogBoxText } = this.state;
@@ -58,7 +50,7 @@ class PlaygroundDetails extends Component {
           <CardMedia
             overlay={<CardTitle title={playground.name} />}
           >
-            {this.renderImages(playground.images)}
+            <ImageCarousel images={playground.images} />
           </CardMedia>
           <CardText>
             {playground.description}

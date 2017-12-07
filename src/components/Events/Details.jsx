@@ -4,7 +4,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { RaisedButton, Snackbar } from 'material-ui';
 import { Card, CardHeader, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
-import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
+import ImageCarousel from '../ImageCarousel';
 import UserProfilePhoto from '../../styles/images/user.png';
 
 const propTypes = {
@@ -46,19 +46,6 @@ class EventDetails extends Component {
     });
   }
 
-  renderImages = (images) => {
-    if (images === undefined || images[0] === null) {
-      return (
-        <img className="playground-card-no-picture" src={PromoEventPhoto} alt="" />
-      );
-    }
-    return (
-      images.map(image => (
-        <img key={image} src={`/api/v1/images/${image}`} alt="" />
-      ))
-    );
-  };
-
   render() {
     const { event } = this.props;
     const { dialogBoxIsOpen, dialogBoxText } = this.state;
@@ -74,7 +61,7 @@ class EventDetails extends Component {
           <CardMedia
             overlay={<CardTitle title={event.event_title} />}
           >
-            {this.renderImages(event.images)}
+            <ImageCarousel images={event.images} />
           </CardMedia>
           <CardTitle title={event.playground_name} className="event-card-details-playground-title" />
           <CardText className="event-card-details-description">

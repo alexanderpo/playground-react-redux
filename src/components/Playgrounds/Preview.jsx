@@ -7,7 +7,7 @@ import NotFavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star-border'
 import FavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star';
 import PlaygroundDetailsIcon from 'material-ui/svg-icons/maps/layers';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
-import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
+import ImageCarousel from '../ImageCarousel';
 
 const propTypes = {
   history: PropTypes.object,
@@ -55,19 +55,6 @@ class PlaygroundPreview extends Component {
     });
   }
 
-  renderImages = (images) => {
-    if (images[0] === null || images.lenght === 0) {
-      return (
-        <img className="playground-card-no-picture" src={PromoEventPhoto} alt="" />
-      );
-    }
-    return (
-      images.map(image => (
-        <img key={image} src={`/api/v1/images/${image}`} alt="" />
-      ))
-    );
-  };
-
   render() {
     const { playground } = this.props;
     const { isFavorite, dialogBoxIsOpen, dialogBoxText } = this.state;
@@ -75,7 +62,7 @@ class PlaygroundPreview extends Component {
       <div>
         <Card zDepth={3} className="playground-card-box">
           <CardMedia overlay={<CardTitle title={playground.name} />}>
-            {this.renderImages(playground.images)}
+            <ImageCarousel images={playground.images} />
           </CardMedia>
           <CardText className="playground-card-description-text">
             { playground.description }
