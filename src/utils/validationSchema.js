@@ -33,3 +33,12 @@ export const createPlaygroundSchema = Joi.object().keys({
   description: Joi.string().min(5).max(600).required()
     .label('Playground description'),
 });
+
+export const createEventSchema = Joi.object().keys({
+  title: Joi.string().min(6).max(120).required()
+    .label('Event title'),
+  datetime: Joi.date().required()
+    .label('Event date'),
+  selectedPlayground: Joi.number().required()
+    .label('Event playground'),
+});
