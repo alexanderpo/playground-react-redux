@@ -65,10 +65,11 @@ const mapStateToProps = (state) => {
   const placemarks = state.events.current.details ? state.events.current.details.map(item => ({
     latitude: item.playground_latitude,
     longitude: item.playground_longitude,
-    title: item.event_title,
-    description: item.playground_description,
-    datetime: moment(item.event_datetime).format('lll'),
-    creator: item.creator_name,
+    info: {
+      playgroundId: item.playground_id,
+      title: item.event_title,
+      datetime: moment(item.event_datetime).format('lll'),
+    },
   })) : [];
 
   return {

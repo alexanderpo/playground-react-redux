@@ -1,22 +1,17 @@
 /* global google */
+/* global isMapLoad */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import playgroundIcon from '../styles/images/playground.png';
 import userMarkerIcon from '../styles/images/user-marker-icon.png';
 
 const propTypes = {
   clickable: PropTypes.bool,
+  placemarks: PropTypes.array,
   getAddress: PropTypes.func,
   updatePosition: PropTypes.func,
-  placemarks: PropTypes.arrayOf(PropTypes.shape({
-    lat: PropTypes.float,
-    lng: PropTypes.float,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    datetime: PropTypes.string,
-    creator: PropTypes.string,
-  })),
 };
 
 class Map extends Component {
@@ -31,39 +26,60 @@ class Map extends Component {
     };
   }
 
-  componentDidMount() {
-    this.initializeMap(this.state.defaultUserPosition);
+  componentDidMount = () => {
+    if (isMapLoad) {
+      this.initializeMap(this.state.defaultUserPosition);
+    }
     if (this.props.clickable) {
       this.handleMapClick();
     }
-  }
+  };
 
-  componentWillReceiveProps(nextProps) {
-    this.state.markers.map(marker => marker.setMap(null));
-    this.initializeEventPoints(nextProps.placemarks);
-  }
-
-  componentDidUpdate() {
+  componentWillUpdate = () => {
     if (!this.map) {
       this.initializeMap(this.state.defaultUserPosition);
     }
-  }
+  };
 
-  componentWillUnmount() {
+  componentDidUpdate = (prevProps) => {
+    if (this.map) {
+      const isEqual = _.isEqual(prevProps.placemarks, this.props.placemarks);
+      if (!isEqual) {
+        this.state.markers.map(marker => marker.setMap(null));
+        this.initializeEventPoints(this.props.placemarks);
+      } else if (_.isEmpty(this.state.markers)) {
+        this.state.markers.map(marker => marker.setMap(null));
+        this.initializeEventPoints(this.props.placemarks);
+      }
+    }
+  };
+
+  componentWillUnmount = () => {
     this.state.markers.map(marker => marker.setMap(null));
-  }
+  };
 
-  infoWindow = (title, description, creator, dateTime) => (
-    `<div className="map-info-window">
-      <h3>${title}</h3>
-      <p>${description}</p>
-      <h5>${creator}</h5>
-      <h5>${dateTime}</h5>
-    </div>`
-  );
+  infoWindow = (eventInfo) => {
+    const allEventsInfo = eventInfo.map(info => (
+      `<tr>
+        <td>${info.title}</td>
+        <td>${info.datetime}</td>
+      </tr>`
+    ));
+    return (
+      `<table class="map-info-window-table">
+        <tbody>
+          <tr class="map-info-window-table-header">
+            <td>Event</td>
+            <td>Datetime</td>
+          </tr>
+          ${allEventsInfo}
+        </tbody>
+      </table>`
+    );
+  };
 
-  initializeMap(defaultPosition) {
-    this.map = new google.maps.Map(document.getElementById('map'), {
+  initializeMap = (defaultPosition) => {
+    this.map = isMapLoad ? new google.maps.Map(document.getElementById('map'), {
       zoom: 14,
       center: {
         ...defaultPosition,
@@ -72,7 +88,7 @@ class Map extends Component {
       mapTypeControl: false,
       streetViewControl: false,
       rotateControl: false,
-    });
+    }) : false;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const currentPosition = {
@@ -85,9 +101,9 @@ class Map extends Component {
     } else {
       console.log('Browser doesn\'t support geolocation'); // eslint-disable-line
     }
-  }
+  };
 
-  handleMapClick() {
+  handleMapClick = () => {
     google.maps.event.addListener(this.map, 'click', (event) => {
       this.state.markers.map(marker => marker.setMap(null));
       const lat = event.latLng.lat();
@@ -95,31 +111,42 @@ class Map extends Component {
       const position = [{
         latitude: lat,
         longitude: lng,
+        info: {
+          title: 'Your point',
+        },
       }];
       this.props.updatePosition(position[0]);
       this.props.getAddress(lat, lng).then(() => this.initializeEventPoints(position));
     });
-  }
+  };
 
-  initializeEventPoints(placemarks) {
-    placemarks.map((placemark) => { // eslint-disable-line
+  initializeEventPoints = (placemarks) => {
+    const uniqPlacemarks = _.uniqBy(placemarks, 'latitude', 'longitude');
+    const otherPlacemarks = _.difference(placemarks, uniqPlacemarks);
+    const otherPlacemarksIds = otherPlacemarks.map(pl => pl.info.playgroundId);
+
+    uniqPlacemarks.map((placemark) => { // eslint-disable-line
       const marker = new google.maps.Marker({
         position: {
           lat: placemark.latitude,
           lng: placemark.longitude,
         },
         icon: playgroundIcon,
-        title: placemark.title,
+        title: placemark.info.title,
         map: this.map,
       });
       if (!this.props.clickable) {
+        const isIncludeEvent = _.includes(otherPlacemarksIds, placemark.info.playgroundId);
+        const allEventsInfo = [];
+
+        otherPlacemarks.map((other) => { // eslint-disable-line
+          if (other.info.playgroundId === placemark.info.playgroundId) {
+            allEventsInfo.push(other.info, placemark.info);
+          }
+        });
         const infoWindow = new google.maps.InfoWindow({
-          content: this.infoWindow(
-            placemark.title,
-            placemark.description,
-            placemark.creator,
-            placemark.datetime,
-          ),
+          content: !isIncludeEvent ?
+            this.infoWindow([placemark.info]) : this.infoWindow(allEventsInfo),
         });
         marker.addListener('click', () => {
           infoWindow.open(this.map, marker);
@@ -127,18 +154,18 @@ class Map extends Component {
       }
       this.state.markers.push(marker);
     });
-  }
+  };
 
-  initializeUserLocation(position) {
-    const point = new google.maps.Marker({ // eslint-disable-line
+  initializeUserLocation = (position) => {
+    const point = new google.maps.Marker({
       position: {
         lat: position.lat,
         lng: position.lng,
       },
       icon: userMarkerIcon,
-      map: this.map,
     });
-  }
+    point.setMap(this.map);
+  };
 
   render() {
     return (

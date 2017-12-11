@@ -93,10 +93,11 @@ const mapStateToProps = (state) => {
   const placemarks = state.events.all.details.map(event => ({
     latitude: event.playground_latitude,
     longitude: event.playground_longitude,
-    title: event.event_title,
-    description: event.playground_description,
-    datetime: moment(event.event_datetime).format('lll'),
-    creator: event.creator_name,
+    info: {
+      playgroundId: event.playground_id,
+      title: event.event_title,
+      datetime: moment(event.event_datetime).format('lll'),
+    },
   }));
 
   return {

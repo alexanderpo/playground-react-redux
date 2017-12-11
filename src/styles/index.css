@@ -17,6 +17,15 @@ body {
   right: 10px;
 }
 
+.map-info-window-table {
+  border-bottom: 1px solid #cccccc;
+  padding: 2px;
+  margin: 2px;
+}
+.map-info-window-table-header{
+  font-weight: bold;
+}
+
 /*END SLICK CAROUSEL*/
 .logo-text {
   display: flex;
