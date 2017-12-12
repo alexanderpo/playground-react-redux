@@ -5,8 +5,12 @@ export const GET_EVENTS = 'GET_EVENTS';
 export const GET_EVENT = 'GET_EVENT';
 export const CREATE_EVENT = 'CREATE_EVENT';
 export const UPDATE_SUBSCRIBERS = 'UPDATE_SUBSCRIBERS';
+export const UPDATE_EVENT_DATETIME = 'UPDATE_EVENT_DATETIME';
+export const UPDATE_EVENT_SELECTED_PLAYGROUND = 'UPDATE_EVENT_SELECTED_PLAYGROUND';
 
+export const updateEventDatetime = createAction(UPDATE_EVENT_DATETIME);
 export const updateSubscribers = createAction(UPDATE_SUBSCRIBERS);
+export const updateEventSelectedPlayground = createAction(UPDATE_EVENT_SELECTED_PLAYGROUND);
 
 export const getEvents = () => ({
   type: GET_EVENTS,
