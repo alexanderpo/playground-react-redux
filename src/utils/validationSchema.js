@@ -39,6 +39,6 @@ export const createEventSchema = Joi.object().keys({
     .label('Event title'),
   datetime: Joi.date().required()
     .label('Event date'),
-  selectedPlayground: Joi.number().required()
+  playgroundId: Joi.number().min(1).required()
     .label('Event playground'),
 });

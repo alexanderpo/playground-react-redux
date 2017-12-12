@@ -30,7 +30,6 @@ class DateTimePicker extends Component {
     const { date } = this.state;
     const newDateTime = this.createEventDateTime(date, time);
     this.props.updateDateTime(newDateTime);
-    this.setState({ datetime: newDateTime });
   };
 
   handleChangeDatePicker = (event, date) => {

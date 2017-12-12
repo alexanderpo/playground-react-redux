@@ -6,6 +6,7 @@ import PromoEventPhoto from '../../../styles/images/no-event-pictures.svg';
 
 const propTypes = {
   playgrounds: PropTypes.array,
+  selectedPlayground: PropTypes.number,
   updateSelectedPlayground: PropTypes.func,
 };
 
@@ -20,13 +21,21 @@ class PlaygroundSelector extends Component {
     };
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    this.setState({
+      selectedPlayground: nextProps.selectedPlayground,
+    });
+  };
+
   renderListItems = playgrounds => (
     playgrounds.map(playground => (
       <ListItem
         key={playground.id}
         primaryText={playground.name}
         value={playground.id}
-        onClick={() => { this.setState({ selectedPlayground: playground.id }); }}
+        onClick={() => {
+          this.props.updateSelectedPlayground(playground.id);
+        }}
         leftAvatar={
           (playground.images[0] !== null) ?
             <img className="playground-preview-image" src={`/api/v1/images/${playground.images[0]}`} alt="" /> :

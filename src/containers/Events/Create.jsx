@@ -3,12 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Paper, TextField, RaisedButton, Snackbar, Subheader } from 'material-ui';
-import { List, ListItem, makeSelectable } from 'material-ui/List';
+import { Paper, TextField, RaisedButton, Snackbar } from 'material-ui';
 import { CardHeader } from 'material-ui/Card';
 import { createEventSchema } from '../../utils/validationSchema';
 import validate from '../../utils/validation';
-import PromoEventPhoto from '../../styles/images/no-event-pictures.svg';
 import UserProfilePhoto from '../../styles/images/user.png';
 import { getPlaygrounds } from '../../actions/playgrounds';
 import { createEvent, updateEventDatetime, updateEventSelectedPlayground } from '../../actions/events';
@@ -27,8 +25,6 @@ const propTypes = {
   }),
 };
 
-const SelectableList = makeSelectable(List);
-
 class CreateEvent extends Component {
   constructor(props) {
     super(props);
@@ -37,11 +33,9 @@ class CreateEvent extends Component {
       dialogBoxIsOpen: false,
       dialogBoxText: '',
       title: '',
-      selectedPlayground: 0,
       error: {
         title: '',
         datetime: '',
-        selectedPlayground: '',
       },
     };
 
@@ -59,7 +53,7 @@ class CreateEvent extends Component {
     this.setState({
       error: {
         title: '',
-        selectedPlayground: '',
+        datetime: '',
       },
     });
   }
@@ -68,7 +62,6 @@ class CreateEvent extends Component {
     this.setState({
       dialogBoxText: '',
       title: '',
-      selectedPlayground: 0,
     });
   }
 
@@ -81,13 +74,10 @@ class CreateEvent extends Component {
   }
 
   handleCreateEvent() {
-    const {
-      title,
-      selectedPlayground,
-    } = this.state;
+    const { title } = this.state;
     const { user, actions } = this.props;
-    const { datetime } = this.props.createInfo;
-    const values = { title, datetime, selectedPlayground };
+    const { datetime, playgroundId } = this.props.createInfo;
+    const values = { title, datetime, playgroundId };
     const error = validate(createEventSchema, values);
 
     if (!_.isEmpty(error)) {
@@ -95,26 +85,21 @@ class CreateEvent extends Component {
         error: {
           title: error.title,
           datetime: error.datetime,
-          selectedPlayground: error.selectedPlayground,
         },
       });
-    } else {
-      this.setState({
-        error: {
-          title: '',
-          datetime: '',
-        },
-      });
-      if (selectedPlayground === 0) {
+      if (error.playgroundId) {
         this.setState({
           dialogBoxIsOpen: true,
           dialogBoxText: 'Select playground for create event',
         });
       }
-      actions.createEvent(title, datetime, user.id, selectedPlayground).then((action) => {
+    } else {
+      this.clearErrorsFields();
+      actions.createEvent(title, datetime, user.id, playgroundId).then((action) => {
         if (_.isEmpty(action.payload.error)) {
           this.clearInputFields();
-          actions.createEventDatetime(null);
+          actions.updateEventSelectedPlayground(0);
+          actions.updateEventDatetime(null);
           this.setState({
             dialogBoxIsOpen: true,
             dialogBoxText: 'Event created',
@@ -129,23 +114,6 @@ class CreateEvent extends Component {
     }
   }
 
-  renderListItems = playgrounds => (
-    playgrounds.map(playground => (
-      <ListItem
-        key={playground.id}
-        primaryText={playground.name}
-        value={playground.id}
-        onClick={() => { this.setState({ selectedPlayground: playground.id }); }}
-        leftAvatar={
-          (playground.images[0] !== null) ?
-            <img className="playground-preview-image" src={`/api/v1/images/${playground.images[0]}`} alt="" /> :
-            <img src={PromoEventPhoto} alt="" />
-        }
-        secondaryText={playground.description}
-      />
-    ))
-  );
-
   render() {
     const {
       user,
@@ -155,7 +123,6 @@ class CreateEvent extends Component {
     } = this.props;
     const {
       title,
-      selectedPlayground,
       dialogBoxIsOpen,
       dialogBoxText,
       error,
@@ -179,12 +146,11 @@ class CreateEvent extends Component {
             onChange={this.handleInputValue('title')}
           />
         </Paper>
-        <Paper zDepth={2} className="create-playground-user-details-wrapper">
-          <SelectableList value={selectedPlayground}>
-            <Subheader>SELECT PLAYGROUND</Subheader>
-            { this.renderListItems(playgrounds)}
-          </SelectableList>
-        </Paper>
+        <PlaygroundSelector
+          playgrounds={playgrounds}
+          selectedPlayground={createInfo.playgroundId}
+          updateSelectedPlayground={actions.updateEventSelectedPlayground}
+        />
         <DateTimePicker
           updateDateTime={actions.updateEventDatetime}
           datetime={createInfo.datetime}
