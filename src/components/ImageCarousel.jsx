@@ -9,7 +9,7 @@ const propTypes = {
 
 class ImageCarousel extends Component {
   renderImages = (images) => {
-    if (images === undefined || images[0] === null || images.lenght === 0) {
+    if (images === undefined || images[0] === null || images.length === 0) {
       return (
         <img src={PromoEventPhoto} alt="" />
       );

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
+import { CircularProgress } from 'material-ui';
 import { getPlaygrounds } from '../../actions/playgrounds';
 import { favoritePlaygroundControl } from '../../actions/user';
 import EventsFilter from '../../components/Events/Filter';
@@ -12,6 +13,7 @@ import PlaygroundPreview from '../../components/Playgrounds/Preview';
 const propTypes = {
   userId: PropTypes.number,
   playgrounds: PropTypes.array,
+  isLoading: PropTypes.bool,
   actions: PropTypes.shape({
     getPlaygrounds: PropTypes.func,
     favoritePlaygroundControl: PropTypes.func,
@@ -46,11 +48,13 @@ class PlaygroundsPreview extends Component {
   );
 
   render() {
-    const { playgrounds } = this.props;
+    const { playgrounds, isLoading } = this.props;
     return (
       <div className="content-container">
         <EventsFilter>
-          { this.renderPlaygrounds(playgrounds) }
+          {
+            isLoading ? <CircularProgress className="loading-spinner" /> : this.renderPlaygrounds(playgrounds)
+          }
         </EventsFilter>
       </div>
     );
@@ -59,6 +63,7 @@ class PlaygroundsPreview extends Component {
 
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
+  const { isLoading } = state.playgrounds.all;
   const { favoritePlaygrounds } = state.user.details;
   const playgrounds = state.playgrounds.all.details.map(playground => ({
     ...playground,
@@ -67,6 +72,7 @@ const mapStateToProps = (state) => {
   return {
     userId,
     playgrounds,
+    isLoading,
   };
 };
 

@@ -12,6 +12,12 @@ body {
   left: 10px;
 }
 
+.loading-spinner {
+  position: absolute!important;
+  bottom: 50vh;
+  left: 27vw;
+}
+
 .slick-next {
   z-index: 1;
   right: 10px;

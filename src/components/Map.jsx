@@ -30,7 +30,7 @@ class Map extends Component {
     if (isMapLoad) {
       this.initializeMap(this.state.defaultUserPosition);
     }
-    if (this.props.clickable) {
+    if (isMapLoad && this.props.clickable) {
       this.handleMapClick();
     }
   };
@@ -69,7 +69,7 @@ class Map extends Component {
       `<table class="map-info-window-table">
         <tbody>
           <tr class="map-info-window-table-header">
-            <td>Event</td>
+            <td>Title</td>
             <td>Datetime</td>
           </tr>
           ${allEventsInfo}

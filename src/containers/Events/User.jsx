@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
+import { CircularProgress } from 'material-ui';
 import { getUserEvents, subscribeEventControl, favoritePlaygroundControl } from '../../actions/user';
 import EventsFilter from '../../components/Events/Filter';
 import Map from '../../components/Map';
@@ -15,6 +16,7 @@ const propTypes = {
   userId: PropTypes.number,
   events: PropTypes.array,
   placemarks: PropTypes.array,
+  isLoading: PropTypes.bool,
   actions: PropTypes.shape({
     getUserEvents: PropTypes.func,
     subscribeEventControl: PropTypes.func,
@@ -63,12 +65,14 @@ class UserEvents extends Component {
   );
 
   render() {
-    const { events, placemarks } = this.props;
+    const { events, placemarks, isLoading } = this.props;
     return (
       <div className="content-container">
         <div className="left-content-box">
           <EventsFilter>
-            { this.renderEvents(events) }
+            {
+              isLoading ? <CircularProgress className="loading-spinner" /> : this.renderEvents(events)
+            }
           </EventsFilter>
         </div>
         <div className="map-container">
@@ -81,6 +85,7 @@ class UserEvents extends Component {
 
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
+  const { isLoading } = state.events.user;
   const { subscribedEvents } = state.user.details;
   const { favoritePlaygrounds } = state.user.details;
 
@@ -104,6 +109,7 @@ const mapStateToProps = (state) => {
     events,
     placemarks,
     userId,
+    isLoading,
   };
 };
 

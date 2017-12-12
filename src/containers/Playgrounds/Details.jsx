@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
+import { CircularProgress } from 'material-ui';
 import { getPlayground } from '../../actions/playgrounds';
 import { favoritePlaygroundControl } from '../../actions/user';
 import Map from '../../components/Map';
@@ -15,6 +16,7 @@ const propTypes = {
   userId: PropTypes.number,
   playgroundDetail: PropTypes.object,
   match: PropTypes.object,
+  isLoading: PropTypes.bool,
   actions: PropTypes.shape({
     getPlayground: PropTypes.func,
     favoritePlaygroundControl: PropTypes.func,
@@ -33,15 +35,20 @@ class PlaygroundsDetails extends Component {
       userId,
       actions,
       placemarks,
+      isLoading,
     } = this.props;
     return (
       <div className="content-container">
         <div className="left-content-box">
-          <PlaygroundDetails
-            userId={userId}
-            playground={playgroundDetail}
-            favoriteControl={actions.favoritePlaygroundControl}
-          />
+          {
+            isLoading ? <CircularProgress className="loading-spinner" /> : (
+              <PlaygroundDetails
+                userId={userId}
+                playground={playgroundDetail}
+                favoriteControl={actions.favoritePlaygroundControl}
+              />
+            )
+          }
         </div>
         <div className="map-container">
           <Map placemarks={placemarks} />
@@ -53,6 +60,7 @@ class PlaygroundsDetails extends Component {
 
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
+  const { isLoading } = state.playgrounds.current;
   const { favoritePlaygrounds } = state.user.details;
 
   const playground = state.playgrounds.current.details ? state.playgrounds.current.details[0] : {};
@@ -65,16 +73,18 @@ const mapStateToProps = (state) => {
     state.playgrounds.current.details.map(point => ({
       latitude: point.latitude,
       longitude: point.longitude,
-      title: point.name,
-      description: point.description,
-      datetime: moment(point.created_at).format('lll'),
-      creator: point.creator,
+      info: {
+        playgroundId: point.id,
+        title: point.name,
+        datetime: moment(point.created_at).format('lll'),
+      },
     })) : [];
 
   return {
     userId,
     playgroundDetail,
     placemarks,
+    isLoading,
   };
 };
 

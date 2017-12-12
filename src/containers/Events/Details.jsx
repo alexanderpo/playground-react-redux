@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
+import { CircularProgress } from 'material-ui';
 import { getEvent, updateSubscribers } from '../../actions/events';
 import { subscribeEventControl } from '../../actions/user';
 import Map from '../../components/Map';
@@ -15,6 +16,7 @@ const propTypes = {
   userId: PropTypes.number,
   placemarks: PropTypes.array,
   singleEvent: PropTypes.object,
+  isLoading: PropTypes.bool,
   actions: PropTypes.shape({
     getEvent: PropTypes.func,
     subscribeEventControl: PropTypes.func,
@@ -34,16 +36,21 @@ class EventDetailsWrapper extends Component {
       singleEvent,
       userId,
       actions,
+      isLoading,
     } = this.props;
     return (
       <div className="content-container">
         <div className="left-content-box">
-          <EventDetails
-            userId={userId}
-            subscribeControl={actions.subscribeEventControl}
-            updateSubscribers={actions.updateSubscribers}
-            event={singleEvent}
-          />
+          {
+            isLoading ? <CircularProgress className="loading-spinner" /> : (
+              <EventDetails
+                userId={userId}
+                subscribeControl={actions.subscribeEventControl}
+                updateSubscribers={actions.updateSubscribers}
+                event={singleEvent}
+              />
+            )
+          }
         </div>
         <div className="map-container">
           <Map placemarks={placemarks} />
@@ -55,6 +62,7 @@ class EventDetailsWrapper extends Component {
 
 const mapStateToProps = (state) => {
   const userId = state.user.details.id;
+  const { isLoading } = state.events.current;
   const { subscribedEvents } = state.user.details;
   const event = state.events.current.details ? state.events.current.details[0] : {};
 
@@ -76,6 +84,7 @@ const mapStateToProps = (state) => {
     userId,
     singleEvent,
     placemarks,
+    isLoading,
   };
 };
 
