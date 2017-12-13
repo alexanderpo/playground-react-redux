@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import Dropzone from 'react-dropzone';
 import { TextField, Paper, Divider, IconButton, RaisedButton, Snackbar } from 'material-ui';
@@ -17,6 +18,7 @@ import { updatePlaygroundPosition, getPlaygroundAddress, createPlayground } from
 import Map from '../../components/Map';
 
 const propTypes = {
+  history: PropTypes.object,
   user: PropTypes.object,
   playground: PropTypes.object,
   actions: PropTypes.shape({
@@ -246,6 +248,7 @@ class CreatePlayground extends Component {
             <RaisedButton
               className="create-playground-action-button"
               label="Cancel"
+              onClick={() => this.props.history.push('/')}
             />
             <RaisedButton
               className="create-playground-action-button"
@@ -295,4 +298,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CreatePlayground.propTypes = propTypes;
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePlayground);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreatePlayground));

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Paper, TextField, RaisedButton, Snackbar } from 'material-ui';
@@ -14,6 +15,7 @@ import DateTimePicker from '../../components/Events/Create/DateTimePicker';
 import PlaygroundSelector from '../../components/Events/Create/PlaygroundSelector';
 
 const propTypes = {
+  history: PropTypes.object,
   user: PropTypes.object,
   createInfo: PropTypes.object,
   playgrounds: PropTypes.array,
@@ -160,6 +162,7 @@ class CreateEvent extends Component {
           <RaisedButton
             className="create-playground-action-button"
             label="Cancel"
+            onClick={() => this.props.history.push('/')}
           />
           <RaisedButton
             className="create-playground-action-button"
@@ -195,4 +198,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CreateEvent.propTypes = propTypes;
-export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEvent));

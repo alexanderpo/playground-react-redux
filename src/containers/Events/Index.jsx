@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { CircularProgress } from 'material-ui';
 import { getEvents } from '../../actions/events';
 import { subscribeEventControl, favoritePlaygroundControl } from '../../actions/user';
+import EmptyEvents from '../../components/Events/Empty';
 import EventsFilter from '../../components/Events/Filter';
 import Map from '../../components/Map';
 import EventPreview from '../../components/Events/Preview';
@@ -31,37 +32,38 @@ class EventsWrapper extends Component {
   }
 
   renderEvents = events => (
-    events.map(event => (
-      <EventPreview
-        key={event.event_id}
-        userId={this.props.userId}
-        isSubscribed={event.isSubscribed}
-        isFavorite={event.isFavorite}
-        subscribeEventControl={this.props.actions.subscribeEventControl}
-        favoritePlaygroundControl={this.props.actions.favoritePlaygroundControl}
-        event={{
-          id: event.event_id,
-          title: event.event_title,
-          datetime: moment(event.event_datetime).format('lll'),
-        }}
-        playground={{
-          id: event.playground_id,
-          name: event.playground_name,
-          description: event.playground_description,
-          images: event.images,
-          address: event.playground_address,
-          creator: event.playground_creator,
-          lat: event.playground_latitude,
-          lng: event.playground_longitude,
-        }}
-        creator={{
-          name: event.creator_name,
-          image: event.creator_image,
-          email: event.creator_email,
-          phone: event.creator_phone,
-        }}
-      />
-    ))
+    _.isEmpty(events) ? <EmptyEvents /> :
+      events.map(event => (
+        <EventPreview
+          key={event.event_id}
+          userId={this.props.userId}
+          isSubscribed={event.isSubscribed}
+          isFavorite={event.isFavorite}
+          subscribeEventControl={this.props.actions.subscribeEventControl}
+          favoritePlaygroundControl={this.props.actions.favoritePlaygroundControl}
+          event={{
+            id: event.event_id,
+            title: event.event_title,
+            datetime: moment(event.event_datetime).format('lll'),
+          }}
+          playground={{
+            id: event.playground_id,
+            name: event.playground_name,
+            description: event.playground_description,
+            images: event.images,
+            address: event.playground_address,
+            creator: event.playground_creator,
+            lat: event.playground_latitude,
+            lng: event.playground_longitude,
+          }}
+          creator={{
+            name: event.creator_name,
+            image: event.creator_image,
+            email: event.creator_email,
+            phone: event.creator_phone,
+          }}
+        />
+      ))
   );
 
   render() {
