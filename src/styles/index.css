@@ -12,9 +12,24 @@ body {
   left: 10px;
 }
 
+.loading-spinner {
+  position: absolute!important;
+  bottom: 50vh;
+  left: 27vw;
+}
+
 .slick-next {
   z-index: 1;
   right: 10px;
+}
+
+.map-info-window-table {
+  border-bottom: 1px solid #cccccc;
+  padding: 2px;
+  margin: 2px;
+}
+.map-info-window-table-header{
+  font-weight: bold;
 }
 
 /*END SLICK CAROUSEL*/

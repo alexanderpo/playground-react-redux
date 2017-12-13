@@ -16,7 +16,13 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYJGAFqDYFPxPyX39sGmdHMWhKpNoDcf4&callback=mapLoadCallback" async defer></script>
+    <script>
+      var isMapLoad = false;
+      window.mapLoadCallback = function() {
+        isMapLoad = true;
+      };
+    </script>
     <div id="root"></div>
-    <script  async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYJGAFqDYFPxPyX39sGmdHMWhKpNoDcf4"></script>
   </body>
 </html>
