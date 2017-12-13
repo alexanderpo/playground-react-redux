@@ -7,6 +7,7 @@ import moment from 'moment';
 import { CircularProgress } from 'material-ui';
 import { getPlaygrounds } from '../../actions/playgrounds';
 import { favoritePlaygroundControl } from '../../actions/user';
+import EmptyPlaygrounds from '../../components/Playgrounds/Empty';
 import EventsFilter from '../../components/Events/Filter';
 import PlaygroundPreview from '../../components/Playgrounds/Preview';
 
@@ -26,25 +27,26 @@ class PlaygroundsPreview extends Component {
   }
 
   renderPlaygrounds = playgrounds => (
-    playgrounds.map(playground => (
-      <PlaygroundPreview
-        key={playground.id}
-        userId={this.props.userId}
-        favoritePlaygroundControl={this.props.actions.favoritePlaygroundControl}
-        playground={{
-          id: playground.id,
-          name: playground.name,
-          description: playground.description,
-          images: playground.images,
-          address: playground.address,
-          isFavorite: playground.isFavorite,
-          created: moment(playground.created_at).format('lll'),
-          creator: playground.creator,
-          lat: playground.latitude,
-          lng: playground.longitude,
-        }}
-      />
-    ))
+    _.isEmpty(playgrounds) ? <EmptyPlaygrounds /> :
+      playgrounds.map(playground => (
+        <PlaygroundPreview
+          key={playground.id}
+          userId={this.props.userId}
+          favoritePlaygroundControl={this.props.actions.favoritePlaygroundControl}
+          playground={{
+            id: playground.id,
+            name: playground.name,
+            description: playground.description,
+            images: playground.images,
+            address: playground.address,
+            isFavorite: playground.isFavorite,
+            created: moment(playground.created_at).format('lll'),
+            creator: playground.creator,
+            lat: playground.latitude,
+            lng: playground.longitude,
+          }}
+        />
+      ))
   );
 
   render() {
@@ -65,10 +67,12 @@ const mapStateToProps = (state) => {
   const userId = state.user.details.id;
   const { isLoading } = state.playgrounds.all;
   const { favoritePlaygrounds } = state.user.details;
-  const playgrounds = state.playgrounds.all.details.map(playground => ({
-    ...playground,
-    isFavorite: _.includes(favoritePlaygrounds, playground.id),
-  }));
+  const playgrounds = state.playgrounds.all.details.error ? [] :
+    state.playgrounds.all.details.map(playground => ({
+      ...playground,
+      isFavorite: _.includes(favoritePlaygrounds, playground.id),
+    }));
+
   return {
     userId,
     playgrounds,
