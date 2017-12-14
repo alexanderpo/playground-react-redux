@@ -8,7 +8,7 @@ import { middleware as reduxPackMiddleware } from 'redux-pack';
 import thunk from 'redux-thunk';
 import Routes from './routes';
 import reducers from './reducers';
-import './styles/index.css';
+import './styles/style.css';
 import registerServiceWorker from './registerServiceWorker';
 
 const muiTheme = getMuiTheme({
