@@ -22,6 +22,7 @@ class UserProfile extends Component {
     this.state = {
       name: this.props.data.name,
       phone: this.props.data.phone === null ? '+375(29)000-00-00' : this.props.data.phone,
+      oldPassword: '',
       password: '',
       previewImage: this.props.data.image,
       selectedImage: [],
@@ -30,6 +31,7 @@ class UserProfile extends Component {
       error: {
         name: '',
         phone: '',
+        oldPassword: '',
         password: '',
       },
       dialogBoxIsOpen: false,
@@ -61,8 +63,9 @@ class UserProfile extends Component {
   handlePasswordToggle() {
     const { passwordToggleIsOpen } = this.state;
     this.setState({
+      oldPassword: '',
       password: '',
-      error: { password: '' },
+      error: { oldPassword: '', password: '' },
       passwordToggleIsOpen: !passwordToggleIsOpen,
     });
   }
@@ -100,6 +103,7 @@ class UserProfile extends Component {
       error: {
         name: '',
         phone: '',
+        oldPassword: '',
         password: '',
       },
     });
@@ -110,6 +114,7 @@ class UserProfile extends Component {
     const {
       name,
       phone,
+      oldPassword,
       password,
       passwordToggleIsOpen,
     } = this.state;
@@ -117,6 +122,7 @@ class UserProfile extends Component {
       name,
       phone,
       passwordToggleIsOpen,
+      oldPassword,
       password,
     };
     const error = validate(updateUserProfileSchema, values);
@@ -126,12 +132,13 @@ class UserProfile extends Component {
         error: {
           name: error.name,
           phone: error.phone,
+          oldPassword: error.oldPassword,
           password: error.password,
         },
       });
     } else {
       this.clearErrorFields();
-      updateProfile(data.id, name, phone, password, passwordToggleIsOpen)
+      updateProfile(data.id, name, phone, oldPassword, password, passwordToggleIsOpen)
         .then((action) => {
           if (action.payload.error) {
             this.setState({
@@ -141,6 +148,7 @@ class UserProfile extends Component {
           } else {
             this.setState({
               passwordToggleIsOpen: false,
+              isEdit: false,
               dialogBoxIsOpen: true,
               dialogBoxText: 'Profile updated',
             });
@@ -180,6 +188,10 @@ class UserProfile extends Component {
             className="profile-content__input"
             type="password"
             hintText="Old password"
+            value={this.state.oldPassword}
+            errorText={this.state.error.oldPassword}
+            onKeyPress={this.handleKeyPressEnter}
+            onChange={this.handleInputValue('oldPassword')}
           />
           <TextField
             className="profile-content__input"

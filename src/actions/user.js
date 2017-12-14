@@ -35,11 +35,12 @@ export const signUp = (name, email, password, rePassword) => {
   };
 };
 
-export const updateProfile = (id, name, phone, password, isPasswordChange) => {
+export const updateProfile = (id, name, phone, oldPassword, password, isPasswordChange) => {
   const data = {
     id,
     name,
     phone,
+    oldPassword,
     password,
     isPasswordChange,
   };
