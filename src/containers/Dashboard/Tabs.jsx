@@ -5,7 +5,14 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Paper, Tabs, Tab } from 'material-ui';
 import DashboardTable from '../../components/Profile/Dashboard/Table';
-import { getFavoritePlaygrounds, getUserEvents, getUserPlaygrounds } from '../../actions/user';
+import {
+  getFavoritePlaygrounds,
+  getUserEvents,
+  getUserPlaygrounds,
+  favoritePlaygroundControl,
+} from '../../actions/user';
+import { deleteEvent } from '../../actions/events';
+import { deletePlayground } from '../../actions/playgrounds';
 
 const propTypes = {
   userId: PropTypes.number,
@@ -19,6 +26,9 @@ const propTypes = {
     getUserPlaygrounds: PropTypes.func,
     getFavoritePlaygrounds: PropTypes.func,
     getUserEvents: PropTypes.func,
+    favoritePlaygroundControl: PropTypes.func,
+    deleteEvent: PropTypes.func,
+    deletePlayground: PropTypes.func,
   }),
 };
 
@@ -40,10 +50,10 @@ class DashboardTabs extends Component {
     switch (value) {
       case 'favorite':
         return actions.getFavoritePlaygrounds(userId);
-      case 'playgrounds':
-        return actions.getUserPlaygrounds(userId);
       case 'events':
         return actions.getUserEvents(userId);
+      case 'playgrounds':
+        return actions.getUserPlaygrounds(userId);
       default:
         return false;
     }
@@ -57,7 +67,9 @@ class DashboardTabs extends Component {
       playgrounds,
       favPlaygrounds,
       events,
+      actions,
     } = this.props;
+    const { value } = this.state;
 
     return (
       <Paper zDepth={2}>
@@ -68,28 +80,40 @@ class DashboardTabs extends Component {
           <Tab label="Favorite" value="favorite">
             <div>
               <DashboardTable
+                value={value}
                 content={favPlaygrounds}
                 isLoading={favPlaygroundsIsLoading}
+                actions={{
+                  remove: actions.favoritePlaygroundControl,
+                  update: actions.getFavoritePlaygrounds,
+                }}
               />
-              <div>Pagination</div>
-            </div>
-          </Tab>
-          <Tab label="My playgrounds" value="playgrounds">
-            <div>
-              <DashboardTable
-                content={playgrounds}
-                isLoading={playgroundsIsLoading}
-              />
-              <div>Pagination</div>
             </div>
           </Tab>
           <Tab label="My events" value="events">
             <div>
               <DashboardTable
+                value={value}
                 content={events}
                 isLoading={eventsIsLoading}
+                actions={{
+                  remove: actions.deleteEvent,
+                  update: actions.getUserEvents,
+                }}
               />
-              <div>Pagination</div>
+            </div>
+          </Tab>
+          <Tab label="My playgrounds" value="playgrounds">
+            <div>
+              <DashboardTable
+                value={value}
+                content={playgrounds}
+                isLoading={playgroundsIsLoading}
+                actions={{
+                  remove: actions.deletePlayground,
+                  update: actions.getUserPlaygrounds,
+                }}
+              />
             </div>
           </Tab>
         </Tabs>
@@ -138,6 +162,9 @@ const mapDispatchToProps = dispatch => ({
     getUserPlaygrounds,
     getFavoritePlaygrounds,
     getUserEvents,
+    favoritePlaygroundControl,
+    deleteEvent,
+    deletePlayground,
   }, dispatch),
 });
 

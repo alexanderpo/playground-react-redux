@@ -64,7 +64,7 @@ body {
 }
 
 .profile-content__bold-text {
-  font-weight: bold;
+  font-weight: 500;
   margin: 4px 0px 4px 0px;
 }
 
@@ -107,3 +107,32 @@ body {
   fill: rgb(80, 113, 153)!important;
 }
 /* END DASHBOARD USER PROFILE COMPONENT */
+
+/* START DASHBOARD USER TABLE */
+.dashboard-table__progress {
+  display: table!important;
+  margin: 32px auto!important;
+}
+
+.dashboard-table__wrapper {
+  max-height: 45vh;
+  overflow-y: auto;
+}
+
+.dashboard-table__row {
+  text-transform: uppercase!important;
+}
+
+.row-column__title {
+  font-weight: 500!important;
+}
+
+.row-column__description {
+
+}
+
+.row-column__actions {
+  text-align: right!important;
+}
+
+/* END DASHBOARD USER TABLE */

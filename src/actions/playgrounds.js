@@ -6,6 +6,7 @@ export const GET_PLAYGROUND = 'GET_PLAYGROUND';
 export const UPDATE_PLAYGROUND_POSITION = 'UPDATE_PLAYGROUND_POSITION';
 export const GET_PLAYGROUND_ADDRESS = 'GET_PLAYGROUND_ADDRESS';
 export const CREATE_PLAYGROUNT = 'CREATE_PLAYGROUNT';
+export const DELETE_PLAYGROUND = 'DELETE_PLAYGROUND';
 
 export const updatePlaygroundPosition = createAction(UPDATE_PLAYGROUND_POSITION);
 
@@ -22,6 +23,11 @@ export const getPlaygrounds = () => ({
 export const getPlayground = id => ({
   type: GET_PLAYGROUND,
   promise: api.getPlayground(id),
+});
+
+export const deletePlayground = id => ({
+  type: DELETE_PLAYGROUND,
+  promise: api.deletePlayground(id),
 });
 
 // eslint-disable-next-line

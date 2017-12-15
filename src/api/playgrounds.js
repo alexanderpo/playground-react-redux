@@ -33,6 +33,15 @@ export const createPlayground = data => fetch('/api/v1/playgrounds', {
   body: JSON.stringify(data),
 }).then(response => responseChecker(response));
 
+export const deletePlayground = id => fetch(`/api/v1/playgrounds/${id}`, {
+  method: 'delete',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));
+
 
 export const getAddressByCoords = (lat, lng) => fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBYJGAFqDYFPxPyX39sGmdHMWhKpNoDcf4`, {
   method: 'get',

@@ -4,6 +4,7 @@ import * as api from '../api/events';
 export const GET_EVENTS = 'GET_EVENTS';
 export const GET_EVENT = 'GET_EVENT';
 export const CREATE_EVENT = 'CREATE_EVENT';
+export const DELETE_EVENT = 'DELETE_EVENT';
 export const UPDATE_SUBSCRIBERS = 'UPDATE_SUBSCRIBERS';
 export const UPDATE_EVENT_DATETIME = 'UPDATE_EVENT_DATETIME';
 export const UPDATE_EVENT_SELECTED_PLAYGROUND = 'UPDATE_EVENT_SELECTED_PLAYGROUND';
@@ -34,3 +35,8 @@ export const createEvent = (title, datetime, userId, playgroundId) => {
     promise: api.createEvent(data),
   };
 };
+
+export const deleteEvent = id => ({
+  type: DELETE_EVENT,
+  promise: api.deleteEvent(id),
+});
