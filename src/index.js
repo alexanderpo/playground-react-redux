@@ -16,6 +16,11 @@ const muiTheme = getMuiTheme({
     primary1Color: '#507299',
     accent1Color: '#DBE4FE',
   },
+  tabs: {
+    backgroundColor: '#ffffff',
+    textColor: '#cccccc',
+    selectedTextColor: '#507299',
+  },
 });
 
 const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};

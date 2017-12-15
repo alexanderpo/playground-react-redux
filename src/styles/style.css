@@ -11,6 +11,12 @@ body {
   font-family: Roboto, sans-serif;
 }
 
+/* START MAIN CONTENT WINDOW */
+.main-content__wrapper {
+  margin: 5px;
+}
+/* END MAIN CONTENT WINDOW */
+
 /* START DASHBOARD USER PROFILE COMPONENT */
 .user-profile__container {
   position: relative;
@@ -68,6 +74,7 @@ body {
 
 .profile-content__count-text {
   text-transform: uppercase;
+  font-size: 12px;
   margin: 12px 0px 0px 0px;
 }
 

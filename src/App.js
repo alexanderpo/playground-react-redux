@@ -31,7 +31,7 @@ class App extends Component {
     return (
       <div>
         <LeftSlideMenu user={user} logout={actions.logout} />
-        <div>
+        <div className="main-content__wrapper">
           { this.props.children }
         </div>
       </div>

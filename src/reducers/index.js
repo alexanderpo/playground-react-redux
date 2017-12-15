@@ -8,6 +8,7 @@ import createEventDatetime from './Events/Create/datetime';
 import selectedPlaygroundId from './Events/Create/selectedPlayground';
 import allPlaygrounds from './Playgrounds/index';
 import currentPlayground from './Playgrounds/playground';
+import userPlaygounds from './Playgrounds/user';
 import favoritePlaygrounds from './Playgrounds/favorites';
 import playgroundPosition from './Playgrounds/Create/position';
 import playgroundAddress from './Playgrounds/Create/address';
@@ -30,6 +31,7 @@ const appReducer = combineReducers({
     all: allPlaygrounds,
     current: currentPlayground,
     favorites: favoritePlaygrounds,
+    user: userPlaygounds,
     create: combineReducers({
       position: playgroundPosition,
       address: playgroundAddress,

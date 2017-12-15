@@ -5,7 +5,7 @@ import PublicRouteCreator from './routes/publicRouteCreator';
 // import PrivateRouteCreator from './routes/privateRouteCreator';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
-import UserProfile from './containers/UserProfile';
+import UserDashboard from './containers/Dashboard/Index';
 import Events from './containers/Events/Index';
 import EventDetailsWrapper from './containers/Events/Details';
 import UpcomingEvents from './containers/Events/Upcoming';
@@ -24,7 +24,7 @@ const Routes = () => (
       <App>
         <div>
           <PublicRouteCreator exact={true} path="/" component={<Events />} />
-          <PublicRouteCreator exact={false} path="/:userId/profile" component={<UserProfile />} />
+          <PublicRouteCreator exact={false} path="/:userId/profile" component={<UserDashboard />} />
           <PublicRouteCreator exact={false} path="/:userId/events" component={<UserEvents />} />
 
           <PublicRouteCreator exact={true} path="/playgrounds" component={<PlaygroundsPreview />} />
