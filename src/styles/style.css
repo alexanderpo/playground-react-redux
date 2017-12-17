@@ -125,6 +125,12 @@ body {
 
 .row-column__title {
   font-weight: 500!important;
+  cursor: pointer;
+}
+
+.row-column__title a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .row-column__description {

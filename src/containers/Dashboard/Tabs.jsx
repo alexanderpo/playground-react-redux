@@ -144,7 +144,7 @@ const mapStateToProps = (state) => {
     state.events.user.details.map(ev => ({
       id: ev.event_id,
       title: ev.event_title,
-      description: moment(ev.event_created_at).format('lll'),
+      description: moment(ev.event_datetime).format('lll'),
     }));
 
   return {

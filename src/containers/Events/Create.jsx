@@ -184,7 +184,7 @@ class CreateEvent extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.details,
-  playgrounds: state.playgrounds.all.details,
+  playgrounds: state.playgrounds.all.details.error ? [] : state.playgrounds.all.details,
   createInfo: state.events.create,
 });
 

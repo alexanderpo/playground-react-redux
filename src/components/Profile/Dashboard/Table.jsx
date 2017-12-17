@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import _ from 'lodash';
+import { withRouter, Link } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -76,10 +77,38 @@ class DashboardTable extends Component {
     }
   };
 
+  renderLink = (item) => {
+    const { value } = this.props;
+    switch (value) {
+      case 'favorite':
+        return (
+          <Link to={`/playgrounds/${item.id}`} >
+            {item.title}
+          </Link>
+        );
+      case 'events':
+        return (
+          <Link to={`/events/${item.id}`} >
+            {item.title}
+          </Link>
+        );
+      case 'playgrounds':
+        return (
+          <Link to={`/playgrounds/${item.id}`} >
+            {item.title}
+          </Link>
+        );
+      default:
+        return false;
+    }
+  };
+
   renderTableRowColumn = content => (
-    content !== undefined ? content.map(item => (
+    !_.isEmpty(content) ? content.map(item => (
       <TableRow key={item.id} className="dashboard-table__row">
-        <TableRowColumn className="row-column__title">{item.title}</TableRowColumn>
+        <TableRowColumn className="row-column__title">
+          { this.renderLink(item) }
+        </TableRowColumn>
         <TableRowColumn className="row-column__description">{item.description}</TableRowColumn>
         <TableRowColumn className="row-column__actions">
           <IconButton onClick={() => this.removeItem(item)}>
@@ -87,7 +116,11 @@ class DashboardTable extends Component {
           </IconButton>
         </TableRowColumn>
       </TableRow>
-    )) : null
+    )) : (
+      <TableRow className="dashboard-table__row dashboard-table__progress">
+        <TableRowColumn>Not created yet</TableRowColumn>
+      </TableRow>
+    )
   );
 
   render() {

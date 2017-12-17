@@ -91,21 +91,22 @@ const mapStateToProps = (state) => {
   const { subscribedEvents } = state.user.details;
   const { favoritePlaygrounds } = state.user.details;
 
-  const events = state.events.all.details.map(event => ({
+  const events = state.events.all.details.error ? [] : state.events.all.details.map(event => ({
     ...event,
     isSubscribed: _.includes(subscribedEvents, event.event_id),
     isFavorite: _.includes(favoritePlaygrounds, event.playground_id),
   }));
 
-  const placemarks = state.events.all.details.map(event => ({
-    latitude: event.playground_latitude,
-    longitude: event.playground_longitude,
-    info: {
-      playgroundId: event.playground_id,
-      title: event.event_title,
-      datetime: moment(event.event_datetime).format('lll'),
-    },
-  }));
+  const placemarks = state.events.all.details.error ? [] :
+    state.events.all.details.map(event => ({
+      latitude: event.playground_latitude,
+      longitude: event.playground_longitude,
+      info: {
+        playgroundId: event.playground_id,
+        title: event.event_title,
+        datetime: moment(event.event_datetime).format('lll'),
+      },
+    }));
 
   return {
     events,
