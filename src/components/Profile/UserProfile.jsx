@@ -220,67 +220,6 @@ class UserProfile extends Component {
       dialogBoxText,
     } = this.state;
     const { data } = this.props;
-    /*
-<div className="user-profile-wrapper">
-  <Avatar
-    size={250}
-    className="user-profile-image"
-    src={(previewImage === null) ? UserProfilePhoto : `/api/v1/images/${previewImage}`}
-    onClick={() => { document.getElementById('image-loader').click(); }}
-  />
-  <input
-    id="image-loader"
-    type="file"
-    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*"
-    onChange={this.handleProfileImage}
-  />
-  <TextField
-    hintText="User name"
-    floatingLabelText="Name"
-    value={name}
-    errorText={error.name}
-    onKeyPress={this.handleKeyPressEnter}
-    onChange={this.handleInputValue('name')}
-  />
-  <TextField
-    hintText="Phone number"
-    floatingLabelText="Phone"
-    value={phone}
-    errorText={error.phone}
-    onKeyPress={this.handleKeyPressEnter}
-    onChange={this.handleInputValue('phone')}
-  />
-  <TextField
-    hintText="Email address"
-    floatingLabelText="Email"
-    value={this.props.data.email}
-    disabled={true}
-  />
-  <Toggle
-    className="change-password-toggle"
-    label="Change password"
-    toggled={passwordToggleIsOpen}
-    onToggle={this.handlePasswordToggle}
-  />
-  { passwordToggleIsOpen ?
-    <PasswordField
-      style={{ width: '256px' }}
-      floatingLabelText="Enter new password"
-      type="password"
-      value={password}
-      errorText={error.password}
-      onKeyPress={this.handleKeyPressEnter}
-      onChange={this.handleInputValue('password')}
-    /> : null
-  }
-  <RaisedButton
-    className="save-button"
-    label="Save changes"
-    primary={true}
-    onClick={this.handleSaveChanges}
-  />
-</div>
-*/
 
     return (
       <Paper zDepth={2} className="user-profile__container">

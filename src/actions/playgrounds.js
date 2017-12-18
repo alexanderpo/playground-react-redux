@@ -31,7 +31,7 @@ export const deletePlayground = id => ({
 });
 
 // eslint-disable-next-line
-export const createPlayground = (name, description, address, images, latitude, longitude, creator) => {
+export const createPlayground = (name, description, address, images, latitude, longitude, creator, createdBy) => {
   const data = {
     name,
     description,
@@ -40,6 +40,7 @@ export const createPlayground = (name, description, address, images, latitude, l
     latitude,
     longitude,
     creator,
+    createdBy,
   };
   return {
     type: CREATE_PLAYGROUNT,

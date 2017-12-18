@@ -6,6 +6,7 @@ import {
   ADD_TO_FAVORITE_PLAYGROUND,
   UPDATE_PROFILE,
   UPDATE_PROFILE_IMAGE,
+  GET_ORGANISED_EVENTS,
 } from '../actions/user';
 
 const initialState = {
@@ -113,6 +114,27 @@ export default function (state = initialState, action) {
           details: {
             ...state.details,
             image: action.payload.image,
+          },
+          isLoading: false,
+        }),
+      });
+    case GET_ORGANISED_EVENTS:
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          isLoading: true,
+          error: null,
+        }),
+        failure: prevState => ({
+          ...prevState,
+          error: payload,
+          isLoading: false,
+        }),
+        success: prevState => ({
+          ...prevState,
+          details: {
+            ...state.details,
+            createdEvents: action.payload.count,
           },
           isLoading: false,
         }),

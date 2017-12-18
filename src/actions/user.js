@@ -12,6 +12,7 @@ export const GET_FAVORITE_PLAYGROUNDS = 'GET_FAVORITE_PLAYGROUNDS';
 export const GET_UPCOMING_EVENTS = 'GET_UPCOMING_EVENTS';
 export const GET_USER_EVENTS = 'GET_USER_EVENTS';
 export const UPDATE_PROFILE_IMAGE = 'UPDATE_PROFILE_IMAGE';
+export const GET_ORGANISED_EVENTS = 'GET_ORGANISED_EVENTS';
 
 export const logout = createAction(LOGOUT);
 
@@ -97,4 +98,9 @@ export const getUpcomingEvents = id => ({
 export const getUserEvents = id => ({
   type: GET_USER_EVENTS,
   promise: api.getUserEvents(id),
+});
+
+export const getOrganisedEvents = id => ({
+  type: GET_ORGANISED_EVENTS,
+  promise: api.getOrganisedEvents(id),
 });

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateProfile, updateProfileImage } from '../../actions/user';
+import { updateProfile, updateProfileImage, getOrganisedEvents } from '../../actions/user';
 import { createImage, removeImage } from '../../actions/images';
 import UserProfile from '../../components/Profile/UserProfile';
 import DashboardTabs from './Tabs';
@@ -10,6 +10,7 @@ import DashboardTabs from './Tabs';
 const propTypes = {
   data: PropTypes.object,
   actions: PropTypes.shape({
+    getOrganisedEvents: PropTypes.func,
     updateProfileImage: PropTypes.func,
     updateProfile: PropTypes.func,
     createImage: PropTypes.func,
@@ -18,6 +19,11 @@ const propTypes = {
 };
 
 class UserDashboard extends Component {
+  componentDidMount = () => {
+    const { data, actions } = this.props;
+    actions.getOrganisedEvents(data.id);
+  };
+
   render() {
     const { data, actions } = this.props;
     return (
@@ -41,6 +47,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    getOrganisedEvents,
     updateProfileImage,
     updateProfile,
     createImage,

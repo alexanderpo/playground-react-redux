@@ -115,7 +115,7 @@ class CreatePlayground extends Component {
     } else {
       this.clearErrorsFields();
       // eslint-disable-next-line
-      actions.createPlayground(name, description, address, uploadedImages, latitude, longitude, user.email)
+      actions.createPlayground(name, description, address, uploadedImages, latitude, longitude, user.email, user.id)
         .then((action) => {
           if (_.isEmpty(action.payload.error)) {
             this.clearInputFields();
