@@ -145,6 +145,7 @@ class DashboardTabs extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const userId = state.user.details.id;
   const favPlaygroundsIsLoading = state.playgrounds.favorites.isLoading;
   const favPlaygrounds = state.playgrounds.favorites.details.error ? [] :
     state.playgrounds.favorites.details.map(pg => ({
@@ -170,6 +171,7 @@ const mapStateToProps = (state) => {
     }));
 
   return {
+    userId,
     playgroundsIsLoading,
     playgrounds,
     favPlaygroundsIsLoading,

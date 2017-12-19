@@ -222,11 +222,11 @@ class UserProfile extends Component {
     const { data } = this.props;
 
     return (
-      <Paper zDepth={2} className="user-profile__container">
+      <Paper className="user-profile__container">
         <div className="user-profile__content">
           <div className="profile-image__container">
             <Avatar
-              size={64}
+              size={90}
               className="profile-image__content"
               src={(previewImage === null) ? UserProfilePhoto : `/api/v1/images/${previewImage}`}
               onClick={() => { document.getElementById('profile-image__input').click(); }}

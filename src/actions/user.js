@@ -10,6 +10,7 @@ export const ADD_TO_FAVORITE_PLAYGROUND = 'ADD_TO_FAVORITE_PLAYGROUND';
 export const GET_USER_PLAYGROUNDS = 'GET_USER_PLAYGROUNDS';
 export const GET_FAVORITE_PLAYGROUNDS = 'GET_FAVORITE_PLAYGROUNDS';
 export const GET_UPCOMING_EVENTS = 'GET_UPCOMING_EVENTS';
+export const GET_UPCOMING_EVENTS_BY_DATE = 'GET_UPCOMING_EVENTS_BY_DATE';
 export const GET_USER_EVENTS = 'GET_USER_EVENTS';
 export const UPDATE_PROFILE_IMAGE = 'UPDATE_PROFILE_IMAGE';
 export const GET_ORGANISED_EVENTS = 'GET_ORGANISED_EVENTS';
@@ -103,4 +104,9 @@ export const getUserEvents = id => ({
 export const getOrganisedEvents = id => ({
   type: GET_ORGANISED_EVENTS,
   promise: api.getOrganisedEvents(id),
+});
+
+export const getUpcomingEventsByDate = (id, date) => ({
+  type: GET_UPCOMING_EVENTS_BY_DATE,
+  promise: api.getUpcomingEventsByDate(id, date),
 });

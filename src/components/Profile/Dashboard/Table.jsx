@@ -112,7 +112,7 @@ class DashboardTable extends Component {
         <TableRowColumn className="row-column__description">{item.description}</TableRowColumn>
         <TableRowColumn className="row-column__actions">
           <IconButton onClick={() => this.removeItem(item)}>
-            <RemoveFavoriteIcon />
+            <RemoveFavoriteIcon className="row-column-actions-remove__icon" />
           </IconButton>
         </TableRowColumn>
       </TableRow>

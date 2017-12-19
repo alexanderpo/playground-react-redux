@@ -109,3 +109,12 @@ export const getOrganisedEvents = id => fetch(`/api/v1/users/${id}/events/organi
     'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
   },
 }).then(response => responseChecker(response));
+
+export const getUpcomingEventsByDate = (id, date) => fetch(`/api/v1/users/${id}/events/upcoming/${date}`, {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));

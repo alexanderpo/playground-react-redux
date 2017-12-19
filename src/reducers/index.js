@@ -4,6 +4,7 @@ import userEvents from './Events/user';
 import allEvents from './Events/events';
 import currentEvent from './Events/event';
 import upcomingEvents from './Events/upcoming';
+import upcomingEventsByDate from './Events/upcomingByDate';
 import createEventDatetime from './Events/Create/datetime';
 import selectedPlaygroundId from './Events/Create/selectedPlayground';
 import allPlaygrounds from './Playgrounds/index';
@@ -21,6 +22,7 @@ const appReducer = combineReducers({
     all: allEvents,
     upcoming: upcomingEvents,
     current: currentEvent,
+    byDate: upcomingEventsByDate,
     user: userEvents,
     create: combineReducers({
       datetime: createEventDatetime,

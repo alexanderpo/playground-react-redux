@@ -6,6 +6,7 @@ import { updateProfile, updateProfileImage, getOrganisedEvents } from '../../act
 import { createImage, removeImage } from '../../actions/images';
 import UserProfile from '../../components/Profile/UserProfile';
 import DashboardTabs from './Tabs';
+import DashboardCalendar from './Calendar';
 
 const propTypes = {
   data: PropTypes.object,
@@ -28,7 +29,7 @@ class UserDashboard extends Component {
     const { data, actions } = this.props;
     return (
       <div>
-        <div className="user-dashboard__left-column">
+        <div style={{ display: 'none' }} className="user-dashboard__left-column">
           <UserProfile
             data={data}
             createImage={actions.createImage}
@@ -36,7 +37,10 @@ class UserDashboard extends Component {
             updateProfile={actions.updateProfile}
             updateProfileImage={actions.updateProfileImage}
           />
-          <DashboardTabs userId={data.id} />
+          <DashboardTabs />
+        </div>
+        <div className="user-dashboard__right-column">
+          <DashboardCalendar />
         </div>
       </div>
     );
