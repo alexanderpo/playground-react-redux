@@ -13,13 +13,16 @@ import registerServiceWorker from './registerServiceWorker';
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: '#507299',
+    primary1Color: 'rgb(164, 198, 57)',
     accent1Color: '#DBE4FE',
   },
   tabs: {
+    backgroundColor: '#f7f7f7',
+    textColor: 'rgb(72, 70, 70)',
+    selectedTextColor: 'rgb(164, 198, 57)',
+  },
+  inkBar: {
     backgroundColor: '#ffffff',
-    textColor: '#cccccc',
-    selectedTextColor: '#507299',
   },
 });
 

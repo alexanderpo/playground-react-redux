@@ -9,15 +9,20 @@ body {
   margin: 0;
   padding: 0;
   font-family: Roboto, sans-serif;
+  background-color: #F7F7F7;
 }
 
 /* START MAIN CONTENT WINDOW */
 .main-content__wrapper {
-  margin: 5px;
+  margin: 50px 100px 100px 100px;
 }
 /* END MAIN CONTENT WINDOW */
 
 /* START DASHBOARD USER PROFILE COMPONENT */
+.user-dashboard__left-column {
+
+}
+
 .user-profile__container {
   position: relative;
   display: flex;
@@ -26,6 +31,8 @@ body {
   flex-wrap: wrap;
   padding: 16px;
   width: 100%;
+  margin: 0px 0px 32px 0px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px!important;
 }
 
 .profile-image__container {
@@ -103,12 +110,24 @@ body {
 }
 
 .profile-edit-button__icon {
-  color: rgb(80, 113, 153)!important;
-  fill: rgb(80, 113, 153)!important;
+  color: rgb(164, 198, 57)!important;
+  fill: rgb(164, 198, 57)!important;
 }
 /* END DASHBOARD USER PROFILE COMPONENT */
 
 /* START DASHBOARD USER TABLE */
+.dashboard-table-tabs__wrapper {
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px!important;
+}
+
+.dashboard-table__tab {
+
+}
+
+.dashboard-table__tab-active {
+  background: #ffffff!important;
+}
+
 .dashboard-table__progress {
   display: table!important;
   margin: 32px auto!important;
@@ -117,6 +136,7 @@ body {
 .dashboard-table__wrapper {
   max-height: 45vh;
   overflow-y: auto;
+  /*box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px;*/
 }
 
 .dashboard-table__row {

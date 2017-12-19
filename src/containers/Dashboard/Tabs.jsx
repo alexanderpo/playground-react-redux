@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import classNames from 'classnames';
 import { Paper, Tabs, Tab } from 'material-ui';
 import DashboardTable from '../../components/Profile/Dashboard/Table';
 import {
@@ -72,12 +73,19 @@ class DashboardTabs extends Component {
     const { value } = this.state;
 
     return (
-      <Paper zDepth={2}>
+      <Paper className="dashboard-table-tabs__wrapper">
         <Tabs
           value={this.state.value}
           onChange={this.handleChangeTabs}
         >
-          <Tab label="Favorite" value="favorite">
+          <Tab
+            label="Favorite"
+            value="favorite"
+            className={classNames({
+              'dashboard-table__tab-active': value === 'favorite',
+              'dashboard-table__tab': value !== 'favorite',
+            })}
+          >
             <div>
               <DashboardTable
                 value={value}
@@ -90,7 +98,14 @@ class DashboardTabs extends Component {
               />
             </div>
           </Tab>
-          <Tab label="My events" value="events">
+          <Tab
+            label="My events"
+            value="events"
+            className={classNames({
+              'dashboard-table__tab-active': value === 'events',
+              'dashboard-table__tab': value !== 'events',
+            })}
+          >
             <div>
               <DashboardTable
                 value={value}
@@ -103,7 +118,14 @@ class DashboardTabs extends Component {
               />
             </div>
           </Tab>
-          <Tab label="My playgrounds" value="playgrounds">
+          <Tab
+            label="My playgrounds"
+            value="playgrounds"
+            className={classNames({
+              'dashboard-table__tab-active': value === 'playgrounds',
+              'dashboard-table__tab': value !== 'playgrounds',
+            })}
+          >
             <div>
               <DashboardTable
                 value={value}
