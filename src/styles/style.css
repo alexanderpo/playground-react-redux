@@ -19,12 +19,20 @@ body {
 /* END MAIN CONTENT WINDOW */
 
 /* START DASHBOARD USER PROFILE COMPONENT */
+.user-dashboard__content {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .user-dashboard__left-column {
 
 }
 
 .user-dashboard__right-column {
-
+  margin-left: 30px;
+  width: 425px;
 }
 
 .user-profile__container {
@@ -171,6 +179,82 @@ body {
 }
 
 .row-column-actions-remove__icon {
-  color: rgb(72, 70, 70)!important;
+  color: rgb(131, 131, 131)!important;
 }
 /* END DASHBOARD USER TABLE */
+
+/* START DASHBOARD EVENTS CALENDAR */
+.dashboard-events-calendar__wrapper {
+
+}
+
+.dashboard-events-calendar__title {
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+.dashboard-events-calendar-date-picker__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 150px;
+  height: 35px;
+  margin: 15px 0px 0px 0px;
+  padding: 0px 0px 0px 23px;
+  font-size: 14px;
+}
+
+.dashboard-events-calendar-date-picker__date-text {
+
+}
+
+.dashboard-events-calendar-date-picker__date-selector {
+
+}
+
+.dashboard-events-calendar-date-picker__date-selector-icon {
+  color: rgb(164, 198, 57)!important;
+  fill: rgb(164, 198, 57)!important;
+}
+
+.dashboard-events-calendar-table__container {
+  margin: 15px 0px 0px 0px;
+}
+
+.dashboard-events-calendar_table__row {
+
+}
+
+.dashboard-events-calendar__empty {
+  text-transform: uppercase;
+  display: table!important;
+  margin: 32px auto!important;
+}
+
+.dashboard-events-calendar_table-row__column {
+  font-size: 14px!important;
+}
+
+.calendar_table-row__time {
+  width: 35px;
+}
+
+.calendar-table-row-column__title {
+  padding-left: 0px!important;
+  padding-right: 0px!important;
+}
+
+.calendar_table-row__title{
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.calendar-table-row__actions {
+  width: 35px;
+}
+
+.dashboard-events-calendar-table__more-content-icon {
+  color: rgb(131, 131, 131)!important;
+}
+/* END DASHBOARD EVENTS CALENDAR */

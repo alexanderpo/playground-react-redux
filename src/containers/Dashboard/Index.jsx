@@ -28,8 +28,8 @@ class UserDashboard extends Component {
   render() {
     const { data, actions } = this.props;
     return (
-      <div>
-        <div style={{ display: 'none' }} className="user-dashboard__left-column">
+      <div className="user-dashboard__content">
+        <div className="user-dashboard__left-column">
           <UserProfile
             data={data}
             createImage={actions.createImage}
