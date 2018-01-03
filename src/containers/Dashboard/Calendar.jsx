@@ -5,14 +5,10 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
-import { Paper, DatePicker, IconButton, CircularProgress } from 'material-ui';
-import {
-  Table,
-  TableBody,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+import classNames from 'classnames';
+import { Paper, DatePicker, IconButton, Divider, CircularProgress } from 'material-ui';
 import MoreContentIcon from 'material-ui/svg-icons/navigation/more-horiz';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import ArrowIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import { getUpcomingEventsByDate } from '../../actions/user';
 // import EventsSchedule from './EventsSchedule';
@@ -59,32 +55,45 @@ class DashboardCalendar extends Component {
     return moment(new Date(this.state.date)).format('l');
   }
 
+  // TODO: open / show more info
+  // TODO: unsubscribe from event with dynamic update table
+  // TODO: added count of users whos gooing on event
+
   renderEvents = events => (
     !_.isEmpty(events) ? events.map(event => (
-      <TableRow key={event.event_id} className="dashboard-events-calendar_table__row">
-        <TableRowColumn className="dashboard-events-calendar_table-row__column calendar_table-row__time">
-          { moment(event.event_datetime).format('H:MM') }
-        </TableRowColumn>
-        <TableRowColumn className="dashboard-events-calendar_table-row__column calendar-table-row-column__title">
-          <span>
-            <Link to={`/events/${event.event_id}`} className="calendar_table-row__title">
+      <div key={event.event_id} className="calendar-content__column">
+        <div className="calendar-main-content">
+          <div className="calendar__info">
+            { moment(event.event_datetime).format('H:MM') }
+          </div>
+          <div className="calendar__info calendar__title">
+            <Link to={`/events/${event.event_id}`} title={event.event_title} className="calendar-info__title">
               {event.event_title}
-            </Link> at <Link to={`/playgrounds/${event.playground_id}`} className="calendar_table-row__title">{event.playground_name}</Link>
-          </span>
-        </TableRowColumn>
-        <TableRowColumn className="dashboard-events-calendar_table-row__column calendar-table-row__actions">
-          <IconButton onClick={() => console.log(event)}>
-            <MoreContentIcon className="dashboard-events-calendar-table__more-content-icon" />
-          </IconButton>
-        </TableRowColumn>
-      </TableRow>
+            </Link> at <Link to={`/playgrounds/${event.playground_id}`} title={event.playground_name} className="calendar-info__title">{event.playground_name}</Link>
+          </div>
+          <div className="calendar__actions">
+            <IconButton>
+              <MoreContentIcon className="dashboard-events-calendar-table__more-content-icon" />
+            </IconButton>
+          </div>
+        </div>
+        <div className="calendar-more-content">
+          <div>{event.playground_description}</div>
+          <div className="calendar-more-content__stats">
+            <span>Players - <span className="bolder__text">3</span></span>
+            <span>Organiser - <span className="bolder__text">{event.creator_name}</span></span>
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        </div>
+        <Divider />
+      </div>
     )) : (
-      <TableRow className="dashboard-events-calendar_table__row dashboard-events-calendar__empty">
-        <TableRowColumn>Don&apos;t have event&apos;s on this date</TableRowColumn>
-      </TableRow>
+      <div>Don&apos;t have event&apos;s on this date</div>
     )
   );
-  // TODO: implement more info with unsubscribe action
+
   render() {
     const { isLoading, events } = this.props;
     return (
@@ -113,11 +122,9 @@ class DashboardCalendar extends Component {
         <Paper className="dashboard-events-calendar-table__container">
           {
             isLoading ? <CircularProgress className="dashboard-calendar__progress" /> : (
-              <Table selectable={false}>
-                <TableBody displayRowCheckbox={false}>
-                  { this.renderEvents(events) }
-                </TableBody>
-              </Table>
+              <div className="dashboard-calendar__content-container">
+                { this.renderEvents(events) }
+              </div>
             )
           }
         </Paper>
