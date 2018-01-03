@@ -28,19 +28,21 @@ class UserDashboard extends Component {
   render() {
     const { data, actions } = this.props;
     return (
-      <div className="user-dashboard__content">
-        <div className="user-dashboard__left-column">
-          <UserProfile
-            data={data}
-            createImage={actions.createImage}
-            removeImage={actions.removeImage}
-            updateProfile={actions.updateProfile}
-            updateProfileImage={actions.updateProfileImage}
-          />
-          <DashboardTabs />
-        </div>
-        <div className="user-dashboard__right-column">
-          <DashboardCalendar />
+      <div className="main-content__wrapper">
+        <div className="user-dashboard__content">
+          <div className="user-dashboard__left-column">
+            <UserProfile
+              data={data}
+              createImage={actions.createImage}
+              removeImage={actions.removeImage}
+              updateProfile={actions.updateProfile}
+              updateProfileImage={actions.updateProfileImage}
+            />
+            <DashboardTabs />
+          </div>
+          <div className="user-dashboard__right-column">
+            <DashboardCalendar />
+          </div>
         </div>
       </div>
     );

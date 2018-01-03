@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
 import { Paper, DatePicker, IconButton, CircularProgress } from 'material-ui';
@@ -66,13 +67,13 @@ class DashboardCalendar extends Component {
         </TableRowColumn>
         <TableRowColumn className="dashboard-events-calendar_table-row__column calendar-table-row-column__title">
           <span>
-            <span className="calendar_table-row__title">
+            <Link to={`/events/${event.event_id}`} className="calendar_table-row__title">
               {event.event_title}
-            </span> at <span className="calendar_table-row__title">{event.playground_name}</span>
+            </Link> at <Link to={`/playgrounds/${event.playground_id}`} className="calendar_table-row__title">{event.playground_name}</Link>
           </span>
         </TableRowColumn>
         <TableRowColumn className="dashboard-events-calendar_table-row__column calendar-table-row__actions">
-          <IconButton>
+          <IconButton onClick={() => console.log(event)}>
             <MoreContentIcon className="dashboard-events-calendar-table__more-content-icon" />
           </IconButton>
         </TableRowColumn>
@@ -111,7 +112,7 @@ class DashboardCalendar extends Component {
         </Paper>
         <Paper className="dashboard-events-calendar-table__container">
           {
-            isLoading ? <CircularProgress /> : (
+            isLoading ? <CircularProgress className="dashboard-calendar__progress" /> : (
               <Table selectable={false}>
                 <TableBody displayRowCheckbox={false}>
                   { this.renderEvents(events) }
@@ -128,7 +129,7 @@ class DashboardCalendar extends Component {
 const mapStateToProps = state => ({
   userId: state.user.details.id,
   isLoading: state.events.byDate.isLoading,
-  events: state.events.byDate.details,
+  events: state.events.byDate.details.error ? [] : state.events.byDate.details,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -138,4 +139,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 DashboardCalendar.propTypes = propTypes;
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardCalendar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DashboardCalendar));
