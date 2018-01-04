@@ -49,7 +49,7 @@ a {
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 16px;
+  padding: 18px 20px 18px 20px;
   width: 635px;
   margin: 0px 0px 30px 0px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px!important;
@@ -157,7 +157,10 @@ a {
 }
 
 .dashboard-calendar__progress {
-  margin: 32px 200px!important;
+  text-transform: uppercase;
+  display: table!important;
+  margin: 0 auto!important;
+  padding: 18px;
 }
 
 .dashboard-table__wrapper {
@@ -263,6 +266,28 @@ a {
   align-items: baseline;
   margin: 5px 0px;
   width: 398px;
+}
+
+.calendar_empty__text {
+  text-transform: uppercase;
+  margin: 32px auto!important;
+  font-size: 14px;
+}
+
+.dashboard-calendar_more-icon__disabled {
+  color: rgb(131, 131, 131)!important;
+}
+
+.dashboard-calendar_more-icon__active {
+  color: rgb(164, 198, 57)!important;
+}
+
+.calendar-content__active {
+  display: flex!important;
+}
+
+.calendar-content__disabled {
+  display: none!important;
 }
 
   /* end calendar flexboxes */
