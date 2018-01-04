@@ -32,3 +32,12 @@ export const createEvent = data => fetch('/api/v1/events', {
   },
   body: JSON.stringify(data),
 }).then(response => responseChecker(response));
+
+export const deleteEvent = id => fetch(`/api/v1/events/${id}`, {
+  method: 'delete',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));

@@ -63,7 +63,7 @@ class DateTimePicker extends Component {
           value={datetime}
           errorText={this.props.errorText}
           formatDate={this.formatDate}
-          shouldDisableDate={this.disablePrevDates()}
+          minDate={new Date()}
           onChange={this.handleChangeDatePicker}
         />
         <TimePicker

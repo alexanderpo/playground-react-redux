@@ -7,10 +7,13 @@ export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const LOGOUT = 'LOGOUT';
 export const SUBSCRIBE_TO_EVENT = 'SUBSCRIBE_TO_EVENT';
 export const ADD_TO_FAVORITE_PLAYGROUND = 'ADD_TO_FAVORITE_PLAYGROUND';
+export const GET_USER_PLAYGROUNDS = 'GET_USER_PLAYGROUNDS';
 export const GET_FAVORITE_PLAYGROUNDS = 'GET_FAVORITE_PLAYGROUNDS';
 export const GET_UPCOMING_EVENTS = 'GET_UPCOMING_EVENTS';
+export const GET_UPCOMING_EVENTS_BY_DATE = 'GET_UPCOMING_EVENTS_BY_DATE';
 export const GET_USER_EVENTS = 'GET_USER_EVENTS';
 export const UPDATE_PROFILE_IMAGE = 'UPDATE_PROFILE_IMAGE';
+export const GET_ORGANISED_EVENTS = 'GET_ORGANISED_EVENTS';
 
 export const logout = createAction(LOGOUT);
 
@@ -35,11 +38,12 @@ export const signUp = (name, email, password, rePassword) => {
   };
 };
 
-export const updateProfile = (id, name, phone, password, isPasswordChange) => {
+export const updateProfile = (id, name, phone, oldPassword, password, isPasswordChange) => {
   const data = {
     id,
     name,
     phone,
+    oldPassword,
     password,
     isPasswordChange,
   };
@@ -77,6 +81,11 @@ export const favoritePlaygroundControl = (userId, playgroundId) => {
   };
 };
 
+export const getUserPlaygrounds = id => ({
+  type: GET_USER_PLAYGROUNDS,
+  promise: api.getUserPlaygrounds(id),
+});
+
 export const getFavoritePlaygrounds = id => ({
   type: GET_FAVORITE_PLAYGROUNDS,
   promise: api.getFavoritePlaygrounds(id),
@@ -90,4 +99,14 @@ export const getUpcomingEvents = id => ({
 export const getUserEvents = id => ({
   type: GET_USER_EVENTS,
   promise: api.getUserEvents(id),
+});
+
+export const getOrganisedEvents = id => ({
+  type: GET_ORGANISED_EVENTS,
+  promise: api.getOrganisedEvents(id),
+});
+
+export const getUpcomingEventsByDate = (id, date) => ({
+  type: GET_UPCOMING_EVENTS_BY_DATE,
+  promise: api.getUpcomingEventsByDate(id, date),
 });

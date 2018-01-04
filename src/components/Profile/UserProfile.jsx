@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { TextField, RaisedButton, Avatar, Toggle, Snackbar } from 'material-ui';
-import PasswordField from 'material-ui-password-field';
+import { TextField, RaisedButton, Avatar, Toggle, Snackbar, Paper, FloatingActionButton } from 'material-ui';
+import EditIconButton from 'material-ui/svg-icons/editor/mode-edit';
 import { updateUserProfileSchema } from '../../utils/validationSchema';
 import validate from '../../utils/validation';
 import UserProfilePhoto from '../../styles/images/user.png';
@@ -22,13 +22,16 @@ class UserProfile extends Component {
     this.state = {
       name: this.props.data.name,
       phone: this.props.data.phone === null ? '+375(29)000-00-00' : this.props.data.phone,
+      oldPassword: '',
       password: '',
       previewImage: this.props.data.image,
       selectedImage: [],
       passwordToggleIsOpen: false,
+      isEdit: false,
       error: {
         name: '',
         phone: '',
+        oldPassword: '',
         password: '',
       },
       dialogBoxIsOpen: false,
@@ -60,7 +63,9 @@ class UserProfile extends Component {
   handlePasswordToggle() {
     const { passwordToggleIsOpen } = this.state;
     this.setState({
+      oldPassword: '',
       password: '',
+      error: { oldPassword: '', password: '' },
       passwordToggleIsOpen: !passwordToggleIsOpen,
     });
   }
@@ -98,6 +103,7 @@ class UserProfile extends Component {
       error: {
         name: '',
         phone: '',
+        oldPassword: '',
         password: '',
       },
     });
@@ -108,6 +114,7 @@ class UserProfile extends Component {
     const {
       name,
       phone,
+      oldPassword,
       password,
       passwordToggleIsOpen,
     } = this.state;
@@ -115,6 +122,7 @@ class UserProfile extends Component {
       name,
       phone,
       passwordToggleIsOpen,
+      oldPassword,
       password,
     };
     const error = validate(updateUserProfileSchema, values);
@@ -124,12 +132,13 @@ class UserProfile extends Component {
         error: {
           name: error.name,
           phone: error.phone,
+          oldPassword: error.oldPassword,
           password: error.password,
         },
       });
     } else {
       this.clearErrorFields();
-      updateProfile(data.id, name, phone, password, passwordToggleIsOpen)
+      updateProfile(data.id, name, phone, oldPassword, password, passwordToggleIsOpen)
         .then((action) => {
           if (action.payload.error) {
             this.setState({
@@ -139,6 +148,7 @@ class UserProfile extends Component {
           } else {
             this.setState({
               passwordToggleIsOpen: false,
+              isEdit: false,
               dialogBoxIsOpen: true,
               dialogBoxText: 'Profile updated',
             });
@@ -147,78 +157,106 @@ class UserProfile extends Component {
     }
   }
 
+  renderEditableFields = () => (
+    <div className="profile-content__editable">
+      <TextField
+        className="profile-content__input"
+        hintText="Name"
+        fullWidth={true}
+        value={this.state.name}
+        errorText={this.state.error.name}
+        onKeyPress={this.handleKeyPressEnter}
+        onChange={this.handleInputValue('name')}
+      />
+      <TextField
+        className="profile-content__input"
+        hintText="Phone"
+        value={this.state.phone}
+        errorText={this.state.error.phone}
+        onKeyPress={this.handleKeyPressEnter}
+        onChange={this.handleInputValue('phone')}
+      />
+      <Toggle
+        className="profile-content__change-password-toggle"
+        label="Change password"
+        toggled={this.state.passwordToggleIsOpen}
+        onToggle={this.handlePasswordToggle}
+      />
+      { this.state.passwordToggleIsOpen ?
+        <div className="profile-content__change-password-wrapper">
+          <TextField
+            className="profile-content__input"
+            type="password"
+            hintText="Old password"
+            value={this.state.oldPassword}
+            errorText={this.state.error.oldPassword}
+            onKeyPress={this.handleKeyPressEnter}
+            onChange={this.handleInputValue('oldPassword')}
+          />
+          <TextField
+            className="profile-content__input"
+            type="password"
+            hintText="New password"
+            value={this.state.password}
+            errorText={this.state.error.password}
+            onKeyPress={this.handleKeyPressEnter}
+            onChange={this.handleInputValue('password')}
+          />
+        </div> : null
+      }
+      <RaisedButton
+        label="Save"
+        primary={true}
+        onClick={this.handleSaveChanges}
+      />
+    </div>
+  );
+
   render() {
     const {
-      name,
-      phone,
-      password,
       previewImage,
-      passwordToggleIsOpen,
-      error,
+      isEdit,
       dialogBoxIsOpen,
       dialogBoxText,
     } = this.state;
+    const { data } = this.props;
 
     return (
-      <div className="user-profile-box">
-        <div className="user-profile-wrapper">
-          <Avatar
-            size={250}
-            className="user-profile-image"
-            src={(previewImage === null) ? UserProfilePhoto : `/api/v1/images/${previewImage}`}
-            onClick={() => { document.getElementById('image-loader').click(); }}
-          />
-          <input
-            id="image-loader"
-            type="file"
-            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*"
-            onChange={this.handleProfileImage}
-          />
-          <TextField
-            hintText="User name"
-            floatingLabelText="Name"
-            value={name}
-            errorText={error.name}
-            onKeyPress={this.handleKeyPressEnter}
-            onChange={this.handleInputValue('name')}
-          />
-          <TextField
-            hintText="Phone number"
-            floatingLabelText="Phone"
-            value={phone}
-            errorText={error.phone}
-            onKeyPress={this.handleKeyPressEnter}
-            onChange={this.handleInputValue('phone')}
-          />
-          <TextField
-            hintText="Email address"
-            floatingLabelText="Email"
-            value={this.props.data.email}
-            disabled={true}
-          />
-          <Toggle
-            className="change-password-toggle"
-            label="Change password"
-            toggled={passwordToggleIsOpen}
-            onToggle={this.handlePasswordToggle}
-          />
-          { passwordToggleIsOpen ?
-            <PasswordField
-              style={{ width: '256px' }}
-              floatingLabelText="Enter new password"
-              type="password"
-              value={password}
-              errorText={error.password}
-              onKeyPress={this.handleKeyPressEnter}
-              onChange={this.handleInputValue('password')}
-            /> : null
-          }
-          <RaisedButton
-            className="save-button"
-            label="Save changes"
-            primary={true}
-            onClick={this.handleSaveChanges}
-          />
+      <Paper className="user-profile__container">
+        <div className="user-profile__content">
+          <div className="profile-image__container">
+            <Avatar
+              size={90}
+              className="profile-image__content"
+              src={(previewImage === null) ? UserProfilePhoto : `/api/v1/images/${previewImage}`}
+              onClick={() => { document.getElementById('profile-image__input').click(); }}
+            />
+            <input
+              id="profile-image__input"
+              type="file"
+              accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|images/*"
+              onChange={this.handleProfileImage}
+            />
+          </div>
+          <div className="profile-content__container">
+            { !isEdit ? (
+              <div className="profile-content__preview">
+                <span className="profile-content__bold-text">{data.name}</span>
+                <span className="profile-content__text">{data.phone}</span>
+                <span className="profile-content__text">{data.email}</span>
+                <span className="profile-content__count-text">{data.createdEvents} events organised</span>
+              </div>) : this.renderEditableFields()
+            }
+          </div>
+        </div>
+        <div className="profile-edit-button__container">
+          <FloatingActionButton
+            className="profile-edit-button__content"
+            onClick={() => this.setState({ isEdit: !isEdit })}
+            mini={true}
+          >
+            <EditIconButton className="profile-edit-button__icon" />
+          </FloatingActionButton>
         </div>
         <Snackbar
           open={dialogBoxIsOpen}
@@ -226,7 +264,7 @@ class UserProfile extends Component {
           autoHideDuration={4000}
           onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
         />
-      </div>
+      </Paper>
     );
   }
 }

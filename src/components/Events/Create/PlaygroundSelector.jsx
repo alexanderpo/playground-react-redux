@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { Paper, Subheader } from 'material-ui';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import PromoEventPhoto from '../../../styles/images/no-event-pictures.svg';
@@ -28,22 +29,23 @@ class PlaygroundSelector extends Component {
   };
 
   renderListItems = playgrounds => (
-    playgrounds.map(playground => (
-      <ListItem
-        key={playground.id}
-        primaryText={playground.name}
-        value={playground.id}
-        onClick={() => {
-          this.props.updateSelectedPlayground(playground.id);
-        }}
-        leftAvatar={
-          (playground.images[0] !== null) ?
-            <img className="playground-preview-image" src={`/api/v1/images/${playground.images[0]}`} alt="" /> :
-            <img src={PromoEventPhoto} alt="" />
-        }
-        secondaryText={playground.description}
-      />
-    ))
+    _.isEmpty(playgrounds) ? <h5>Not created yet</h5> :
+      playgrounds.map(playground => (
+        <ListItem
+          key={playground.id}
+          primaryText={playground.name}
+          value={playground.id}
+          onClick={() => {
+            this.props.updateSelectedPlayground(playground.id);
+          }}
+          leftAvatar={
+            (playground.images[0] !== null) ?
+              <img className="playground-preview-image" src={`/api/v1/images/${playground.images[0]}`} alt="" /> :
+              <img src={PromoEventPhoto} alt="" />
+          }
+          secondaryText={playground.description}
+        />
+      ))
   );
 
   render() {

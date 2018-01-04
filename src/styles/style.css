@@ -1,0 +1,368 @@
+/*@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');*/
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #F7F7F7;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+/* START MAIN CONTENT WINDOW */
+
+.main-content__wrapper {
+  overflow-y: auto;
+  height: 90vh;
+  max-height: 90vh;
+}
+/* END MAIN CONTENT WINDOW */
+
+/* START DASHBOARD USER PROFILE COMPONENT */
+.user-dashboard__content {
+  margin: 50px 100px 100px 100px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.user-dashboard__left-column {
+
+}
+
+.user-dashboard__right-column {
+  margin-left: 30px;
+  width: 425px;
+}
+
+.user-profile__container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 18px 20px 18px 20px;
+  width: 635px;
+  margin: 0px 0px 30px 0px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px!important;
+}
+
+.profile-image__container {
+
+}
+
+.profile-image__content {
+  cursor: pointer;
+}
+
+#profile-image__input {
+  display: none;
+}
+
+.profile-content__container {
+  font-size: 14px;
+  margin: 8px 0px 0px 16px;
+}
+
+.profile-content__preview {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.profile-content__editable {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.user-profile__content {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.profile-content__bold-text {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0px 0px 16px 0px;
+}
+
+.profile-content__text {
+  margin: 0px 0px 10px 0px;
+}
+
+.profile-content__count-text {
+  text-transform: uppercase;
+  font-size: 12px;
+  margin: 20px 0px 0px 0px;
+}
+
+.profile-content__input {
+  width: 100%!important;
+  font-size: 14px!important;
+}
+
+.profile-content__change-password-toggle {
+  margin: 16px 0px 16px 0px;
+}
+
+.profile-content__change-password-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin: -16px 0px 16px 0px;
+}
+
+.profile-edit-button__container {
+
+}
+
+.profile-edit-button__content button {
+  background-color: rgb(255, 255, 255)!important;
+}
+
+.profile-edit-button__icon {
+  color: rgb(164, 198, 57)!important;
+  fill: rgb(164, 198, 57)!important;
+}
+/* END DASHBOARD USER PROFILE COMPONENT */
+
+/* START DASHBOARD USER TABLE */
+.dashboard-table-tabs__wrapper {
+  width: 635px;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px!important;
+}
+
+.dashboard-table__tab {
+  font-weight: 600!important;
+}
+
+.dashboard-table__tab-active {
+  font-weight: 600!important;
+  background: #ffffff!important;
+}
+
+.dashboard-table__progress {
+  display: table!important;
+  margin: 32px auto!important;
+}
+
+.dashboard-calendar__progress {
+  text-transform: uppercase;
+  display: table!important;
+  margin: 0 auto!important;
+  padding: 18px;
+}
+
+.dashboard-table__wrapper {
+  max-height: 45vh;
+  overflow-y: auto;
+  /*box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px;*/
+}
+
+.dashboard-table__row {
+  text-transform: uppercase!important;
+}
+
+.row-column__title {
+  font-weight: 600!important;
+  font-size: 14px!important;
+  cursor: pointer;
+}
+
+.row-column__title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.row-column__description {
+  font-weight: 300;
+  font-size: 14px!important;
+}
+
+.row-column__actions {
+  text-align: right!important;
+}
+
+.row-column-actions-remove__icon {
+  color: rgb(131, 131, 131)!important;
+}
+/* END DASHBOARD USER TABLE */
+
+/* START DASHBOARD EVENTS CALENDAR */
+
+  /* calendar flexboxes */
+
+.dashboard-calendar__content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-calendar__content-container .calendar-content__column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-calendar__content-container .calendar-main-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 10px;
+  font-size: 14px;
+  align-items: center;
+}
+
+.calendar-main-content .calendar__title {
+  width: 300px;
+  max-width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  font-size: 14px;
+}
+
+.calendar-main-content .calendar__info {
+  margin: 10px 5px;
+  font-size: 14px;
+}
+
+.calendar-main-content .calendar-info__title {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.dashboard-calendar__content-container .calendar-more-content {
+  /*display: none;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 0px 16px;
+}
+
+.bolder__text {
+  font-weight: 600;
+}
+
+.calendar-more-content .calendar-more-content__stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 5px 0px;
+  width: 398px;
+}
+
+.calendar_empty__text {
+  text-transform: uppercase;
+  margin: 32px auto!important;
+  font-size: 14px;
+}
+
+.dashboard-calendar_more-icon__disabled {
+  color: rgb(131, 131, 131)!important;
+}
+
+.dashboard-calendar_more-icon__active {
+  color: rgb(164, 198, 57)!important;
+}
+
+.calendar-content__active {
+  display: flex!important;
+}
+
+.calendar-content__disabled {
+  display: none!important;
+}
+
+  /* end calendar flexboxes */
+
+.dashboard-events-calendar__wrapper {
+
+}
+
+.dashboard-events-calendar__title {
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+.dashboard-events-calendar-date-picker__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 150px;
+  height: 35px;
+  margin: 15px 0px 0px 0px;
+  padding: 0px 0px 0px 23px;
+  font-size: 14px;
+}
+
+.dashboard-events-calendar-date-picker__date-text {
+
+}
+
+.dashboard-events-calendar-date-picker__date-selector {
+
+}
+
+.dashboard-events-calendar-date-picker__date-selector-icon {
+  color: rgb(164, 198, 57)!important;
+  fill: rgb(164, 198, 57)!important;
+}
+
+.dashboard-events-calendar-table__container {
+  margin: 15px 0px 0px 0px;
+}
+
+.dashboard-events-calendar_table__row {
+
+}
+
+.dashboard-events-calendar__empty {
+  text-transform: uppercase;
+  display: table!important;
+  margin: 32px auto!important;
+}
+
+.dashboard-events-calendar_table-row__column {
+  font-size: 14px!important;
+}
+
+.calendar_table-row__time {
+  width: 35px;
+}
+
+.calendar-table-row-column__title {
+  padding-left: 0px!important;
+  /*padding-right: 0px!important;*/
+}
+
+.calendar_table-row__title{
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.calendar-table-row__actions {
+  width: 35px;
+}
+
+.dashboard-events-calendar-table__more-content-icon {
+  color: rgb(131, 131, 131)!important;
+}
+/* END DASHBOARD EVENTS CALENDAR */

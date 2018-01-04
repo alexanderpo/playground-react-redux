@@ -65,6 +65,15 @@ export const favoritePlaygroundControl = data => fetch('/api/v1/users/favorite/p
   body: JSON.stringify(data),
 }).then(response => responseChecker(response));
 
+export const getUserPlaygrounds = id => fetch(`/api/v1/users/${id}/playgrounds`, {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));
+
 export const getFavoritePlaygrounds = id => fetch(`/api/v1/users/${id}/favorite/playgrounds`, {
   method: 'get',
   headers: {
@@ -84,6 +93,24 @@ export const getUpcomingEvents = id => fetch(`/api/v1/users/${id}/events/upcomin
 }).then(response => responseChecker(response));
 
 export const getUserEvents = id => fetch(`/api/v1/users/${id}/events`, {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));
+
+export const getOrganisedEvents = id => fetch(`/api/v1/users/${id}/events/organised`, {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
+}).then(response => responseChecker(response));
+
+export const getUpcomingEventsByDate = (id, date) => fetch(`/api/v1/users/${id}/events/upcoming/${date}`, {
   method: 'get',
   headers: {
     Accept: 'application/json',
