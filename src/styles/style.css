@@ -366,3 +366,79 @@ a {
   color: rgb(131, 131, 131)!important;
 }
 /* END DASHBOARD EVENTS CALENDAR */
+
+/* START CREATE PLAYGROUND */
+
+.create-pg__container {
+  margin: 50px 100px 100px 100px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.create-pg__title {
+  text-transform: uppercase;
+  font-weight: 400;
+  margin: 0px 0px 20px 0px;
+}
+
+.create-pg__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+}
+
+.create-pg__editable-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.image-dropzone__content {
+  width: 350px;
+  height: 250px;
+  border: 1px solid #cccccc;
+  cursor: pointer;
+  background-image: url(./images/photo-image.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25%;
+  background-color: #ffffff;
+}
+
+.image-dropzone__selected-image {
+  width: 100%;
+  height: 100%;
+}
+
+.image-dropzone__preview {
+  overflow-y: auto;
+  width: 350px;
+  max-height: 250px;
+  margin: 10px 0px 0px 0px;
+}
+
+.image-dropzone__preview-list-item div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.image-dropzone_list__image {
+  width: 50px;
+  height: 30px
+}
+
+.image-dropzone {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.image-dropzone__container {
+
+}
+
+/* END CREATE PLAYGROUND */

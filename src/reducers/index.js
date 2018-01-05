@@ -13,6 +13,7 @@ import userPlaygounds from './Playgrounds/user';
 import favoritePlaygrounds from './Playgrounds/favorites';
 import playgroundPosition from './Playgrounds/Create/position';
 import playgroundAddress from './Playgrounds/Create/address';
+import playgroundImages from './Playgrounds/Create/images';
 
 const initialState = {};
 
@@ -37,6 +38,7 @@ const appReducer = combineReducers({
     create: combineReducers({
       position: playgroundPosition,
       address: playgroundAddress,
+      images: playgroundImages,
     }),
   }),
 });
