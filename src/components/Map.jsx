@@ -169,7 +169,7 @@ class Map extends Component {
 
   render() {
     return (
-      <div style={{ width: '350px', height: '350px' }} id="map" />
+      <div id="map" />
     );
   }
 }

@@ -11,6 +11,7 @@ const propTypes = {
   createImage: PropTypes.func,
   removeImage: PropTypes.func,
   updateStore: PropTypes.func,
+  isCreated: PropTypes.bool,
 };
 
 const SelectableList = makeSelectable(List);
@@ -21,6 +22,16 @@ class ImageDropzone extends Component {
     uploadedImages: this.props.uploadedImages,
     selectedImage: null,
     previewImage: null,
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.isCreated && !_.isEmpty(this.state.files)) {
+      this.setState({
+        files: [],
+        selectedImage: null,
+        previewImage: null,
+      });
+    }
   };
 
   onDrop(files) {
