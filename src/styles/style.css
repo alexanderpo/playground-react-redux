@@ -504,6 +504,10 @@ a {
   padding: 10px 0!important;
 }
 
+.create-pg_map-modal__close-btn {
+  
+}
+
 .create-pg__actions {
   display: flex;
   flex-direction: row;

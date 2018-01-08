@@ -12,6 +12,7 @@ const propTypes = {
   placemarks: PropTypes.array,
   getAddress: PropTypes.func,
   updatePosition: PropTypes.func,
+  modalCallback: PropTypes.func,
 };
 
 class Map extends Component {
@@ -117,6 +118,7 @@ class Map extends Component {
       }];
       this.props.updatePosition(position[0]);
       this.props.getAddress(lat, lng).then(() => this.initializeEventPoints(position));
+      this.props.modalCallback({ clicked: true });
     });
   };
 

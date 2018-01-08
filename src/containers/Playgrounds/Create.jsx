@@ -72,6 +72,16 @@ class CreatePlayground extends Component {
     this.handleCreatePlayground = this.handleCreatePlayground.bind(this);
   }
 
+  onMapClicked = (newState) => {
+    if (newState.clicked) {
+      this.setState({
+        dialogBoxIsOpen: true,
+        dialogBoxText: 'Address selected',
+      });
+      setTimeout(() => this.setState({ mapIsOpen: false }), 3000);
+    }
+  };
+
   handleInputValue(key) {
     return (event) => {
       this.setState({
@@ -249,6 +259,7 @@ class CreatePlayground extends Component {
           <Map
             placemarks={[]}
             clickable={true}
+            modalCallback={newState => this.onMapClicked(newState)}
             updatePosition={actions.updatePlaygroundPosition}
             getAddress={actions.getPlaygroundAddress}
           />
