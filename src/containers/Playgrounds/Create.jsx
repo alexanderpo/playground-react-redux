@@ -4,30 +4,49 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
-import Dropzone from 'react-dropzone';
-import { TextField, Paper, Divider, IconButton, RaisedButton, Snackbar } from 'material-ui';
-import { List, ListItem } from 'material-ui/List';
-import { CardHeader } from 'material-ui/Card';
-import RemoveButton from 'material-ui/svg-icons/content/remove-circle';
-import ImageUpload from 'material-ui/svg-icons/file/cloud-upload';
-import UserProfilePhoto from '../../styles/images/user.png';
+import { TextField, Paper, RaisedButton, IconButton, Snackbar, Dialog } from 'material-ui';
+import MapIcon from 'material-ui/svg-icons/maps/map';
+import ImageDropzone from '../../components/Playgrounds/Create/ImageDropzone';
+import Map from '../../components/Map';
 import { createPlaygroundSchema } from '../../utils/validationSchema';
 import validate from '../../utils/validation';
 import { createImage, removeImage } from '../../actions/images';
-import { updatePlaygroundPosition, getPlaygroundAddress, createPlayground } from '../../actions/playgrounds';
-import Map from '../../components/Map';
+import {
+  updatePlaygroundPosition,
+  updateUploadedImages,
+  getPlaygroundAddress,
+  createPlayground,
+} from '../../actions/playgrounds';
 
 const propTypes = {
   history: PropTypes.object,
   user: PropTypes.object,
   playground: PropTypes.object,
+  uploadedImages: PropTypes.array,
   actions: PropTypes.shape({
     updatePlaygroundPosition: PropTypes.func,
+    updateUploadedImages: PropTypes.func,
     getPlaygroundAddress: PropTypes.func,
     createPlayground: PropTypes.func,
     createImage: PropTypes.func,
     removeImage: PropTypes.func,
   }),
+};
+
+const styles = {
+  textareaStyle: {
+    border: '1px solid #cccccc',
+    height: '150px',
+    width: '100%',
+    maxHeight: '150px',
+    overflowY: 'auto',
+    fontSize: '14px',
+    textTransform: 'uppercase',
+  },
+  inputStyle: {
+    fontSize: '14px',
+    textTransform: 'uppercase',
+  },
 };
 
 class CreatePlayground extends Component {
@@ -38,56 +57,30 @@ class CreatePlayground extends Component {
       dialogBoxText: '',
       name: '',
       description: '',
-      files: [],
-      uploadedImages: [],
-      error: {
+      mapIsOpen: false,
+      errorText: {
         name: '',
         address: '',
         description: '',
       },
+      isCreated: false,
     };
 
-    this.removeItem = this.removeItem.bind(this);
     this.handleInputValue = this.handleInputValue.bind(this);
     this.clearErrorsFields = this.clearErrorsFields.bind(this);
     this.clearInputFields = this.clearInputFields.bind(this);
     this.handleCreatePlayground = this.handleCreatePlayground.bind(this);
   }
 
-  onDrop(files) {
-    const { actions } = this.props;
-    this.setState({
-      files,
-    });
-    files.map((file) => { // eslint-disable-line
-      actions.createImage(file).then((action) => {
-        const { uploadedImages } = this.state;
-        this.setState({
-          uploadedImages: [...uploadedImages, action.payload],
-        });
+  onMapClicked = (newState) => {
+    if (newState.clicked) {
+      this.setState({
+        dialogBoxIsOpen: true,
+        dialogBoxText: 'Address selected',
       });
-    });
-  }
-
-  removeItem = (item) => {
-    const { uploadedImages } = this.state;
-    const { actions } = this.props;
-
-    uploadedImages.map((image) => { // eslint-disable-line
-      if (image.originalName === item.name) {
-        const imageId = image.id;
-        actions.removeImage(imageId).then((action) => {
-          if (action.payload) {
-            const items = this.state.files;
-            _.remove(items, item);
-            this.setState({
-              files: items,
-            });
-          }
-        });
-      }
-    });
-  }
+      setTimeout(() => this.setState({ mapIsOpen: false }), 3000);
+    }
+  };
 
   handleInputValue(key) {
     return (event) => {
@@ -98,15 +91,15 @@ class CreatePlayground extends Component {
   }
 
   handleCreatePlayground() {
-    const { name, description, uploadedImages } = this.state;
-    const { user, actions } = this.props;
+    const { name, description } = this.state;
+    const { user, actions, uploadedImages } = this.props;
     const { address, latitude, longitude } = this.props.playground;
     const values = { name, address, description };
     const error = validate(createPlaygroundSchema, values);
 
     if (!_.isEmpty(error)) {
       this.setState({
-        error: {
+        errorText: {
           name: error.name,
           address: error.address,
           description: error.description,
@@ -114,164 +107,163 @@ class CreatePlayground extends Component {
       });
     } else {
       this.clearErrorsFields();
-      // eslint-disable-next-line
-      actions.createPlayground(name, description, address, uploadedImages, latitude, longitude, user.email, user.id)
-        .then((action) => {
-          if (_.isEmpty(action.payload.error)) {
-            this.clearInputFields();
-            this.setState({
-              dialogBoxIsOpen: true,
-              dialogBoxText: 'Playground created',
-            });
-          } else {
-            this.setState({
-              dialogBoxIsOpen: true,
-              dialogBoxText: action.payload.error,
-            });
-          }
-        });
+      actions.createPlayground(
+        name,
+        description,
+        address,
+        uploadedImages,
+        latitude,
+        longitude,
+        user.email,
+        user.id,
+      ).then((action) => {
+        if (_.isEmpty(action.payload.error)) {
+          this.setState({
+            dialogBoxIsOpen: true,
+            dialogBoxText: 'Playground created',
+            isCreated: true,
+          });
+          this.clearInputFields();
+        } else {
+          this.setState({
+            dialogBoxIsOpen: true,
+            dialogBoxText: action.payload.error,
+          });
+        }
+      });
     }
   }
 
   clearErrorsFields() {
     this.setState({
-      error: {
+      errorText: {
         name: '',
-        error: '',
+        address: '',
         description: '',
       },
     });
   }
 
   clearInputFields() {
+    this.props.actions.getPlaygroundAddress(0, 0);
+    this.props.actions.updateUploadedImages([]);
     this.setState({
-      dialogBoxText: '',
       name: '',
       description: '',
-      files: [],
-      uploadedImages: [],
+      isCreated: false,
     });
   }
 
-  renderListItems = items => (
-    items.map(item => (
-      <ListItem
-        key={item.name}
-        disabled={true}
-        leftAvatar={<img className="playground-preview-image" src={item.preview} alt="" />}
-        primaryText={item.name}
-        rightIconButton={
-          <IconButton
-            className="playground-preview-delete-image"
-            onClick={() => { this.removeItem(item); }}
-            iconStyle={{ color: 'rgb(77, 77, 79)' }}
-          >
-            <RemoveButton />
-          </IconButton>
-        }
-      />
-    ))
-  );
-
   render() {
-    const { user, actions, playground } = this.props;
+    const { actions, playground, uploadedImages } = this.props;
     const {
       name,
       description,
       dialogBoxText,
       dialogBoxIsOpen,
-      error,
+      mapIsOpen,
+      errorText,
+      isCreated,
     } = this.state;
     return (
-      <div className="content-container">
-        <div className="left-content-box" >
-          <Paper zDepth={2} className="create-playground-user-details-wrapper">
-            <CardHeader
-              title={user.name}
-              subtitle={user.phone}
-              avatar={(user.image !== null) ? `/api/v1/images/${user.image}` : UserProfilePhoto}
+      <div className="create-pg__container">
+        <div className="create-pg__title">create playground</div>
+        <Paper zDepth={2} className="create-pg__content">
+          <div className="create-pg__editable-area">
+            <ImageDropzone
+              createImage={actions.createImage}
+              removeImage={actions.removeImage}
+              updateStore={actions.updateUploadedImages}
+              uploadedImages={uploadedImages}
+              isCreated={isCreated}
             />
-          </Paper>
-          <Paper zDepth={2} className="create-playground-image-wrapper">
-            <List>
-              <ListItem
-                primaryText="Drop images here or click to select"
-                containerElement={
-                  <Dropzone
-                    className="create-playground-dropzone"
-                    onDrop={this.onDrop.bind(this)}
-                    accept="image/jpeg, image/png, image/bmp"
-                  />
-                }
-                rightIcon={
-                  <ImageUpload id="cloud-image" />
-                }
-              />
-              <Divider />
-              <div className="create-playground-image-preview-container">
-                { this.renderListItems(this.state.files)}
+            <div className="create-pg__input-fields">
+              <div className="create-pg__name-field">
+                <TextField
+                  className="create-pg__input"
+                  inputStyle={styles.inputStyle}
+                  hintText="PLAYGROUND NAME"
+                  floatingLabelText="NAME"
+                  floatingLabelFixed={true}
+                  fullWidth={true}
+                  value={name}
+                  errorText={errorText.name}
+                  onChange={this.handleInputValue('name')}
+                />
               </div>
-            </List>
-          </Paper>
-          <Paper zDepth={2} className="create-playground-details-wrapper">
-            <TextField
-              hintText="Playground name"
-              floatingLabelText="Playground name"
-              fullWidth={true}
-              value={name}
-              errorText={error.name}
-              onChange={this.handleInputValue('name')}
-            />
-            <TextField
-              hintText="Address"
-              floatingLabelText="Address"
-              fullWidth={true}
-              disabled={true}
-              value={playground.address}
-              errorText={error.address}
-              onChange={this.handleInputValue('address')}
-            />
-            <TextField
-              floatingLabelFixed={true}
-              className="create-playground-description"
-              hintText="Ender playground description here ..."
-              floatingLabelText="Description"
-              multiLine={true}
-              fullWidth={true}
-              rowsMax={2}
-              value={description}
-              errorText={error.description}
-              onChange={this.handleInputValue('description')}
-            />
-          </Paper>
-          <div className="create-playground-action-buttons-wrapper">
-            <RaisedButton
-              className="create-playground-action-button"
-              label="Cancel"
-              onClick={() => this.props.history.push('/')}
-            />
-            <RaisedButton
-              className="create-playground-action-button"
-              label="Create"
-              primary={true}
-              onClick={this.handleCreatePlayground}
-            />
+              <div className="create-pg__address-field">
+                <TextField
+                  className="create-pg__input"
+                  hintText="PLAYGROUND ADDRESS"
+                  floatingLabelText="ADDRESS"
+                  inputStyle={styles.inputStyle}
+                  floatingLabelFixed={true}
+                  fullWidth={true}
+                  disabled={true}
+                  value={playground.address}
+                  errorText={errorText.address}
+                />
+                <IconButton
+                  onClick={() => this.setState({ mapIsOpen: true })}
+                >
+                  <MapIcon className="create-pg__map-icon" />
+                </IconButton>
+                <span className="create-pg__map-btn-label">MAP</span>
+              </div>
+              <div className="create-pg__description-field">
+                <TextField
+                  className="create-pg__input create-pg__desc-input"
+                  textareaStyle={styles.textareaStyle}
+                  underlineShow={false}
+                  hintText="ENTER PLAYGROUND DESCRIPTION"
+                  floatingLabelText="DESCRIPTION"
+                  floatingLabelFixed={true}
+                  multiLine={true}
+                  fullWidth={true}
+                  rowsMax={3}
+                  value={description}
+                  errorText={errorText.description}
+                  onChange={this.handleInputValue('description')}
+                />
+              </div>
+              <div className="create-pg__actions">
+                <RaisedButton
+                  className="create-pg__btn"
+                  label="Cancel"
+                  onClick={() => this.props.history.push('/')}
+                />
+                <RaisedButton
+                  className="create-pg__btn"
+                  label="Create"
+                  primary={true}
+                  onClick={this.handleCreatePlayground}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="map-container">
-          <Map
-            placemarks={[]}
-            clickable={true}
-            updatePosition={actions.updatePlaygroundPosition}
-            getAddress={actions.getPlaygroundAddress}
-          />
-        </div>
+        </Paper>
         <Snackbar
           open={dialogBoxIsOpen}
           message={dialogBoxText}
           autoHideDuration={4000}
           onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
         />
+        <Dialog
+          title="To select an address click on the map"
+          titleClassName="create-pg_map-modal__title"
+          className="create-pg__map-modal"
+          modal={false}
+          open={mapIsOpen}
+          onRequestClose={() => this.setState({ mapIsOpen: false })}
+        >
+          <Map
+            placemarks={[]}
+            clickable={true}
+            modalCallback={newState => this.onMapClicked(newState)}
+            updatePosition={actions.updatePlaygroundPosition}
+            getAddress={actions.getPlaygroundAddress}
+          />
+        </Dialog>
       </div>
     );
   }
@@ -285,11 +277,13 @@ const mapStateToProps = state => ({
     address: !_.isEmpty(state.playgrounds.create.address.details.results) ?
       state.playgrounds.create.address.details.results[0].formatted_address : '',
   },
+  uploadedImages: state.playgrounds.create.images,
 });
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updatePlaygroundPosition,
+    updateUploadedImages,
     getPlaygroundAddress,
     createPlayground,
     createImage,

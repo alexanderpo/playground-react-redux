@@ -1,4 +1,4 @@
-/*@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');*/
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700');
 
 * {
   margin: 0px;
@@ -16,6 +16,7 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
 /* START MAIN CONTENT WINDOW */
 
 .main-content__wrapper {
@@ -27,7 +28,7 @@ a {
 
 /* START DASHBOARD USER PROFILE COMPONENT */
 .user-dashboard__content {
-  margin: 50px 100px 100px 100px;
+  margin: 50px 100px 50px 100px;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -164,7 +165,7 @@ a {
 }
 
 .dashboard-table__wrapper {
-  max-height: 45vh;
+  max-height: 35vh;
   overflow-y: auto;
   /*box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px;*/
 }
@@ -366,3 +367,165 @@ a {
   color: rgb(131, 131, 131)!important;
 }
 /* END DASHBOARD EVENTS CALENDAR */
+
+/* START CREATE PLAYGROUND */
+
+.create-pg__container {
+  margin: 25px 100px 25px 100px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.create-pg__title {
+  text-transform: uppercase;
+  font-weight: 400;
+  margin: 0px 0px 20px 0px;
+}
+
+.create-pg__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+}
+
+.create-pg__editable-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.image-dropzone__content {
+  width: 350px;
+  height: 250px;
+  border: 1px solid #cccccc;
+  cursor: pointer;
+  background-image: url(./images/photo-image.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25%;
+  background-color: #ffffff;
+}
+
+.image-dropzone__selected-image {
+  width: 100%;
+  height: 100%;
+}
+
+.image-dropzone__preview {
+  overflow-y: auto;
+  width: 350px;
+  max-height: 145px;
+  margin: 10px 0px 0px 0px;
+}
+
+.image-dropzone__preview-list-item div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.image-dropzone_list__image {
+  width: 50px;
+  height: 30px
+}
+
+.image-dropzone {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.image-dropzone__container {
+
+}
+
+.create-pg__input-fields {
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: -20px 0px 0px 20px;
+  width: 40%;
+}
+
+.create-pg__input {
+  font-size: 14px!important;
+  text-transform: uppercase!important;
+}
+
+.create-pg__map-icon {
+  color: #9AC536!important;
+  fill: #9AC536!important;
+}
+
+.create-pg__name-field {
+  width: 70%;
+}
+
+.create-pg__address-field,
+.create-pg__description-field {
+  width: 100%;
+}
+
+.create-pg__name-field,
+.create-pg__address-field,
+.create-pg__description-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.create-pg__desc-input {
+
+}
+
+.create-pg__map-btn-label {
+  position: relative;
+  bottom: 7px;
+  right: 10px;
+  font-weight: 300;
+  opacity: 0.4;
+  font-size: 14px;
+}
+
+.create-pg__map-modal #map {
+  width: 100%;
+  height: 60vh;
+}
+
+.create-pg_map-modal__title {
+  font-weight: 300!important;
+  text-align: center;
+  padding: 10px 0!important;
+}
+
+.create-pg_map-modal__close-btn {
+  
+}
+
+.create-pg__actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 50px 0px 0px 0px;
+}
+
+.create-pg__btn {
+  margin: 10px 10px 0px 10px;
+}
+
+.err__icon {
+  color: #FF3800!important;
+  fill: #FF3800!important;
+}
+
+.check__icon {
+  color: #10D600!important;
+  fill: #10D600!important;
+}
+/* END CREATE PLAYGROUND */

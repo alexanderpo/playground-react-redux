@@ -7,8 +7,10 @@ export const UPDATE_PLAYGROUND_POSITION = 'UPDATE_PLAYGROUND_POSITION';
 export const GET_PLAYGROUND_ADDRESS = 'GET_PLAYGROUND_ADDRESS';
 export const CREATE_PLAYGROUNT = 'CREATE_PLAYGROUNT';
 export const DELETE_PLAYGROUND = 'DELETE_PLAYGROUND';
+export const UPDATE_UPLOADED_IMAGES = 'UPDATE_UPLOADED_IMAGES';
 
 export const updatePlaygroundPosition = createAction(UPDATE_PLAYGROUND_POSITION);
+export const updateUploadedImages = createAction(UPDATE_UPLOADED_IMAGES);
 
 export const getPlaygroundAddress = (lat, lng) => ({
   type: GET_PLAYGROUND_ADDRESS,
