@@ -11,6 +11,7 @@ import allPlaygrounds from './Playgrounds/index';
 import currentPlayground from './Playgrounds/playground';
 import userPlaygounds from './Playgrounds/user';
 import favoritePlaygrounds from './Playgrounds/favorites';
+import playgroundEvents from './Playgrounds/eventsByDate';
 import playgroundPosition from './Playgrounds/Create/position';
 import playgroundAddress from './Playgrounds/Create/address';
 import playgroundImages from './Playgrounds/Create/images';
@@ -34,6 +35,7 @@ const appReducer = combineReducers({
     all: allPlaygrounds,
     current: currentPlayground,
     favorites: favoritePlaygrounds,
+    eventsByDate: playgroundEvents,
     user: userPlaygounds,
     create: combineReducers({
       position: playgroundPosition,

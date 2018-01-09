@@ -8,10 +8,14 @@ const propTypes = {
 };
 
 class ImageCarousel extends Component {
+  componentDidMount() {
+    window.dispatchEvent(new Event('resize'));
+  }
+
   renderImages = (images) => {
     if (images === undefined || images[0] === null || images.length === 0) {
       return (
-        <img src={PromoEventPhoto} alt="" />
+        <img onLoad={() => window.dispatchEvent(new Event('resize'))} src={PromoEventPhoto} alt="" />
       );
     }
     return (
