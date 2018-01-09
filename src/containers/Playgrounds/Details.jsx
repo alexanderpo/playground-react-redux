@@ -10,6 +10,7 @@ import { getPlayground } from '../../actions/playgrounds';
 import { favoritePlaygroundControl } from '../../actions/user';
 import EmptyPlaygrounds from '../../components/Playgrounds/Empty';
 import Map from '../../components/Map';
+import EventsCalendar from './EventsCalendar';
 import PlaygroundDetails from '../../components/Playgrounds/Details';
 
 const propTypes = {
@@ -46,14 +47,22 @@ class PlaygroundsDetails extends Component {
       isLoading,
     } = this.props;
     return (
-      <div className="content-container">
-        <div className="left-content-box">
-          {
-            isLoading ? <CircularProgress className="loading-spinner" /> : this.renderPlayground(playgroundDetail)
-          }
-        </div>
-        <div className="map-container">
-          <Map placemarks={placemarks} />
+      <div className="main-content__wrapper">
+        <div className="pg-details__content">
+          <div className="pg-details__left-container">
+            <div className="pg-details__pg-info">
+              {
+                isLoading ? <CircularProgress className="pg-details__progress" /> : this.renderPlayground(playgroundDetail)
+              }
+            </div>
+            <div className="pg-details__events-scheldure">
+              <div className="pg-details__pg-title">{playgroundDetail.name}</div>
+              <EventsCalendar />
+            </div>
+          </div>
+          <div className="pg-details__right-container">
+            <Map placemarks={placemarks} />
+          </div>
         </div>
       </div>
     );

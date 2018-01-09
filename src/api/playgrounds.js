@@ -42,7 +42,15 @@ export const deletePlayground = id => fetch(`/api/v1/playgrounds/${id}`, {
   },
 }).then(response => responseChecker(response));
 
-
 export const getAddressByCoords = (lat, lng) => fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBYJGAFqDYFPxPyX39sGmdHMWhKpNoDcf4`, {
   method: 'get',
+}).then(response => responseChecker(response));
+
+export const getEventsOnPlaygroundByDate = (id, date) => fetch(`/api/v1/playgrounds/${id}/events/${date}`, {
+  method: 'get',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-access-token': localStorage.getItem('token') ? `${localStorage.getItem('token')}` : '',
+  },
 }).then(response => responseChecker(response));

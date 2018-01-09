@@ -8,6 +8,7 @@ export const GET_PLAYGROUND_ADDRESS = 'GET_PLAYGROUND_ADDRESS';
 export const CREATE_PLAYGROUNT = 'CREATE_PLAYGROUNT';
 export const DELETE_PLAYGROUND = 'DELETE_PLAYGROUND';
 export const UPDATE_UPLOADED_IMAGES = 'UPDATE_UPLOADED_IMAGES';
+export const GET_EVENTS_ON_PLAYGROUND_BY_DATE = 'GET_EVENTS_ON_PLAYGROUND_BY_DATE';
 
 export const updatePlaygroundPosition = createAction(UPDATE_PLAYGROUND_POSITION);
 export const updateUploadedImages = createAction(UPDATE_UPLOADED_IMAGES);
@@ -49,3 +50,8 @@ export const createPlayground = (name, description, address, images, latitude, l
     promise: api.createPlayground(data),
   };
 };
+
+export const getEventsOnPlaygroundByDate = (id, date) => ({
+  type: GET_EVENTS_ON_PLAYGROUND_BY_DATE,
+  promise: api.getEventsOnPlaygroundByDate(id, date),
+});

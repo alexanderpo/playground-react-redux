@@ -11,6 +11,7 @@ import { getUpcomingEventsByDate, subscribeEventControl } from '../../actions/us
 // import EventsSchedule from './EventsSchedule';
 
 const propTypes = {
+  title: PropTypes.string,
   userId: PropTypes.number,
   isLoading: PropTypes.bool,
   events: PropTypes.array,
@@ -73,10 +74,10 @@ class DashboardCalendar extends Component {
   );
 
   render() {
-    const { isLoading, events } = this.props;
+    const { isLoading, events, title } = this.props;
     return (
       <div className="dashboard-events-calendar__wrapper">
-        <span className="dashboard-events-calendar__title">Upcoming events</span>
+        <span className="dashboard-events-calendar__title">{title}</span>
         <Paper className="dashboard-events-calendar-date-picker__container">
           <div className="dashboard-events-calendar-date-picker__date-text">
             { moment(this.state.date).format('DD.MM.YY') }

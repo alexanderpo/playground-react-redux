@@ -32,7 +32,7 @@ class CalendarEvent extends Component {
       <div key={event.event_id} className="calendar-content__column">
         <div className="calendar-main-content">
           <div className="calendar__info">
-            { moment(event.event_datetime).format('H:MM') }
+            { moment(event.event_datetime).format('H:mm') }
           </div>
           <div className="calendar__info calendar__title">
             <Link

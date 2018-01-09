@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import moment from 'moment';
 import { IconButton, Snackbar } from 'material-ui';
-import { Card, CardMedia, CardTitle, CardText, CardActions } from 'material-ui/Card';
 import NotFavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star-border';
 import FavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star';
 import ImageCarousel from '../ImageCarousel';
@@ -45,29 +43,33 @@ class PlaygroundDetails extends Component {
     const { playground } = this.props;
     const { isFavorite, dialogBoxIsOpen, dialogBoxText } = this.state;
     return (
-      <div>
-        <Card zDepth={3}>
-          <CardMedia
-            overlay={<CardTitle title={playground.name} />}
+      <div className="pg-info__content">
+        <div className="pg-info__image-carousel">
+          <ImageCarousel images={playground.images} />
+          <IconButton
+            iconStyle={isFavorite ? { color: 'rgba(239, 200, 75, 1)' } : {}}
+            onClick={this.favoritePlaygroundHandler}
+            className="pg-info__favorite-btn"
           >
-            <ImageCarousel images={playground.images} />
-          </CardMedia>
-          <CardText>
-            {playground.description}
-          </CardText>
-          <CardTitle subtitle={playground.address} />
-          <CardTitle subtitle={`${moment(playground.created_at).format('lll')} by ${playground.creator}`} />
-          <CardActions>
-            <IconButton
-              iconStyle={isFavorite ? { color: 'rgba(239, 200, 75, 1)' } : {}}
-              onClick={this.favoritePlaygroundHandler}
-            >
-              {
-                isFavorite ? <FavoritePlaygroundIcon /> : <NotFavoritePlaygroundIcon />
-              }
-            </IconButton>
-          </CardActions>
-        </Card>
+            {
+              isFavorite ? <FavoritePlaygroundIcon /> : <NotFavoritePlaygroundIcon />
+            }
+          </IconButton>
+        </div>
+        <div className="pg-info__description">
+          <div className="pg-info__address">
+            <span className="pg-info__label">address</span>
+            <span className="pg-info__text">{playground.address}</span>
+          </div>
+          <div className="pg-info__about">
+            <span className="pg-info__label">about place</span>
+            <div className="pg-info__about-text">{playground.description}</div>
+          </div>
+          <div className="pg-info__creator">
+            <span className="pg-info__label">created by</span>
+            <span className="pg-info__creator-text">{playground.creator}</span>
+          </div>
+        </div>
         <Snackbar
           open={dialogBoxIsOpen}
           message={dialogBoxText}

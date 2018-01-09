@@ -41,7 +41,7 @@ class UserDashboard extends Component {
             <DashboardTabs />
           </div>
           <div className="user-dashboard__right-column">
-            <DashboardCalendar />
+            <DashboardCalendar title="upcoming events" />
           </div>
         </div>
       </div>
