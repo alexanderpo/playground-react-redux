@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateProfile, updateProfileImage, getOrganisedEvents } from '../../actions/user';
+import {
+  updateProfile,
+  updateProfileImage,
+  getOrganisedEvents,
+  updateNotificationStatus,
+} from '../../actions/user';
 import { createImage, removeImage } from '../../actions/images';
 import UserProfile from '../../components/Profile/UserProfile';
 import DashboardTabs from './Tabs';
@@ -11,6 +16,7 @@ import DashboardCalendar from './Calendar';
 const propTypes = {
   data: PropTypes.object,
   actions: PropTypes.shape({
+    updateNotificationStatus: PropTypes.func,
     getOrganisedEvents: PropTypes.func,
     updateProfileImage: PropTypes.func,
     updateProfile: PropTypes.func,
@@ -37,6 +43,7 @@ class UserDashboard extends Component {
               removeImage={actions.removeImage}
               updateProfile={actions.updateProfile}
               updateProfileImage={actions.updateProfileImage}
+              updateNotificationStatus={actions.updateNotificationStatus}
             />
             <DashboardTabs />
           </div>
@@ -55,6 +62,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    updateNotificationStatus,
     getOrganisedEvents,
     updateProfileImage,
     updateProfile,

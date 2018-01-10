@@ -17,6 +17,31 @@ a {
   color: inherit;
 }
 
+/* START NOTIFICATION BAR */
+
+.notification-bar__container {
+  text-align: center;
+}
+
+.notification-bar__content {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.notification_success__icon {
+  color: rgb(164, 198, 57)!important;
+  fill: rgb(164, 198, 57)!important;
+}
+
+.notification_warning__icon {
+  color: #FFC107!important;
+  fill: #FFC107!important;
+}
+/* END NOTIFICATION BAR */
+
 /* START PLAYGROUND DETAIL */
 
 .pg-details__progress {

@@ -5,6 +5,7 @@ export const SIGN_IN = 'SIGN_IN';
 export const SIGN_UP = 'SIGN_UP';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const LOGOUT = 'LOGOUT';
+export const UPDATE_NOTIFICATION_STATUS = 'UPDATE_NOTIFICATION_STATUS';
 export const SUBSCRIBE_TO_EVENT = 'SUBSCRIBE_TO_EVENT';
 export const ADD_TO_FAVORITE_PLAYGROUND = 'ADD_TO_FAVORITE_PLAYGROUND';
 export const GET_USER_PLAYGROUNDS = 'GET_USER_PLAYGROUNDS';
@@ -15,6 +16,7 @@ export const GET_USER_EVENTS = 'GET_USER_EVENTS';
 export const UPDATE_PROFILE_IMAGE = 'UPDATE_PROFILE_IMAGE';
 export const GET_ORGANISED_EVENTS = 'GET_ORGANISED_EVENTS';
 
+export const updateNotificationStatus = createAction(UPDATE_NOTIFICATION_STATUS);
 export const logout = createAction(LOGOUT);
 
 export const signIn = (email, password) => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { IconButton, Snackbar } from 'material-ui';
+import { IconButton } from 'material-ui';
 import NotFavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star-border';
 import FavoritePlaygroundIcon from 'material-ui/svg-icons/toggle/star';
 import ImageCarousel from '../ImageCarousel';
@@ -10,6 +10,7 @@ const propTypes = {
   userId: PropTypes.number,
   playground: PropTypes.object,
   favoriteControl: PropTypes.func,
+  updateNotificationStatus: PropTypes.func,
 };
 
 class PlaygroundDetails extends Component {
@@ -17,31 +18,37 @@ class PlaygroundDetails extends Component {
     super(props);
     this.state = {
       isFavorite: this.props.playground.isFavorite,
-      dialogBoxIsOpen: false,
-      dialogBoxText: '',
     };
 
     this.favoritePlaygroundHandler = this.favoritePlaygroundHandler.bind(this);
   }
 
   favoritePlaygroundHandler() {
-    const { userId, playground, favoriteControl } = this.props;
+    const {
+      userId,
+      playground,
+      favoriteControl,
+      updateNotificationStatus,
+    } = this.props;
 
     favoriteControl(userId, playground.id).then((action) => {
       const { favoritePlaygrounds } = action.payload;
       const favorite = _.includes(favoritePlaygrounds, playground.id);
       this.setState({
         isFavorite: favorite,
-        dialogBoxIsOpen: true,
-        dialogBoxText: favorite ?
+      });
+      updateNotificationStatus({
+        show: true,
+        message: favorite ?
           'Added to favorite playgrounds.' : 'Remove from favorite playgrounds.',
+        type: 'success',
       });
     });
   }
 
   render() {
     const { playground } = this.props;
-    const { isFavorite, dialogBoxIsOpen, dialogBoxText } = this.state;
+    const { isFavorite } = this.state;
     return (
       <div className="pg-info__content">
         <div className="pg-info__image-carousel">
@@ -70,12 +77,6 @@ class PlaygroundDetails extends Component {
             <span className="pg-info__creator-text">{playground.creator}</span>
           </div>
         </div>
-        <Snackbar
-          open={dialogBoxIsOpen}
-          message={dialogBoxText}
-          autoHideDuration={4000}
-          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
-        />
       </div>
     );
   }

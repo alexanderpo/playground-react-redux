@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom';
 import { Drawer, MenuItem, AppBar, Divider } from 'material-ui';
 /* Material icons */
 import EventsIcon from 'material-ui/svg-icons/action/event';
-import MyEventsIcon from 'material-ui/svg-icons/image/nature';
-import VisitedEventsIcon from 'material-ui/svg-icons/image/nature-people';
 import PlaygroundIcon from 'material-ui/svg-icons/maps/layers';
-import FavoriteIcon from 'material-ui/svg-icons/action/stars';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import CreatePlaygroundIcon from 'material-ui/svg-icons/av/playlist-add';
 import CreateEventIcon from 'material-ui/svg-icons/maps/add-location';
@@ -62,18 +59,6 @@ class LeftSlideMenu extends Component {
             containerElement={<Link to="/events" />}
             onClick={() => this.setState({ open: false })}
           />
-          <MenuItem
-            primaryText="My events"
-            leftIcon={<MyEventsIcon />}
-            containerElement={<Link to={`/${user.id}/events`} />}
-            onClick={() => this.setState({ open: false })}
-          />
-          <MenuItem
-            primaryText="Upcoming events"
-            leftIcon={<VisitedEventsIcon />}
-            containerElement={<Link to="/events/upcoming" />}
-            onClick={() => this.setState({ open: false })}
-          />
           <Divider />
           <MenuItem disabled={true} style={{ textAlign: 'center' }}>Playgrounds</MenuItem>
           <Divider />
@@ -81,12 +66,6 @@ class LeftSlideMenu extends Component {
             primaryText="Playgrounds"
             leftIcon={<PlaygroundIcon />}
             containerElement={<Link to="/playgrounds" />}
-            onClick={() => this.setState({ open: false })}
-          />
-          <MenuItem
-            primaryText="Favorites"
-            leftIcon={<FavoriteIcon />}
-            containerElement={<Link to="/playgrounds/favorites" />}
             onClick={() => this.setState({ open: false })}
           />
           <Divider />
@@ -106,7 +85,7 @@ class LeftSlideMenu extends Component {
           />
           <Divider />
           <MenuItem
-            primaryText="Settings"
+            primaryText="Dashboard"
             leftIcon={<SettingsIcon />}
             containerElement={<Link to={`/${user.id}/profile`} />}
             onClick={() => this.setState({ open: false })}

@@ -4,12 +4,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
-import { TextField, Paper, RaisedButton, IconButton, Snackbar, Dialog } from 'material-ui';
+import { TextField, Paper, RaisedButton, IconButton, Dialog } from 'material-ui';
 import MapIcon from 'material-ui/svg-icons/maps/map';
 import ImageDropzone from '../../components/Playgrounds/Create/ImageDropzone';
 import Map from '../../components/Map';
 import { createPlaygroundSchema } from '../../utils/validationSchema';
 import validate from '../../utils/validation';
+import { updateNotificationStatus } from '../../actions/user';
 import { createImage, removeImage } from '../../actions/images';
 import {
   updatePlaygroundPosition,
@@ -24,6 +25,7 @@ const propTypes = {
   playground: PropTypes.object,
   uploadedImages: PropTypes.array,
   actions: PropTypes.shape({
+    updateNotificationStatus: PropTypes.func,
     updatePlaygroundPosition: PropTypes.func,
     updateUploadedImages: PropTypes.func,
     getPlaygroundAddress: PropTypes.func,
@@ -53,8 +55,6 @@ class CreatePlayground extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dialogBoxIsOpen: false,
-      dialogBoxText: '',
       name: '',
       description: '',
       mapIsOpen: false,
@@ -72,11 +72,16 @@ class CreatePlayground extends Component {
     this.handleCreatePlayground = this.handleCreatePlayground.bind(this);
   }
 
+  componentWillUnmount = () => {
+    this.clearInputFields();
+  };
+
   onMapClicked = (newState) => {
     if (newState.clicked) {
-      this.setState({
-        dialogBoxIsOpen: true,
-        dialogBoxText: 'Address selected',
+      this.props.actions.updateNotificationStatus({
+        show: true,
+        message: 'Address selected',
+        type: 'success',
       });
       setTimeout(() => this.setState({ mapIsOpen: false }), 3000);
     }
@@ -118,16 +123,20 @@ class CreatePlayground extends Component {
         user.id,
       ).then((action) => {
         if (_.isEmpty(action.payload.error)) {
+          actions.updateNotificationStatus({
+            show: true,
+            message: 'Playground created',
+            type: 'success',
+          });
           this.setState({
-            dialogBoxIsOpen: true,
-            dialogBoxText: 'Playground created',
             isCreated: true,
           });
           this.clearInputFields();
         } else {
-          this.setState({
-            dialogBoxIsOpen: true,
-            dialogBoxText: action.payload.error,
+          actions.updateNotificationStatus({
+            show: true,
+            message: action.payload.error,
+            type: 'failure',
           });
         }
       });
@@ -159,8 +168,6 @@ class CreatePlayground extends Component {
     const {
       name,
       description,
-      dialogBoxText,
-      dialogBoxIsOpen,
       mapIsOpen,
       errorText,
       isCreated,
@@ -242,12 +249,6 @@ class CreatePlayground extends Component {
             </div>
           </div>
         </Paper>
-        <Snackbar
-          open={dialogBoxIsOpen}
-          message={dialogBoxText}
-          autoHideDuration={4000}
-          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
-        />
         <Dialog
           title="To select an address click on the map"
           titleClassName="create-pg_map-modal__title"
@@ -282,6 +283,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    updateNotificationStatus,
     updatePlaygroundPosition,
     updateUploadedImages,
     getPlaygroundAddress,

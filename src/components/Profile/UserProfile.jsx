@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { TextField, RaisedButton, Avatar, Toggle, Snackbar, Paper, FloatingActionButton } from 'material-ui';
+import { TextField, RaisedButton, Avatar, Toggle, Paper, FloatingActionButton } from 'material-ui';
 import EditIconButton from 'material-ui/svg-icons/editor/mode-edit';
 import { updateUserProfileSchema } from '../../utils/validationSchema';
 import validate from '../../utils/validation';
@@ -13,6 +13,7 @@ const propTypes = {
   updateProfileImage: PropTypes.func,
   createImage: PropTypes.func,
   removeImage: PropTypes.func,
+  updateNotificationStatus: PropTypes.func,
 };
 
 class UserProfile extends Component {
@@ -34,8 +35,6 @@ class UserProfile extends Component {
         oldPassword: '',
         password: '',
       },
-      dialogBoxIsOpen: false,
-      dialogBoxText: '',
     };
 
     this.handleProfileImage = this.handleProfileImage.bind(this);
@@ -110,7 +109,7 @@ class UserProfile extends Component {
   }
 
   handleSaveChanges() {
-    const { updateProfile, data } = this.props;
+    const { updateProfile, updateNotificationStatus, data } = this.props;
     const {
       name,
       phone,
@@ -141,16 +140,20 @@ class UserProfile extends Component {
       updateProfile(data.id, name, phone, oldPassword, password, passwordToggleIsOpen)
         .then((action) => {
           if (action.payload.error) {
-            this.setState({
-              dialogBoxIsOpen: true,
-              dialogBoxText: action.payload.error,
+            updateNotificationStatus({
+              show: true,
+              message: action.payload.error,
+              type: 'failure',
             });
           } else {
+            updateNotificationStatus({
+              show: true,
+              message: 'Profile updated',
+              type: 'success',
+            });
             this.setState({
               passwordToggleIsOpen: false,
               isEdit: false,
-              dialogBoxIsOpen: true,
-              dialogBoxText: 'Profile updated',
             });
           }
         });
@@ -216,8 +219,6 @@ class UserProfile extends Component {
     const {
       previewImage,
       isEdit,
-      dialogBoxIsOpen,
-      dialogBoxText,
     } = this.state;
     const { data } = this.props;
 
@@ -258,12 +259,6 @@ class UserProfile extends Component {
             <EditIconButton className="profile-edit-button__icon" />
           </FloatingActionButton>
         </div>
-        <Snackbar
-          open={dialogBoxIsOpen}
-          message={dialogBoxText}
-          autoHideDuration={4000}
-          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
-        />
       </Paper>
     );
   }

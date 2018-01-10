@@ -7,7 +7,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { CircularProgress } from 'material-ui';
 import { getPlayground } from '../../actions/playgrounds';
-import { favoritePlaygroundControl } from '../../actions/user';
+import { favoritePlaygroundControl, updateNotificationStatus } from '../../actions/user';
 import EmptyPlaygrounds from '../../components/Playgrounds/Empty';
 import Map from '../../components/Map';
 import EventsCalendar from './EventsCalendar';
@@ -22,6 +22,7 @@ const propTypes = {
   actions: PropTypes.shape({
     getPlayground: PropTypes.func,
     favoritePlaygroundControl: PropTypes.func,
+    updateNotificationStatus: PropTypes.func,
   }),
 };
 
@@ -37,6 +38,7 @@ class PlaygroundsDetails extends Component {
       userId={this.props.userId}
       playground={playground}
       favoriteControl={this.props.actions.favoritePlaygroundControl}
+      updateNotificationStatus={this.props.actions.updateNotificationStatus}
     />
   );
 
@@ -104,6 +106,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getPlayground,
     favoritePlaygroundControl,
+    updateNotificationStatus,
   }, dispatch),
 });
 

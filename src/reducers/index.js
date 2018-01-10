@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import user from './user';
+import notification from './notification';
 import userEvents from './Events/user';
 import allEvents from './Events/events';
 import currentEvent from './Events/event';
@@ -20,6 +21,7 @@ const initialState = {};
 
 const appReducer = combineReducers({
   user,
+  notification,
   events: combineReducers({
     all: allEvents,
     upcoming: upcomingEvents,
