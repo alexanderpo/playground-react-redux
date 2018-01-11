@@ -1,5 +1,4 @@
 import { handle } from 'redux-pack';
-// import _ from 'lodash';
 import {
   SIGN_IN,
   SUBSCRIBE_TO_EVENT,
@@ -85,17 +84,22 @@ export default function (state = initialState, action) {
           error: payload,
           isLoading: false,
         }),
-        success: prevState => ({
-          ...prevState,
-          details: {
-            ...state.details,
-            name: action.payload.name,
-            email: action.payload.email,
-            phone: action.payload.phone,
-            hash: action.payload.hash,
-          },
-          isLoading: false,
-        }),
+        success: prevState => (
+          action.payload.error ? {
+            ...prevState,
+            isLoading: false,
+            error: action.payload.error,
+          } : {
+            ...prevState,
+            details: {
+              ...state.details,
+              name: action.payload.name,
+              email: action.payload.email,
+              phone: action.payload.phone,
+              hash: action.payload.hash,
+            },
+            isLoading: false,
+          }),
       });
     case UPDATE_PROFILE_IMAGE:
       return handle(state, action, {

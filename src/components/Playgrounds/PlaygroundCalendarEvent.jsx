@@ -11,6 +11,7 @@ const propTypes = {
   event: PropTypes.object,
   unsubscribe: PropTypes.func,
   update: PropTypes.func,
+  updateNotificationStatus: PropTypes.func,
 };
 
 class PlaygroundCalendarEvent extends Component {
@@ -20,6 +21,7 @@ class PlaygroundCalendarEvent extends Component {
       userId,
       unsubscribe,
       update,
+      updateNotificationStatus,
     } = this.props;
 
     return (
@@ -39,7 +41,20 @@ class PlaygroundCalendarEvent extends Component {
           </div>
           <div className="calendar__actions">
             <IconButton
-              onClick={() => unsubscribe(userId, event.event_id).then(() => { update(); })}
+              onClick={
+                () => {
+                  unsubscribe(userId, event.event_id).then(() => {
+                    updateNotificationStatus({
+                      show: true,
+                      message: !event.isSubscribed ?
+                      `Subscribed to ${event.event_title}` :
+                      `Unsubscribed from ${event.event_title}`,
+                      type: 'success',
+                    });
+                    update();
+                  });
+                }
+              }
               tooltip={event.isSubscribed ? 'Unsubscribe' : 'Subscribe'}
               tooltipPosition="top-center"
             >

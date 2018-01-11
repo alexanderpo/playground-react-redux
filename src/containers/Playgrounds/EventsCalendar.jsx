@@ -9,7 +9,7 @@ import { Paper, DatePicker, IconButton } from 'material-ui';
 import ArrowIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import CalendarEvent from '../../components/Playgrounds/PlaygroundCalendarEvent';
 import { getEventsOnPlaygroundByDate } from '../../actions/playgrounds';
-import { subscribeEventControl } from '../../actions/user';
+import { subscribeEventControl, updateNotificationStatus } from '../../actions/user';
 
 const propTypes = {
   match: PropTypes.object,
@@ -17,6 +17,7 @@ const propTypes = {
   events: PropTypes.array,
   actions: PropTypes.shape({
     getEventsOnPlaygroundByDate: PropTypes.func,
+    updateNotificationStatus: PropTypes.func,
     subscribeEventControl: PropTypes.func,
   }),
 };
@@ -69,6 +70,7 @@ class EventsCalendar extends Component {
         event={event}
         unsubscribe={this.props.actions.subscribeEventControl}
         update={this.updateEventsByDate}
+        updateNotificationStatus={this.props.actions.updateNotificationStatus}
       />
     )) : (
       <Paper className="calendar-pg__empty-text">Don&apos;t have event&apos;s on this date</Paper>
@@ -130,16 +132,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-// const mapStateToProps = state => ({
-//   userId: state.user.details.id,
-//   isLoading: state.playgrounds.eventsByDate.isLoading,
-//   events: state.playgrounds.eventsByDate.details.error ? [] :
-//     state.playgrounds.eventsByDate.details,
-// });
-
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getEventsOnPlaygroundByDate,
+    updateNotificationStatus,
     subscribeEventControl,
   }, dispatch),
 });
