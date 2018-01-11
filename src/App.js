@@ -8,6 +8,7 @@ import LeftSlideMenu from './components/Menu/LeftSlideMenu';
 import MessageBar from './components/MessageBar';
 
 const propTypes = {
+  isLoggedIn: PropTypes.bool,
   children: PropTypes.object.isRequired,
   user: PropTypes.object,
   notification: PropTypes.object,
@@ -30,10 +31,15 @@ class App extends Component {
   handleClose = () => this.setState({ open: false });
 
   render() {
-    const { user, actions, notification } = this.props;
+    const {
+      isLoggedIn,
+      user,
+      actions,
+      notification,
+    } = this.props;
     return (
       <div>
-        <LeftSlideMenu user={user} logout={actions.logout} />
+        { isLoggedIn ? <LeftSlideMenu user={user} logout={actions.logout} /> : null }
         <div>
           { this.props.children }
         </div>
@@ -49,6 +55,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
+  isLoggedIn: state.user.isLoggedIn,
   user: state.user.details,
   notification: state.notification,
 });

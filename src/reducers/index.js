@@ -17,7 +17,18 @@ import playgroundPosition from './Playgrounds/Create/position';
 import playgroundAddress from './Playgrounds/Create/address';
 import playgroundImages from './Playgrounds/Create/images';
 
-const initialState = {};
+const initialState = {
+  user: {
+    isLoggedIn: false,
+  },
+  notification: {
+    show: false,
+    message: '',
+    type: '',
+  },
+  events: {},
+  playgrounds: {},
+};
 
 const appReducer = combineReducers({
   user,
@@ -50,7 +61,7 @@ const appReducer = combineReducers({
 const rootReducer = (state = initialState, action) => {
   if (action.type === 'LOGOUT') {
     localStorage.clear();
-    return undefined;
+    return initialState;
   }
   return appReducer(state, action);
 };

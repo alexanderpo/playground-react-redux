@@ -43,16 +43,15 @@ const store = createStore(
 store.subscribe(() => {
   const state = store.getState();
   localStorage.setItem('user', JSON.stringify(state.user));
-  localStorage.setItem('token', JSON.stringify(state.user.details ? state.user.details.token : ''));
+  localStorage.setItem('token', JSON.stringify(state.user.details ? state.user.details.token : null));
 });
 
-const { isLoggedIn } = store.getState().user;
-export default isLoggedIn;
+const isLoggedIn = store.getState() === undefined ? false : store.getState().user.isLoggedIn;
 
 const Entry = () => (
   <Provider store={store}>
     <MuiThemeProvider muiTheme={muiTheme}>
-      <Routes />
+      <Routes isLoggedIn={isLoggedIn} />
     </MuiThemeProvider>
   </Provider>
 );

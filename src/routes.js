@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import App from './App';
-import PublicRouteCreator from './routes/publicRouteCreator';
-// import PrivateRouteCreator from './routes/privateRouteCreator';
+// import PublicRouteCreator from './routes/publicRouteCreator';
+import PrivateRouteCreator from './routes/privateRouteCreator';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 import UserDashboard from './containers/Dashboard/Index';
@@ -16,29 +16,29 @@ import FavoritePlaygrounds from './containers/Playgrounds/Favorites';
 import CreatePlayground from './containers/Playgrounds/Create';
 import UserEvents from './containers/Events/User';
 
-const Routes = () => (
+const Routes = isLoggedIn => (
   <Router>
     <Switch>
       <Route path="/signin" component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <App>
         <div>
-          <PublicRouteCreator exact={true} path="/" component={<Events />} />
-          <PublicRouteCreator exact={false} path="/:userId/profile" component={<UserDashboard />} />
-          <PublicRouteCreator exact={false} path="/:userId/events" component={<UserEvents />} />
+          <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={true} path="/" component={<Events />} />
+          <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={false} path="/:userId/profile" component={<UserDashboard />} />
+          <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={false} path="/:userId/events" component={<UserEvents />} />
 
-          <PublicRouteCreator exact={true} path="/playgrounds" component={<PlaygroundsPreview />} />
+          <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={true} path="/playgrounds" component={<PlaygroundsPreview />} />
           <Switch>
-            <PublicRouteCreator exact={true} path="/playgrounds/favorites" component={<FavoritePlaygrounds />} />
-            <PublicRouteCreator exact={false} path="/playgrounds/create" component={<CreatePlayground />} />
-            <PublicRouteCreator exact={false} path="/playgrounds/:playgroundId" component={<PlaygroundsDetails />} />
+            <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={true} path="/playgrounds/favorites" component={<FavoritePlaygrounds />} />
+            <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={false} path="/playgrounds/create" component={<CreatePlayground />} />
+            <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={false} path="/playgrounds/:playgroundId" component={<PlaygroundsDetails />} />
           </Switch>
 
-          <PublicRouteCreator exact={true} path="/events" component={<Events />} />
+          <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={true} path="/events" component={<Events />} />
           <Switch>
-            <PublicRouteCreator exact={true} path="/events/upcoming" component={<UpcomingEvents />} />
-            <PublicRouteCreator exact={false} path="/events/create" component={<CreateEvent />} />
-            <PublicRouteCreator exact={false} path="/events/:eventId" component={<EventDetailsWrapper />} />
+            <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={true} path="/events/upcoming" component={<UpcomingEvents />} />
+            <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={false} path="/events/create" component={<CreateEvent />} />
+            <PrivateRouteCreator isLoggedIn={isLoggedIn} exact={false} path="/events/:eventId" component={<EventDetailsWrapper />} />
           </Switch>
         </div>
       </App>

@@ -1,20 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-import isLoggedIn from '../index';
 
 const propTypes = {
-  path: PropTypes.string,
-  isExact: PropTypes.bool,
+  isLoggedIn: PropTypes.object,
   component: PropTypes.object,
 };
 
-const PublicRouteCreator = ({ component, ...props }) => (
+const PublicRouteCreator = ({ isLoggedIn, component, ...props }) => (
   <Route
     {...props}
     render={() => (
-      !isLoggedIn ? (
-        <Redirect to="/signin" />
+      isLoggedIn.isLoggedIn ? (
+        <Redirect to="/" />
       ) : component
     )}
   />

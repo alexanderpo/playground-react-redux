@@ -1,25 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
-import isLoggedIn from '../index';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 
 const propTypes = {
-  path: PropTypes.string,
-  isExact: PropTypes.bool,
+  isLoggedIn: PropTypes.object,
   component: PropTypes.object,
 };
 
-const PrivateRouteCreator = ({ path, isExact, component }) => (
+const PrivateRouteCreator = ({ isLoggedIn, component, ...props }) => (
   <Route
-    exact={isExact}
-    path={path}
+    {...props}
     render={() => (
-      isLoggedIn ? (
-        <Redirect to="/" />
+      !isLoggedIn.isLoggedIn ? (
+        <Redirect to="/signin" />
       ) : component
     )}
   />
 );
 
 PrivateRouteCreator.propTypes = propTypes;
-export default PrivateRouteCreator;
+export default withRouter(PrivateRouteCreator);
