@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Paper, DatePicker, TimePicker } from 'material-ui';
+import { DatePicker, TimePicker } from 'material-ui';
 
 const propTypes = {
   updateDateTime: PropTypes.func,
@@ -57,23 +57,28 @@ class DateTimePicker extends Component {
   render() {
     const { datetime } = this.state;
     return (
-      <Paper zDepth={2} className="create-playground-user-details-wrapper">
+      <div>
         <DatePicker
-          hintText="Choose event datetime"
+          className="create-event__input"
+          hintText="EVENT DATETIME"
+          floatingLabelText="DATETIME"
+          floatingLabelFixed={true}
           value={datetime}
           errorText={this.props.errorText}
           formatDate={this.formatDate}
           minDate={new Date()}
           onChange={this.handleChangeDatePicker}
+          textFieldStyle={{ fontSize: '14px' }}
         />
         <TimePicker
+          className="create-event__input"
           format="24hr"
           hintText="timepicker"
           style={{ display: 'none' }}
           ref={(input) => { this.timePicker = input; }}
           onChange={this.handleChangeTimePicker}
         />
-      </Paper>
+      </div>
     );
   }
 }

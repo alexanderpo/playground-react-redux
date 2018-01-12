@@ -125,58 +125,53 @@ class CreateEvent extends Component {
     } = this.props;
     const {
       title,
-      dialogBoxIsOpen,
-      dialogBoxText,
       error,
     } = this.state;
     return (
-      <div>
-        <Paper zDepth={2} className="create-playground-user-details-wrapper">
-          <CardHeader
-            title={user.name}
-            subtitle={user.phone}
-            avatar={(user.image !== null) ? `/api/v1/images/${user.image}` : UserProfilePhoto}
-          />
+      <div className="create-event-wrapper">
+        <div className="create-event-title">create event</div>
+        <Paper zDepth={2} className="create-event__container">
+          <div className="create-event__pg-content">
+            <PlaygroundSelector
+              playgrounds={playgrounds}
+              selectedPlayground={createInfo.playgroundId}
+              updateSelectedPlayground={actions.updateEventSelectedPlayground}
+            />
+          </div>
+          <div className="create-event__event-content">
+            <div className="create-event__text-fields">
+              <div style={{ display: 'none' }} className="create-event__category-title">events details</div>
+              <TextField
+                className="create-event__input"
+                hintText="EVENT TITLE"
+                floatingLabelText="TITLE"
+                floatingLabelFixed={true}
+                fullWidth={true}
+                value={title}
+                errorText={error.title}
+                onChange={this.handleInputValue('title')}
+              />
+              <DateTimePicker
+                updateDateTime={actions.updateEventDatetime}
+                datetime={createInfo.datetime}
+                errorText={error.datetime}
+              />
+            </div>
+            <div className="create-event__action-buttons">
+              <RaisedButton
+                className="create-event__btn"
+                label="Cancel"
+                onClick={() => this.props.history.push('/')}
+              />
+              <RaisedButton
+                className="create-event__btn"
+                label="Create"
+                primary={true}
+                onClick={this.handleCreateEvent}
+              />
+            </div>
+          </div>
         </Paper>
-        <Paper zDepth={2} className="create-playground-user-details-wrapper">
-          <TextField
-            hintText="Event title"
-            floatingLabelText="Event title"
-            fullWidth={true}
-            value={title}
-            errorText={error.title}
-            onChange={this.handleInputValue('title')}
-          />
-        </Paper>
-        <PlaygroundSelector
-          playgrounds={playgrounds}
-          selectedPlayground={createInfo.playgroundId}
-          updateSelectedPlayground={actions.updateEventSelectedPlayground}
-        />
-        <DateTimePicker
-          updateDateTime={actions.updateEventDatetime}
-          datetime={createInfo.datetime}
-          errorText={error.datetime}
-        />
-        <div className="create-playground-action-buttons-wrapper">
-          <RaisedButton
-            className="create-playground-action-button"
-            label="Cancel"
-            onClick={() => this.props.history.push('/')}
-          />
-          <RaisedButton
-            className="create-playground-action-button"
-            label="Create"
-            primary={true}
-            onClick={this.handleCreateEvent}
-          />
-        </div>
-        <Snackbar
-          open={dialogBoxIsOpen}
-          message={dialogBoxText}
-          autoHideDuration={4000}
-          onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
-        />
       </div>
     );
   }
@@ -199,3 +194,55 @@ const mapDispatchToProps = dispatch => ({
 
 CreateEvent.propTypes = propTypes;
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEvent));
+
+
+/*
+<div className="create-event__wrapper">
+  <Paper zDepth={2} className="create-playground-user-details-wrapper">
+    <CardHeader
+      title={user.name}
+      subtitle={user.phone}
+      avatar={(user.image !== null) ? `/api/v1/images/${user.image}` : UserProfilePhoto}
+    />
+  </Paper>
+  <Paper zDepth={2} className="create-playground-user-details-wrapper">
+    <TextField
+      hintText="Event title"
+      floatingLabelText="Event title"
+      fullWidth={true}
+      value={title}
+      errorText={error.title}
+      onChange={this.handleInputValue('title')}
+    />
+  </Paper>
+  <PlaygroundSelector
+    playgrounds={playgrounds}
+    selectedPlayground={createInfo.playgroundId}
+    updateSelectedPlayground={actions.updateEventSelectedPlayground}
+  />
+  <DateTimePicker
+    updateDateTime={actions.updateEventDatetime}
+    datetime={createInfo.datetime}
+    errorText={error.datetime}
+  />
+  <div className="create-playground-action-buttons-wrapper">
+    <RaisedButton
+      className="create-playground-action-button"
+      label="Cancel"
+      onClick={() => this.props.history.push('/')}
+    />
+    <RaisedButton
+      className="create-playground-action-button"
+      label="Create"
+      primary={true}
+      onClick={this.handleCreateEvent}
+    />
+  </div>
+  <Snackbar
+    open={dialogBoxIsOpen}
+    message={dialogBoxText}
+    autoHideDuration={4000}
+    onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
+  />
+</div>
+*/

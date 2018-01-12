@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Paper, Subheader } from 'material-ui';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import PromoEventPhoto from '../../../styles/images/no-event-pictures.svg';
+// import PlaygroundListItem from './PlaygroundListItem';
+import Filter from '../../Filter';
 
 const propTypes = {
   playgrounds: PropTypes.array,
@@ -19,17 +20,26 @@ class PlaygroundSelector extends Component {
 
     this.state = {
       selectedPlayground: 0,
+      displayedPlaygrounds: this.props.playgrounds,
     };
   }
 
   componentWillReceiveProps = (nextProps) => {
     this.setState({
       selectedPlayground: nextProps.selectedPlayground,
+      displayedPlaygrounds: (nextProps.playgrounds.length === this.props.playgrounds.length) ?
+        this.state.displayedPlaygrounds : nextProps.playgrounds,
+    });
+  };
+
+  filteredResults = (newItems) => {
+    this.setState({
+      displayedPlaygrounds: newItems,
     });
   };
 
   renderListItems = playgrounds => (
-    _.isEmpty(playgrounds) ? <h5>Not created yet</h5> :
+    _.isEmpty(playgrounds) ? <div>Not found</div> :
       playgrounds.map(playground => (
         <ListItem
           key={playground.id}
@@ -40,8 +50,11 @@ class PlaygroundSelector extends Component {
           }}
           leftAvatar={
             (playground.images[0] !== null) ?
-              <img className="playground-preview-image" src={`/api/v1/images/${playground.images[0]}`} alt="" /> :
-              <img src={PromoEventPhoto} alt="" />
+              <img
+                alt=""
+                className="create-event__pg-selector-image"
+                src={`/api/v1/images/${playground.images[0]}`}
+              /> : <img src={PromoEventPhoto} alt="" />
           }
           secondaryText={playground.description}
         />
@@ -50,14 +63,22 @@ class PlaygroundSelector extends Component {
 
   render() {
     const { playgrounds } = this.props;
-    const { selectedPlayground } = this.state;
+    const { selectedPlayground, displayedPlaygrounds } = this.state;
+
     return (
-      <Paper zDepth={2} className="create-playground-user-details-wrapper">
-        <SelectableList value={selectedPlayground}>
-          <Subheader>SELECT PLAYGROUND</Subheader>
-          { this.renderListItems(playgrounds)}
+      <div className="create-event__pg-selector-content">
+        <div className="create-event__category-title">select playground</div>
+        <div className="create-event__pg-selector-search">
+          <Filter
+            field="name"
+            items={playgrounds}
+            filteredResults={newItems => this.filteredResults(newItems)}
+          />
+        </div>
+        <SelectableList className="create-event__selectable-list" value={selectedPlayground}>
+          { this.renderListItems(displayedPlaygrounds)}
         </SelectableList>
-      </Paper>
+      </div>
     );
   }
 }
