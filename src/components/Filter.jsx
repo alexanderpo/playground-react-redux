@@ -23,7 +23,7 @@ class Filter extends Component {
     const { field, items, filteredResults } = this.props;
     const filteredItems = _.filter(
       items,
-      item => item[field].includes(event.target.value),
+      item => item[field].includes(event.target.value.toUpperCase()),
     );
     this.setState({
       value: event.target.value,
@@ -38,7 +38,7 @@ class Filter extends Component {
         <TextField
           value={value}
           fullWidth={true}
-          hintText="Filter"
+          hintText="Start write here to filter playgrounds ..."
           onChange={this.handleFilterChange}
         />
       </div>

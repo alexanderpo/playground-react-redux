@@ -39,7 +39,7 @@ class PlaygroundSelector extends Component {
   };
 
   renderListItems = playgrounds => (
-    _.isEmpty(playgrounds) ? <div>Not found</div> :
+    _.isEmpty(playgrounds) ? <div className="create-event__no-pg-found">Not found</div> :
       playgrounds.map(playground => (
         <ListItem
           key={playground.id}
@@ -49,14 +49,14 @@ class PlaygroundSelector extends Component {
             this.props.updateSelectedPlayground(playground.id);
           }}
           leftAvatar={
-            (playground.images[0] !== null) ?
+            (playground.image !== null) ?
               <img
                 alt=""
                 className="create-event__pg-selector-image"
-                src={`/api/v1/images/${playground.images[0]}`}
+                src={`/api/v1/images/${playground.image}`}
               /> : <img src={PromoEventPhoto} alt="" />
           }
-          secondaryText={playground.description}
+          secondaryText={playground.address}
         />
       ))
   );

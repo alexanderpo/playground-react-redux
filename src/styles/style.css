@@ -78,7 +78,7 @@ a {
 
 /* START CREATE EVENT COMPONENT */
 .create-event-wrapper {
-  margin: 25px 100px 25px 100px;
+  margin: 25px 250px 25px 250px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -100,13 +100,21 @@ a {
 
 
 .create-event__pg-content {
-  width: 40%;
+  width: 50%;
 }
 
 .create-event__category-title {
   text-transform: uppercase;
+  color: #cccccc;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.create-event__no-pg-found {
+  text-align: center;
   font-weight: 200;
-  font-size: 14px;
+  margin: 40px auto;
+  font-size: 22px;
 }
 
 .create-event__event-content {

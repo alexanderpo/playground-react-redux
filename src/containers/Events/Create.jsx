@@ -4,15 +4,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Paper, TextField, RaisedButton, Snackbar } from 'material-ui';
-import { CardHeader } from 'material-ui/Card';
+import { Paper, TextField, RaisedButton } from 'material-ui';
 import { createEventSchema } from '../../utils/validationSchema';
 import validate from '../../utils/validation';
-import UserProfilePhoto from '../../styles/images/user.png';
-import { getPlaygrounds } from '../../actions/playgrounds';
-import { createEvent, updateEventDatetime, updateEventSelectedPlayground } from '../../actions/events';
 import DateTimePicker from '../../components/Events/Create/DateTimePicker';
 import PlaygroundSelector from '../../components/Events/Create/PlaygroundSelector';
+import { updateNotificationStatus } from '../../actions/user';
+import { getPlaygrounds } from '../../actions/playgrounds';
+import { createEvent, updateEventDatetime, updateEventSelectedPlayground } from '../../actions/events';
 
 const propTypes = {
   history: PropTypes.object,
@@ -22,6 +21,7 @@ const propTypes = {
   actions: PropTypes.shape({
     getPlaygrounds: PropTypes.func,
     createEvent: PropTypes.func,
+    updateNotificationStatus: PropTypes.func,
     updateEventDatetime: PropTypes.func,
     updateEventSelectedPlayground: PropTypes.func,
   }),
@@ -32,8 +32,6 @@ class CreateEvent extends Component {
     super(props);
 
     this.state = {
-      dialogBoxIsOpen: false,
-      dialogBoxText: '',
       title: '',
       error: {
         title: '',
@@ -62,7 +60,6 @@ class CreateEvent extends Component {
 
   clearInputFields() {
     this.setState({
-      dialogBoxText: '',
       title: '',
     });
   }
@@ -90,9 +87,10 @@ class CreateEvent extends Component {
         },
       });
       if (error.playgroundId) {
-        this.setState({
-          dialogBoxIsOpen: true,
-          dialogBoxText: 'Select playground for create event',
+        actions.updateNotificationStatus({
+          show: true,
+          message: 'Select playground for create event',
+          type: 'failure',
         });
       }
     } else {
@@ -102,14 +100,16 @@ class CreateEvent extends Component {
           this.clearInputFields();
           actions.updateEventSelectedPlayground(0);
           actions.updateEventDatetime(null);
-          this.setState({
-            dialogBoxIsOpen: true,
-            dialogBoxText: 'Event created',
+          actions.updateNotificationStatus({
+            show: true,
+            message: 'Event created',
+            type: 'success',
           });
         } else {
-          this.setState({
-            dialogBoxIsOpen: true,
-            dialogBoxText: action.payload.error,
+          actions.updateNotificationStatus({
+            show: true,
+            message: action.payload.error,
+            type: 'failure',
           });
         }
       });
@@ -118,7 +118,6 @@ class CreateEvent extends Component {
 
   render() {
     const {
-      user,
       playgrounds,
       actions,
       createInfo,
@@ -179,7 +178,14 @@ class CreateEvent extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.details,
-  playgrounds: state.playgrounds.all.details.error ? [] : state.playgrounds.all.details,
+  playgrounds: state.playgrounds.all.details.error ? [] :
+    state.playgrounds.all.details.map(pg => ({
+      id: pg.id,
+      name: pg.name.toUpperCase(),
+      description: pg.description,
+      address: pg.address,
+      image: pg.images[0],
+    })),
   createInfo: state.events.create,
 });
 
@@ -189,60 +195,9 @@ const mapDispatchToProps = dispatch => ({
     createEvent,
     updateEventDatetime,
     updateEventSelectedPlayground,
+    updateNotificationStatus,
   }, dispatch),
 });
 
 CreateEvent.propTypes = propTypes;
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEvent));
-
-
-/*
-<div className="create-event__wrapper">
-  <Paper zDepth={2} className="create-playground-user-details-wrapper">
-    <CardHeader
-      title={user.name}
-      subtitle={user.phone}
-      avatar={(user.image !== null) ? `/api/v1/images/${user.image}` : UserProfilePhoto}
-    />
-  </Paper>
-  <Paper zDepth={2} className="create-playground-user-details-wrapper">
-    <TextField
-      hintText="Event title"
-      floatingLabelText="Event title"
-      fullWidth={true}
-      value={title}
-      errorText={error.title}
-      onChange={this.handleInputValue('title')}
-    />
-  </Paper>
-  <PlaygroundSelector
-    playgrounds={playgrounds}
-    selectedPlayground={createInfo.playgroundId}
-    updateSelectedPlayground={actions.updateEventSelectedPlayground}
-  />
-  <DateTimePicker
-    updateDateTime={actions.updateEventDatetime}
-    datetime={createInfo.datetime}
-    errorText={error.datetime}
-  />
-  <div className="create-playground-action-buttons-wrapper">
-    <RaisedButton
-      className="create-playground-action-button"
-      label="Cancel"
-      onClick={() => this.props.history.push('/')}
-    />
-    <RaisedButton
-      className="create-playground-action-button"
-      label="Create"
-      primary={true}
-      onClick={this.handleCreateEvent}
-    />
-  </div>
-  <Snackbar
-    open={dialogBoxIsOpen}
-    message={dialogBoxText}
-    autoHideDuration={4000}
-    onRequestClose={() => { this.setState({ dialogBoxIsOpen: false }); }}
-  />
-</div>
-*/
