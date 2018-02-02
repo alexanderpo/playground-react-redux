@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { TextField, RaisedButton, Snackbar } from 'material-ui';
+import { TextField, RaisedButton, Snackbar, Paper } from 'material-ui';
 import PasswordField from 'material-ui-password-field';
 import Logo from '../components/Logo';
 import { signUp } from '../actions/user';
@@ -138,55 +138,63 @@ class SignUp extends Component {
     } = this.state;
 
     return (
-      <div>
-        <div className="sign-wrapper">
+      <div className="sign-wrapper">
+        <Paper className="sign-content">
           <Logo />
-          <TextField
-            hintText="Name"
-            floatingLabelText="Name"
-            value={name}
-            errorText={error.name}
-            onChange={this.handleInputValue('name')}
-            onKeyPress={this.handleKeyPressEnter}
-          />
-          <TextField
-            hintText="Email"
-            floatingLabelText="Email"
-            value={email}
-            errorText={error.email}
-            onChange={this.handleInputValue('email')}
-            onKeyPress={this.handleKeyPressEnter}
-          />
-          <TextField
-            hintText="Enter password"
-            floatingLabelText="Password"
-            type="password"
-            value={password}
-            errorText={error.password}
-            onChange={this.handleInputValue('password')}
-            onKeyPress={this.handleKeyPressEnter}
-          />
-          <PasswordField
-            floatingLabelText="Repeat password"
-            className="sign-password-field"
-            type="password"
-            value={rePassword}
-            errorText={error.rePassword}
-            onChange={this.handleInputValue('rePassword')}
-            onKeyPress={this.handleKeyPressEnter}
-          />
-          <RaisedButton
-            className="sign-up-button"
-            label="Sign Up"
-            primary={true}
-            onClick={this.handleSignUp}
-          />
-          <RaisedButton
-            className="back-sign-up-button"
-            label="Back"
-            onClick={() => this.props.history.push('/signin')}
-          />
-        </div>
+          <div className="sign-fields">
+            <TextField
+              hintText="Your name"
+              fullWidth={true}
+              floatingLabelText="Name"
+              value={name}
+              errorText={error.name}
+              onChange={this.handleInputValue('name')}
+              onKeyPress={this.handleKeyPressEnter}
+            />
+            <TextField
+              fullWidth={true}
+              hintText="Email address"
+              floatingLabelText="Email"
+              value={email}
+              errorText={error.email}
+              onChange={this.handleInputValue('email')}
+              onKeyPress={this.handleKeyPressEnter}
+            />
+            <TextField
+              fullWidth={true}
+              hintText="Enter your password"
+              floatingLabelText="Password"
+              type="password"
+              value={password}
+              errorText={error.password}
+              onChange={this.handleInputValue('password')}
+              onKeyPress={this.handleKeyPressEnter}
+            />
+            <PasswordField
+              floatingLabelText="Repeat password"
+              className="sign-password-field"
+              type="password"
+              fullWidth={true}
+              value={rePassword}
+              errorText={error.rePassword}
+              onChange={this.handleInputValue('rePassword')}
+              onKeyPress={this.handleKeyPressEnter}
+            />
+          </div>
+          <div className="sign-actions">
+            <RaisedButton
+              className="sign-up-button"
+              label="Sign Up"
+              primary={true}
+              onClick={this.handleSignUp}
+            />
+            <RaisedButton
+              className="sign-up-button"
+              label="Back"
+              onClick={() => this.props.history.push('/signin')}
+            />
+          </div>
+        </Paper>
         <Snackbar
           className="sign-dialog-box"
           open={dialogBoxIsOpen}

@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 class Logo extends Component {
   render() {
     return (
-      <div>
+      <div className="logo">
         <div className="logo-text">playgrounds</div>
-        <div className="slogan-text">litle slogan text...</div>
+        <div className="slogan-text">easiest way to find sports entertainment</div>
       </div>
     );
   }

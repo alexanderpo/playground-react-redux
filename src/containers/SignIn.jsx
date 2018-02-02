@@ -4,17 +4,18 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { TextField, RaisedButton, Snackbar } from 'material-ui';
+import { TextField, RaisedButton, Snackbar, Paper } from 'material-ui';
 import PasswordField from 'material-ui-password-field';
 import { signInSchema } from '../utils/validationSchema';
 import validate from '../utils/validation';
 import Logo from '../components/Logo';
-import { signIn } from '../actions/user';
+import { signIn, updateNotificationStatus } from '../actions/user';
 
 const propTypes = {
   history: PropTypes.object,
   actions: PropTypes.shape({
     signIn: PropTypes.func,
+    updateNotificationStatus: PropTypes.func,
   }),
 };
 
@@ -110,38 +111,44 @@ class SignIn extends Component {
     } = this.state;
 
     return (
-      <div>
-        <div className="sign-wrapper">
+      <div className="sign-wrapper">
+        <Paper className="sign-content">
           <Logo />
-          <TextField
-            hintText="Email"
-            floatingLabelText="Email"
-            value={email}
-            errorText={error.email}
-            onChange={this.handleInputValue('email')}
-            onKeyPress={this.handleKeyPressEnter}
-          />
-          <PasswordField
-            floatingLabelText="Password"
-            className="sign-password-field"
-            type="password"
-            value={password}
-            errorText={error.password}
-            onChange={this.handleInputValue('password')}
-            onKeyPress={this.handleKeyPressEnter}
-          />
-          <RaisedButton
-            className="sign-in-button"
-            label="Sign In"
-            primary={true}
-            onClick={this.handleSignIn}
-          />
-          <RaisedButton
-            className="back-sign-up-button"
-            label="Sign Up"
-            onClick={() => this.props.history.push('/signup')}
-          />
-        </div>
+          <div className="sign-fields">
+            <TextField
+              hintText="Please enter your email"
+              floatingLabelText="Email"
+              value={email}
+              fullWidth={true}
+              errorText={error.email}
+              onChange={this.handleInputValue('email')}
+              onKeyPress={this.handleKeyPressEnter}
+            />
+            <PasswordField
+              fullWidth={true}
+              floatingLabelText="Password"
+              className="sign-password-field"
+              type="password"
+              value={password}
+              errorText={error.password}
+              onChange={this.handleInputValue('password')}
+              onKeyPress={this.handleKeyPressEnter}
+            />
+          </div>
+          <div className="sign-actions">
+            <RaisedButton
+              className="sign-in-button"
+              label="Sign In"
+              primary={true}
+              onClick={this.handleSignIn}
+            />
+            <RaisedButton
+              className="sign-up-button"
+              label="Sign Up"
+              onClick={() => this.props.history.push('/signup')}
+            />
+          </div>
+        </Paper>
         <Snackbar
           className="sign-dialog-box"
           open={dialogBoxIsOpen}
@@ -161,6 +168,7 @@ class SignIn extends Component {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signIn,
+    updateNotificationStatus,
   }, dispatch),
 });
 

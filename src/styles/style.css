@@ -17,6 +17,65 @@ a {
   color: inherit;
 }
 
+
+/* START SIGN IN*/
+
+.logo {
+
+}
+
+.logo .logo-text {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: #a4c639;
+}
+
+.logo .slogan-text {
+  margin-top: 10px;
+  /*position: absolute;*/
+  text-align: center;
+  font-size: 14px;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: #cecece;
+}
+
+.sign-wrapper {
+  /*margin: 50px 450px;*/
+}
+
+.sign-content {
+  margin: 18px auto;
+  width: 30vw;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sign-fields {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 25vw;
+  margin: 5px 0px;
+}
+
+.sign-actions {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 25vw;
+}
+
+.sign-up-button {
+  margin-top: 10px;
+}
+/* END SIGN IN */
+
 /* START CREATE EVENT COMPONENT */
 .create-event-wrapper {
   margin: 25px 100px 25px 100px;
@@ -744,7 +803,7 @@ a {
 }
 
 .create-pg__name-field {
-  width: 70%;
+  width: 81%;
 }
 
 .create-pg__address-field,
