@@ -139,35 +139,36 @@ class CreateEvent extends Component {
           </div>
           <div className="create-event__event-content">
             <div className="create-event__text-fields">
-              <div style={{ display: 'none' }} className="create-event__category-title">events details</div>
-              <TextField
-                className="create-event__input"
-                hintText="EVENT TITLE"
-                floatingLabelText="TITLE"
-                floatingLabelFixed={true}
-                fullWidth={true}
-                value={title}
-                errorText={error.title}
-                onChange={this.handleInputValue('title')}
-              />
-              <DateTimePicker
-                updateDateTime={actions.updateEventDatetime}
-                datetime={createInfo.datetime}
-                errorText={error.datetime}
-              />
-            </div>
-            <div className="create-event__action-buttons">
-              <RaisedButton
-                className="create-event__btn"
-                label="Cancel"
-                onClick={() => this.props.history.push('/')}
-              />
-              <RaisedButton
-                className="create-event__btn"
-                label="Create"
-                primary={true}
-                onClick={this.handleCreateEvent}
-              />
+              <div>
+                <TextField
+                  className="create-event__input"
+                  hintText="EVENT TITLE"
+                  floatingLabelText="TITLE"
+                  floatingLabelFixed={true}
+                  fullWidth={true}
+                  value={title}
+                  errorText={error.title}
+                  onChange={this.handleInputValue('title')}
+                />
+                <DateTimePicker
+                  updateDateTime={actions.updateEventDatetime}
+                  datetime={createInfo.datetime}
+                  errorText={error.datetime}
+                />
+              </div>
+              <div className="create-event__action-buttons">
+                <RaisedButton
+                  className="create-event__btn"
+                  label="Cancel"
+                  onClick={() => this.props.history.push('/')}
+                />
+                <RaisedButton
+                  className="create-event__btn"
+                  label="Create"
+                  primary={true}
+                  onClick={this.handleCreateEvent}
+                />
+              </div>
             </div>
           </div>
         </Paper>

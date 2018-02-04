@@ -59,7 +59,7 @@ class DateTimePicker extends Component {
     return (
       <div>
         <DatePicker
-          className="create-event__input"
+          className="create-event__input date-time-picker"
           hintText="EVENT DATETIME"
           floatingLabelText="DATETIME"
           floatingLabelFixed={true}
